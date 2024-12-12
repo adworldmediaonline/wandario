@@ -1,9 +1,9 @@
 import NextAuth from 'next-auth';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import { clientPromise } from '@/lib/mongoose';
+import { clientPromise } from '@/server/mongoose';
 import authConfig from './auth.config';
-import { connectToDatabase } from '@/lib/mongoose';
-import { UserDocument } from './models/user.types';
+import { connectToDatabase } from '@/server/mongoose';
+import { UserDocument } from './server/models/user.types';
 import { Types } from 'mongoose';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         try {
           await connectToDatabase();
-          const { User } = await import('@/models/user.model');
+          const { User } = await import('@/server/models/user.model');
 
           const user = (await User.findOne({
             email: credentials.email.toString().toLowerCase(),

@@ -4,14 +4,14 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { redirect } from 'next/navigation';
 import crypto from 'crypto';
-import { sendVerificationEmail } from '../email/nodemailer';
+import { sendVerificationEmail } from '../../lib/email/nodemailer';
 import { connectToDatabase } from '../mongoose';
 
 export async function signup(formData: FormData) {
   try {
     await connectToDatabase();
 
-    const { User } = await import('@/models/user.model');
+    const { User } = await import('@/server/models/user.model');
 
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;

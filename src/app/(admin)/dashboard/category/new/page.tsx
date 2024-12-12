@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { redirect } from 'next/navigation';
-import { addCategoryAction } from '@/lib/actions/category-action';
+import { addCategoryAction } from '@/server/actions/category-action';
 import { categorySchema } from '@/lib/schema/category';
 import ImageUploadField from '@/components/cloudinary-upload/ImageUploadField';
 import { useCallback } from 'react';

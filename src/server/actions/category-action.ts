@@ -1,6 +1,6 @@
 'use server';
-import { connectToDatabase } from '@/lib/mongoose';
-import Category from '@/models/category-model';
+import { connectToDatabase } from '@/server/mongoose';
+import Category from '@/server/models/category-model';
 import { actionClient } from '@/lib/safe-action';
 import { categorySchema } from '@/lib/schema/category';
 import { auth } from '@/auth';

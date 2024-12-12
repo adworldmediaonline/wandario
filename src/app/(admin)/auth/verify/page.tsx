@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { connectToDatabase } from '@/lib/mongoose';
+import { connectToDatabase } from '@/server/mongoose';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -25,7 +25,7 @@ export default async function VerifyPage(props: {
 
   try {
     await connectToDatabase();
-    const { User } = await import('@/models/user.model');
+    const { User } = await import('@/server/models/user.model');
     console.log('User model imported', User);
     // Find user first without updating
     const existingUser = await User.findOne({

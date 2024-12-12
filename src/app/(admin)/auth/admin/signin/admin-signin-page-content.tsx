@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { authenticate } from '@/lib/actions/auth';
+import { authenticate } from '@/server/actions/auth';
 import { Loader2 } from 'lucide-react';
 import { AuthCard } from '@/components/ui/auth/auth-card';
 import Link from 'next/link';

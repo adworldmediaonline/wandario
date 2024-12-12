@@ -7,7 +7,7 @@ import axios from 'axios';
 import {
   getCloudinarySignature,
   deleteCloudinaryImage,
-} from '@/lib/actions/cloudinary';
+} from '@/server/actions/cloudinary';
 import { UseFormReturn } from 'react-hook-form';
 import {
   FormControl,
