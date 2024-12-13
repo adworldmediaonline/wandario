@@ -3,8 +3,7 @@
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Form,
   FormControl,
@@ -15,9 +14,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { authenticate } from '@/server/actions/auth';
+import { authenticate } from '@/app/actions/auth';
 import { Loader2 } from 'lucide-react';
 import { AuthCard } from '@/components/ui/auth/auth-card';
+import Link from 'next/link';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -30,21 +30,9 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function SignInPageContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export default function AdminSignInPageContent() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Get role from URL parameter
-  const role = searchParams.get('role');
-
-  // Redirect if no role is specified
-  useEffect(() => {
-    if (!role || !['advertiser', 'freelancer'].includes(role)) {
-      router.push('/');
-    }
-  }, [role, router]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -62,7 +50,7 @@ export default function SignInPageContent() {
       const formData = new FormData();
       formData.append('email', values.email);
       formData.append('password', values.password);
-      formData.append('role', role as string);
+      formData.append('role', 'admin');
 
       await authenticate(formData);
     } catch (error) {
@@ -75,18 +63,12 @@ export default function SignInPageContent() {
     }
   }
 
-  if (!role || !['advertiser', 'freelancer'].includes(role)) {
-    return null;
-  }
-
   return (
     <AuthCard>
       <div className="space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Welcome back</h2>
-          <p className="text-muted-foreground">
-            Sign in as {role?.charAt(0).toUpperCase() + role?.slice(1)}
-          </p>
+          <p className="text-muted-foreground">Sign in as Administrator</p>
         </div>
 
         {error && (
@@ -167,10 +149,10 @@ export default function SignInPageContent() {
           <span className="text-muted-foreground">Don't have an account? </span>
           <Button
             variant="link"
-            onClick={() => router.push(`/auth/signup?role=${role}`)}
+            asChild
             className="font-semibold hover:text-primary"
           >
-            Sign up
+            <Link href="/auth/admin/signup">Sign up</Link>
           </Button>
         </div>
       </div>

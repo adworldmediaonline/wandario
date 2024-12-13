@@ -5,7 +5,7 @@ import { AuthError } from 'next-auth';
 import { redirect } from 'next/navigation';
 import crypto from 'crypto';
 import { sendVerificationEmail } from '../../lib/email/nodemailer';
-import { connectToDatabase } from '../mongoose';
+import { connectToDatabase } from '../../server/mongoose';
 
 export async function signup(formData: FormData) {
   try {

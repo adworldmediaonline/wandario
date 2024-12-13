@@ -15,8 +15,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { redirect } from 'next/navigation';
-import { addCategoryAction } from '@/server/actions/category-action';
+import { useRouter } from 'next/navigation';
+import { addCategoryAction } from '@/app/actions/category-action';
 import { categorySchema } from '@/lib/schema/category';
 import ImageUploadField from '@/components/cloudinary-upload/ImageUploadField';
 import { useCallback } from 'react';
@@ -24,6 +24,7 @@ import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 
 export default function AddCategoryForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
     mode: 'onBlur',
@@ -38,10 +39,8 @@ export default function AddCategoryForm() {
     },
   });
 
-  const { execute, status, result } = useAction(addCategoryAction, {
+  const { execute, status } = useAction(addCategoryAction, {
     onSuccess(data) {
-      console.log('result', result);
-      console.log('data', data);
       if (data?.data?.success) {
         toast('category add successful', {
           description: 'category add successful',
@@ -50,7 +49,7 @@ export default function AddCategoryForm() {
             onClick: () => console.log('Undo'),
           },
         });
-        redirect('/dashboard');
+        router.push('/dashboard/categories');
       }
       if (!data?.data?.success) {
         toast('category add failed', {

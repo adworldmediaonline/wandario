@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { handleSignOut } from '@/server/actions/auth';
+import { handleSignOut } from '@/app/actions/auth';
 
 export default function SignOutButton() {
   return (
