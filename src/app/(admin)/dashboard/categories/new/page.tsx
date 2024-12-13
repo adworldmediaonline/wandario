@@ -22,6 +22,7 @@ import ImageUploadField from '@/components/cloudinary-upload/ImageUploadField';
 import { useCallback } from 'react';
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
+import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
 
 export default function AddCategoryForm() {
   const router = useRouter();
@@ -104,7 +105,17 @@ export default function AddCategoryForm() {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder="description" {...field} />
+                  <MinimalTiptapEditor
+                    value={field.value}
+                    onChange={field.onChange}
+                    className="w-full"
+                    editorContentClassName="p-5"
+                    output="html"
+                    placeholder="Type your content here..."
+                    autofocus={true}
+                    editable={true}
+                    editorClassName="focus:outline-none"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,7 +137,7 @@ export default function AddCategoryForm() {
             {status === 'executing' ? (
               <Loader2 className="animate-spin" />
             ) : (
-              'Add File'
+              'Add Category'
             )}
           </Button>
         </form>
