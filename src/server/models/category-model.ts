@@ -9,6 +9,11 @@ const categorySchema = new Schema(
       type: String,
       trim: true,
     },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active',
+    },
     thumbnail: {
       secure_url: String,
       public_id: String,
@@ -22,6 +27,14 @@ const categorySchema = new Schema(
         },
       ],
       required: [true, 'Destinations are required'],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
