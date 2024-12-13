@@ -99,6 +99,7 @@
 .minimal-tiptap-editor .ProseMirror {
   @apply flex max-w-full cursor-text flex-col;
   @apply z-0 outline-0;
+  position: relative;
 }
 
 .minimal-tiptap-editor .ProseMirror > div.editor {
@@ -236,4 +237,34 @@
 
 .minimal-tiptap-editor table p {
   margin: 0;
+}
+
+.minimal-tiptap-editor img {
+  height: auto;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  max-width: 400px;
+  display: block;
+  margin: 1rem auto;
+}
+
+.minimal-tiptap-editor .ProseMirror-selectednode img {
+  outline: 2px solid rgb(var(--primary));
+  outline-offset: 2px;
+}
+
+.minimal-tiptap-editor img:hover {
+  outline: 2px solid rgb(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Add styles for image controls */
+.minimal-tiptap-editor .image-controls {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.minimal-tiptap-editor img:hover + .image-controls,
+.minimal-tiptap-editor .image-controls:hover {
+  opacity: 1;
 }

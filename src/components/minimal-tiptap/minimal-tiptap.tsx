@@ -23,6 +23,17 @@ import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
 import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
+import Image from '@tiptap/extension-image';
+import { Button } from '@/components/ui/button';
+import { ImageIcon, Trash2Icon } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import ImageUploadField from '@/components/cloudinary-upload/ImageUploadField';
+import { useForm } from 'react-hook-form';
 
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
@@ -31,6 +42,63 @@ export interface MinimalTiptapProps
   className?: string;
   editorContentClassName?: string;
 }
+
+const ImageToolbar = ({ editor }: { editor: Editor }) => {
+  const [open, setOpen] = React.useState(false);
+  const form = useForm();
+
+  const handleImageUpload = () => {
+    const imageUrl = form.getValues('image')?.secure_url;
+    if (imageUrl) {
+      editor
+        .chain()
+        .focus()
+        .setImage({
+          src: imageUrl,
+          alt: 'Uploaded image',
+        })
+        .run();
+      setOpen(false);
+      form.reset();
+    }
+  };
+
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => setOpen(true)}
+        className="h-8 w-8 p-0"
+      >
+        <ImageIcon className="h-4 w-4" />
+      </Button>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Upload Image</DialogTitle>
+          </DialogHeader>
+          <ImageUploadField
+            form={form}
+            name="image"
+            label="Image"
+            description="Upload an image"
+            multiple={false}
+            onImageUpload={handleImageUpload}
+            allowedFileTypes={[
+              'image/jpeg',
+              'image/png',
+              'image/gif',
+              'image/webp',
+            ]}
+            maxFileSize={5 * 1024 * 1024} // 5MB
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
 
 const Toolbar = ({ editor }: { editor: Editor }) => (
   <div className="shrink-0 overflow-x-auto border-b border-border p-2">
@@ -71,9 +139,30 @@ const Toolbar = ({ editor }: { editor: Editor }) => (
         activeActions={['codeBlock', 'blockquote', 'horizontalRule']}
         mainActionCount={0}
       />
+
+      <Separator orientation="vertical" className="mx-2 h-7" />
+
+      <ImageToolbar editor={editor} />
     </div>
   </div>
 );
+
+const ImageDeleteButton = ({ editor }: { editor: Editor }) => {
+  const isImage = editor.isActive('image');
+
+  if (!isImage) return null;
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => editor.chain().focus().deleteSelection().run()}
+      className="absolute top-2 right-2 h-8 w-8 bg-black/50 p-0 text-white hover:bg-black/70"
+    >
+      <Trash2Icon className="h-4 w-4" />
+    </Button>
+  );
+};
 
 export const MinimalTiptapEditor = React.forwardRef<
   HTMLDivElement,
@@ -88,6 +177,11 @@ export const MinimalTiptapEditor = React.forwardRef<
       Paragraph,
       Text,
       Underline,
+      Image.configure({
+        HTMLAttributes: {
+          class: 'editor-image',
+        },
+      }),
       Table.configure({
         resizable: true,
         HTMLAttributes: {
@@ -149,10 +243,13 @@ export const MinimalTiptapEditor = React.forwardRef<
       )}
     >
       <Toolbar editor={editor} />
-      <EditorContent
-        editor={editor}
-        className={cn('minimal-tiptap-editor', editorContentClassName)}
-      />
+      <div className="relative">
+        <EditorContent
+          editor={editor}
+          className={cn('minimal-tiptap-editor', editorContentClassName)}
+        />
+        <ImageDeleteButton editor={editor} />
+      </div>
       <LinkBubbleMenu editor={editor} />
     </MeasuredContainer>
   );
