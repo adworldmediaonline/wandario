@@ -66,6 +66,7 @@ const ImageToolbar = ({ editor }: { editor: Editor }) => {
   return (
     <>
       <Button
+        type="button"
         variant="ghost"
         size="sm"
         onClick={() => setOpen(true)}
@@ -154,6 +155,7 @@ const ImageDeleteButton = ({ editor }: { editor: Editor }) => {
 
   return (
     <Button
+      type="button"
       variant="ghost"
       size="sm"
       onClick={() => editor.chain().focus().deleteSelection().run()}
