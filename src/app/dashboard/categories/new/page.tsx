@@ -43,11 +43,12 @@ export default function AddCategoryForm() {
     onSuccess(data) {
       if (data?.data?.success) {
         toast('category add successful', {
+          closeButton: true,
           description: 'category add successful',
-          action: {
-            label: 'Undo',
-            onClick: () => console.log('Undo'),
-          },
+          // action: {
+          //   label: 'Undo',
+          //   onClick: () => console.log('Undo'),
+          // },
         });
         router.push('/dashboard/categories');
       }
@@ -60,6 +61,7 @@ export default function AddCategoryForm() {
     onError(error) {
       console.log('error', error);
       toast('category add failed', {
+        closeButton: true,
         description: 'category add failed',
       });
     },
