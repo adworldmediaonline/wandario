@@ -30,9 +30,6 @@ export default function Categories({ category }: { category: ICategory }) {
           {category?.status}
         </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">
-        {category?.description}
-      </TableCell>
 
       <TableCell className="hidden md:table-cell">
         {new Date(category?.createdAt).toLocaleDateString('en-IN')}
