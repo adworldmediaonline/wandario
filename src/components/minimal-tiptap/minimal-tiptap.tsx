@@ -14,6 +14,15 @@ import { SectionFive } from './components/section/five';
 import { LinkBubbleMenu } from './components/bubble-menu/link-bubble-menu';
 import { useMinimalTiptapEditor } from './hooks/use-minimal-tiptap';
 import { MeasuredContainer } from './components/measured-container';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import StarterKit from '@tiptap/starter-kit';
+import Document from '@tiptap/extension-document';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import Underline from '@tiptap/extension-underline';
 
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
@@ -73,6 +82,55 @@ export const MinimalTiptapEditor = React.forwardRef<
   const editor = useMinimalTiptapEditor({
     value,
     onUpdate: onChange,
+    extensions: [
+      StarterKit,
+      Document,
+      Paragraph,
+      Text,
+      Underline,
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: 'min-w-full border-collapse border border-gray-200',
+        },
+      }),
+      TableRow.configure({
+        HTMLAttributes: {
+          class: 'border-b border-gray-200',
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          class: 'border border-gray-200 p-2',
+        },
+      }),
+      TableHeader.configure({
+        HTMLAttributes: {
+          class: 'border border-gray-200 p-2 bg-gray-50 font-medium',
+        },
+      }),
+    ],
+    editorProps: {
+      ...props.editorProps,
+      handlePaste: (view, event) => {
+        if (!event.clipboardData) return false;
+
+        const html = event.clipboardData.getData('text/html');
+        if (!html || !/<table/i.test(html)) return false;
+
+        try {
+          editor?.commands.insertContent(html, {
+            parseOptions: {
+              preserveWhitespace: false,
+            },
+          });
+          return true;
+        } catch (error) {
+          console.error('Failed to paste table:', error);
+          return false;
+        }
+      },
+    },
     ...props,
   });
 

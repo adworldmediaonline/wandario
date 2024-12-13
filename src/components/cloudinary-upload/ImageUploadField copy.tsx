@@ -196,153 +196,86 @@ export default function ImageUploadField({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="space-y-4">
-          <FormLabel className="text-lg font-semibold tracking-tight">
-            {label}
-          </FormLabel>
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <div className="space-y-6">
+            <div>
               <div
                 {...getRootProps()}
-                className={`
-                  relative p-10 border-2 border-dashed rounded-xl
-                  transition-all duration-300 ease-in-out
-                  ${
-                    isDragActive
-                      ? 'border-primary bg-primary/5 scale-[1.02] shadow-lg'
-                      : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50/50 hover:shadow-md'
-                  }
-                  ${uploading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
-                `}
+                className={`p-6 border-2 border-dashed rounded-lg text-center cursor-pointer ${
+                  isDragActive
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-300'
+                } ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <input {...getInputProps()} disabled={uploading} />
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <div
-                    className={`
-                    p-4 rounded-full transition-colors duration-200
-                    ${isDragActive ? 'bg-primary/10' : 'bg-gray-50'}
-                  `}
-                  >
-                    {uploading ? (
-                      <div className="animate-spin rounded-full h-8 w-8 border-3 border-primary border-t-transparent" />
-                    ) : (
-                      <svg
-                        className={`w-8 h-8 transition-colors duration-200 ${
-                          isDragActive ? 'text-primary' : 'text-gray-400'
-                        }`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                  <div className="text-center space-y-2">
-                    <p className="text-base font-medium text-gray-700">
-                      {uploading ? (
-                        'Upload in progress...'
-                      ) : isDragActive ? (
-                        <span className="text-primary font-semibold">
-                          Release to upload files
-                        </span>
-                      ) : (
-                        <>
-                          <span className="text-primary font-semibold">
-                            Click to browse
-                          </span>
-                          <span className="mx-1">or drag and drop</span>
-                          {multiple ? 'your files' : 'your file'}
-                        </>
-                      )}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Supported formats: {allowedFileTypes.join(', ')}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      Maximum file size: {maxFileSize / (1024 * 1024)}MB
-                    </p>
-                  </div>
-                </div>
+                {uploading ? (
+                  <p>Uploading in progress...</p>
+                ) : isDragActive ? (
+                  <p>Drop the {multiple ? 'files' : 'file'} here ...</p>
+                ) : (
+                  <p>
+                    {multiple
+                      ? "Drag 'n' drop some files here, or click to select files"
+                      : "Drag 'n' drop a file here, or click to select a file"}
+                  </p>
+                )}
               </div>
-
-              {/* Upload Progress */}
               {Object.entries(uploadProgress).length > 0 && (
-                <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-5 space-y-4 border border-gray-100 shadow-sm">
-                  <h3 className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                    <div className="animate-pulse h-2 w-2 rounded-full bg-primary" />
-                    Uploading files...
-                  </h3>
-                  <div className="space-y-3">
-                    {Object.entries(uploadProgress).map(
-                      ([fileName, progress]) => (
-                        <div key={fileName} className="space-y-1.5">
-                          <div className="flex justify-between text-sm text-gray-600">
-                            <span className="truncate max-w-[80%]">
-                              {fileName}
-                            </span>
-                            <span className="font-medium">{progress}%</span>
-                          </div>
-                          <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-primary transition-all duration-300 rounded-full"
-                              style={{ width: `${progress}%` }}
-                            />
-                          </div>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold mb-2">Uploading...</h3>
+                  {Object.entries(uploadProgress).map(
+                    ([fileName, progress]) => (
+                      <div key={fileName} className="mb-2">
+                        <div className="text-sm">{fileName}</div>
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div
+                            className="bg-blue-600 h-2.5 rounded-full"
+                            style={{ width: `${progress}%` }}
+                          ></div>
                         </div>
-                      )
-                    )}
-                  </div>
+                      </div>
+                    )
+                  )}
                 </div>
               )}
-
-              {/* Image Preview Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-3 gap-4 mt-4">
                 {multiple ? (
                   field.value?.map((image: UploadResult) =>
                     image.secure_url ? (
                       <div
                         key={image.public_id}
-                        className="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200"
+                        className="relative aspect-square"
                       >
                         <Image
                           src={image.secure_url}
-                          alt={image.fileName}
+                          alt="Uploaded image"
                           fill
-                          className="object-cover transition-all duration-500 group-hover:scale-110"
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          className="object-cover rounded-lg"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 opacity-0 group-hover:opacity-100 transition-all duration-300" />
                         {renderDeleteButton(image)}
                       </div>
                     ) : null
                   )
-                ) : field.value?.secure_url ? (
-                  <div className="group relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200">
+                ) : field.value && field.value.secure_url ? (
+                  <div
+                    key={field.value.public_id}
+                    className="relative aspect-square"
+                  >
                     <Image
                       src={field.value.secure_url}
-                      alt={field.value.fileName}
+                      alt="Uploaded image"
                       fill
-                      className="object-cover transition-all duration-500 group-hover:scale-110"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover rounded-lg"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 opacity-0 group-hover:opacity-100 transition-all duration-300" />
                     {renderDeleteButton(field.value)}
                   </div>
                 ) : null}
               </div>
             </div>
           </FormControl>
-          <FormDescription className="text-sm text-gray-500">
-            {description}
-          </FormDescription>
-          <FormMessage className="text-sm" />
+          <FormDescription>{description}</FormDescription>
+          <FormMessage />
         </FormItem>
       )}
     />
@@ -350,21 +283,18 @@ export default function ImageUploadField({
 
   function renderDeleteButton(image: UploadResult) {
     return deletingImages.has(image.public_id) ? (
-      <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent" />
+      <div className="absolute  inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
       </div>
     ) : (
       <button
-        onClick={e => {
-          e.stopPropagation();
-          handleDelete(image.public_id);
-        }}
-        className="absolute bottom-2 right-2 p-2 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-black/70 backdrop-blur-sm"
+        onClick={() => handleDelete(image.public_id)}
+        className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full  group-hover:opacity-100 transition-opacity duration-200"
         disabled={deletingImages.has(image.public_id)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
+          className="h-5 w-5"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
