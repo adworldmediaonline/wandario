@@ -61,3 +61,14 @@ export async function getCategories(
     return { categories: [], totalCategories: 0 };
   }
 }
+
+export async function getCategoryById(id: string): Promise<ICategory | null> {
+  try {
+    await connectToDatabase();
+    const category = await Category.findById(id);
+    return category ? JSON.parse(JSON.stringify(category)) : null;
+  } catch (error) {
+    console.error('Error fetching category:', error);
+    return null;
+  }
+}

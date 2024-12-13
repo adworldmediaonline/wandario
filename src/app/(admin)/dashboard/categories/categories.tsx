@@ -3,16 +3,20 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  // DropdownMenuContent,
-  // DropdownMenuItem,
-  // DropdownMenuLabel,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { ICategory } from '@/server/db/category';
+// import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Categories({ category }: { category: ICategory }) {
+  // const router = useRouter();
+
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -42,15 +46,14 @@ export default function Categories({ category }: { category: ICategory }) {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </DropdownMenuTrigger>
-          {/* <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>
-              <form action={deleteProduct}>
-                <button type="submit">Delete</button>
-              </form>
+            <DropdownMenuItem asChild>
+              <Link href={`/dashboard/categories/${category._id}/edit`}>
+                Edit
+              </Link>
             </DropdownMenuItem>
-          </DropdownMenuContent> */}
+          </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
     </TableRow>
