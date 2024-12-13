@@ -5,7 +5,7 @@ import type { toggleVariants } from '@/components/ui/toggle';
 import type { VariantProps } from 'class-variance-authority';
 
 import { LinkEditPopover } from '../link/link-edit-popover';
-import { ImageEditDialog } from '../image/image-edit-dialog';
+// import { ImageEditDialog } from '../image/image-edit-dialog';
 import { ToolbarSection } from '../toolbar-section';
 import {
   ChevronDown,
@@ -67,7 +67,7 @@ export const SectionFive: React.FC<SectionFiveProps> = ({
   return (
     <>
       <LinkEditPopover editor={editor} size={size} variant={variant} />
-      <ImageEditDialog editor={editor} size={size} variant={variant} />
+      {/* <ImageEditDialog editor={editor} size={size} variant={variant} /> */}
       <ToolbarSection
         editor={editor}
         actions={formatActions}
