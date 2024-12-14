@@ -22,14 +22,15 @@ export type CategoryType = Document & ICategory;
 
 export async function getCategories(
   search: string,
-  offset: number
+  offset: number,
+  limit?: number
 ): Promise<{
   categories: ICategory[];
   totalCategories: number;
 }> {
   try {
     await connectToDatabase();
-    const limit = 5; // Categories per page
+    const defaultLimit = limit || 5; // Default to 5 if no limit provided
     const safeOffset = Math.max(0, offset);
 
     if (search) {
@@ -37,7 +38,7 @@ export async function getCategories(
         name: { $regex: search, $options: 'i' },
       })
         .sort({ createdAt: -1 })
-        .limit(1000);
+        .limit(limit || 1000);
 
       return {
         categories: JSON.parse(JSON.stringify(searchResults)),
@@ -50,7 +51,7 @@ export async function getCategories(
     const categories = await Category.find()
       .sort({ createdAt: -1 })
       .skip(safeOffset)
-      .limit(limit);
+      .limit(defaultLimit);
 
     return {
       categories: JSON.parse(JSON.stringify(categories)),

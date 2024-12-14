@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,20 +12,19 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { ICategory } from '@/server/db/category';
-// import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Categories({ category }: { category: ICategory }) {
-  // const router = useRouter();
-
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
-        <Image
+        <CldImage
           alt="category image"
           className="aspect-square rounded-md object-cover"
+          src={category?.thumbnail?.public_id}
+          crop="fill"
+          format="webp"
           height="64"
-          src={category?.thumbnail?.secure_url}
           width="64"
         />
       </TableCell>
