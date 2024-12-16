@@ -5,6 +5,7 @@ import Destination from '@/server/models/destination-model';
 import type { Document } from 'mongoose';
 import { connectToDatabase } from '../mongoose';
 import type { ICategory } from '@/types';
+import { isValidObjectId } from 'mongoose';
 
 export type { ICategory };
 export type CategoryType = Document & ICategory;
@@ -72,7 +73,35 @@ export async function getCategories(categoryQuery: CategoryQuery): Promise<{
 export async function getCategoryById(id: string): Promise<ICategory | null> {
   try {
     await connectToDatabase();
-    const category = await Category.findById(id);
+
+    let category;
+
+    // Only try findById if it's a valid ObjectId
+    if (isValidObjectId(id)) {
+      category = await Category.findById(id).populate({
+        path: 'destinations',
+        model: Destination,
+      });
+    }
+
+    // If not found or not a valid ObjectId, try to find by slug
+    if (!category) {
+      category = await Category.findOne({ slug: id }).populate({
+        path: 'destinations',
+        model: Destination,
+      });
+    }
+
+    // If still not found, try case-insensitive slug search
+    if (!category) {
+      category = await Category.findOne({
+        slug: { $regex: new RegExp(`^${id}$`, 'i') },
+      }).populate({
+        path: 'destinations',
+        model: Destination,
+      });
+    }
+
     return category ? JSON.parse(JSON.stringify(category)) : null;
   } catch (error) {
     console.error('Error fetching category:', error);

@@ -40,7 +40,7 @@ export default function CategoryShowcase({
               key={category._id}
               name={category.name}
               imageId={category.thumbnail.public_id}
-              href={`/regions/${category._id}`}
+              href={`/regions/${category.slug}`}
               description={DESCRIPTIONS[index % DESCRIPTIONS.length]}
               stats={STATS[index % STATS.length]}
             />
