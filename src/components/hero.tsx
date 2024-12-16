@@ -17,7 +17,7 @@ export default function Hero() {
             <div className="space-y-6 max-w-xl mx-auto lg:mx-0">
               <SectionHeader
                 title="Explore the world one place at a time"
-                description="Discover breathtaking destinations, create unforgettable memories, and explore the world's most beautiful places with us."
+                excerpt="Discover breathtaking destinations, create unforgettable memories, and explore the world's most beautiful places with us."
                 highlight="Explore"
               />
 

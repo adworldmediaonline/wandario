@@ -6,7 +6,7 @@ export default function RegionLoading() {
     <>
       <HeroHeader
         title="Loading Region..."
-        description="Please wait while we fetch the region details."
+        excerpt="Please wait while we fetch the region details."
         backgroundImageId="testing/hero-banner"
       />
 

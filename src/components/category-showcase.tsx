@@ -28,7 +28,7 @@ export default function CategoryShowcase({
     <Section className="bg-gradient-to-b from-white to-gray-50/50">
       <SectionHeader
         title="Explore World Regions"
-        description="Embark on a journey through diverse regions across the globe. From bustling cities to serene landscapes, each region offers its own unique cultural heritage and natural wonders."
+        excerpt="Embark on a journey through diverse regions across the globe. From bustling cities to serene landscapes, each region offers its own unique cultural heritage and natural wonders."
         align="center"
         highlight="Regions"
       />
