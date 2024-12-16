@@ -10,24 +10,7 @@ import Category from '@/server/models/category-model';
 
 export const addDestinationAction = actionClient
   .schema(destinationSchema)
-  .action(async ({ parsedInput }) => {
-    if (!parsedInput) {
-      return {
-        success: false,
-        status: 400,
-        error: 'validation error',
-      };
-    }
-
-    const connection = await connectToDatabase();
-    if (!connection) {
-      return {
-        success: false,
-        status: 500,
-        error: 'Database connection failed',
-      };
-    }
-
+  .action(async input => {
     const session = await auth();
     if (!session?.user || session.user.role !== 'admin') {
       return {
@@ -37,14 +20,16 @@ export const addDestinationAction = actionClient
       };
     }
 
+    await connectToDatabase();
+
     const destination = new Destination({
-      ...parsedInput,
-      name: parsedInput.name.toLowerCase(),
+      ...input.parsedInput,
+      name: input.parsedInput.name.toLowerCase(),
     });
 
     const savedDestination = await destination.save();
 
-    await Category.findByIdAndUpdate(parsedInput.categoryId, {
+    await Category.findByIdAndUpdate(input.parsedInput.categoryId, {
       $push: { destinations: savedDestination._id },
     });
 
@@ -60,24 +45,7 @@ export const addDestinationAction = actionClient
 
 export const updateDestinationAction = actionClient
   .schema(destinationSchema.extend({ id: z.string() }))
-  .action(async ({ parsedInput }) => {
-    if (!parsedInput) {
-      return {
-        success: false,
-        status: 400,
-        error: 'validation error',
-      };
-    }
-
-    const connection = await connectToDatabase();
-    if (!connection) {
-      return {
-        success: false,
-        status: 500,
-        error: 'Database connection failed',
-      };
-    }
-
+  .action(async input => {
     const session = await auth();
     if (!session?.user || session.user.role !== 'admin') {
       return {
@@ -87,7 +55,9 @@ export const updateDestinationAction = actionClient
       };
     }
 
-    const { id, ...updateData } = parsedInput;
+    await connectToDatabase();
+
+    const { id, ...updateData } = input.parsedInput;
     const updatedDestination = await Destination.findByIdAndUpdate(
       id,
       {
@@ -109,7 +79,7 @@ export const updateDestinationAction = actionClient
 
     return {
       success: true,
-      status: 201,
+      status: 200,
       message: 'Destination updated successfully',
       data: JSON.parse(JSON.stringify(updatedDestination)),
     };

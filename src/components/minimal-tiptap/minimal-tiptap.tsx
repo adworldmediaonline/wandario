@@ -34,6 +34,9 @@ import {
 } from '@/components/ui/dialog';
 import ImageUploadField from '@/components/cloudinary-upload/ImageUploadField';
 import { useForm } from 'react-hook-form';
+import Link from '@tiptap/extension-link';
+import TextStyle from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
 
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
@@ -174,11 +177,21 @@ export const MinimalTiptapEditor = React.forwardRef<
     value,
     onUpdate: onChange,
     extensions: [
-      StarterKit,
+      StarterKit.configure({}),
       Document,
       Paragraph,
       Text,
       Underline,
+      TextStyle,
+      Color,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class:
+            'text-primary underline underline-offset-4 hover:text-primary/80',
+        },
+        linkOnPaste: true,
+      }),
       Image.configure({
         HTMLAttributes: {
           class: 'editor-image',
@@ -212,19 +225,34 @@ export const MinimalTiptapEditor = React.forwardRef<
         if (!event.clipboardData) return false;
 
         const html = event.clipboardData.getData('text/html');
-        if (!html || !/<table/i.test(html)) return false;
+        if (html && /<table/i.test(html)) {
+          try {
+            editor?.commands.insertContent(html, {
+              parseOptions: {
+                preserveWhitespace: 'full',
+              },
+            });
+            return true;
+          } catch (error) {
+            console.error('Failed to paste table:', error);
+          }
+        }
 
         try {
-          editor?.commands.insertContent(html, {
-            parseOptions: {
-              preserveWhitespace: false,
-            },
-          });
-          return true;
+          const content = event.clipboardData.getData('text/html');
+          if (content) {
+            editor?.commands.insertContent(content, {
+              parseOptions: {
+                preserveWhitespace: 'full',
+              },
+            });
+            return true;
+          }
         } catch (error) {
-          console.error('Failed to paste table:', error);
-          return false;
+          console.error('Failed to paste rich content:', error);
         }
+
+        return false;
       },
     },
     ...props,

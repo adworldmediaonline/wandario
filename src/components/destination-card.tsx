@@ -4,6 +4,7 @@ import { CldImage } from 'next-cloudinary';
 import Link from 'next/link';
 import type { IDestination } from '@/types';
 import { cn } from '@/lib/utils';
+import { MapPin } from 'lucide-react';
 
 interface DestinationCardProps {
   destination: IDestination;
@@ -37,15 +38,28 @@ export function DestinationCard({
           className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/25 to-black/90"
           style={{
             background:
-              'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.8) 100%)',
+              'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.95) 100%)',
           }}
         />
 
         {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">
-            {destination.name}
-          </h3>
+          <div className="space-y-2.5">
+            <h3 className="text-xl sm:text-2xl font-bold text-white">
+              {destination.name}
+            </h3>
+            {destination.excerpt && (
+              <p className="text-sm text-white/80 line-clamp-2 leading-relaxed">
+                {destination.excerpt}
+              </p>
+            )}
+          </div>
+
+          {/* View Details Link */}
+          <div className="flex items-center gap-1.5 mt-4 text-white group-hover:text-primary transition-colors">
+            <MapPin className="w-4 h-4" />
+            <span className="text-sm font-medium">View Details</span>
+          </div>
         </div>
       </div>
     </Link>

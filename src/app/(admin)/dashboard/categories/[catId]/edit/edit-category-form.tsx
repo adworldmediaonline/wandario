@@ -11,6 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
@@ -23,6 +24,7 @@ import { useCallback } from 'react';
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
+import { Textarea } from '@/components/ui/textarea';
 
 import type { Path } from 'react-hook-form';
 import { ICategory } from '@/server/db/category';
@@ -42,6 +44,7 @@ export default function EditCategoryForm({
       name: category?.name,
       description: category?.description,
       thumbnail: category?.thumbnail,
+      excerpt: category?.excerpt,
     },
   });
 
@@ -92,6 +95,26 @@ export default function EditCategoryForm({
                   <Input placeholder="name" {...field} />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="excerpt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Excerpt</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Brief description (max 200 characters)"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>
+                  A short summary that appears in cards and previews
+                </FormDescription>
               </FormItem>
             )}
           />
