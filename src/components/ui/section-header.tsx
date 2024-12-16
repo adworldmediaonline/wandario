@@ -1,32 +1,32 @@
 import { cn } from '@/lib/utils';
 
 interface SectionHeaderProps {
-  title: string;
-  description?: string;
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  align?: 'left' | 'center';
+  highlight?: string;
   className?: string;
-  align?: 'left' | 'center' | 'right';
   titleClassName?: string;
   descriptionClassName?: string;
-  highlight?: string;
 }
 
 export function SectionHeader({
   title,
   description,
-  className,
   align = 'left',
+  highlight,
+  className,
   titleClassName,
   descriptionClassName,
-  highlight,
 }: SectionHeaderProps) {
-  const titleParts = highlight ? title.split(highlight) : [title];
+  const titleText = typeof title === 'string' ? title : '';
+  const titleParts = highlight ? titleText.split(highlight) : [titleText];
 
   return (
     <div
       className={cn(
         'mb-10 max-w-[800px]',
         align === 'center' && 'text-center mx-auto',
-        align === 'right' && 'text-right ml-auto',
         className
       )}
     >
@@ -37,20 +37,13 @@ export function SectionHeader({
           titleClassName
         )}
       >
-        {highlight ? (
+        {highlight && typeof title === 'string' ? (
           <>
             {titleParts[0]}
             <span className="relative inline-block">
               {highlight}
-              <span
-                className="absolute left-0 right-0 bottom-2 h-[0.4em] -z-10
-                  bg-gradient-to-r from-blue-500/20 via-blue-500/30 to-blue-500/20
-                  rounded-lg blur-[2px]"
-              />
-              <span
-                className="absolute left-0 right-0 bottom-2 h-[0.25em]
-                  bg-blue-500/30 rounded-lg"
-              />
+              <span className="absolute left-0 right-0 bottom-2 h-[0.4em] -z-10 bg-gradient-to-r from-blue-500/20 via-blue-500/30 to-blue-500/20 rounded-lg blur-[2px]" />
+              <span className="absolute left-0 right-0 bottom-2 h-[0.25em] bg-blue-500/30 rounded-lg" />
             </span>
             {titleParts[1]}
           </>
@@ -64,7 +57,6 @@ export function SectionHeader({
             'mt-4 text-lg text-muted-foreground/90 leading-relaxed',
             'max-w-[600px]',
             align === 'center' && 'mx-auto',
-            align === 'right' && 'ml-auto',
             descriptionClassName
           )}
         >

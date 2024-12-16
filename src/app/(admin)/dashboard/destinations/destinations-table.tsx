@@ -20,7 +20,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import Destinations from './destinations';
-import { IDestination } from '@/server/db/destination';
+import { IDestination } from '@/types';
 
 export function DestinationsTable({
   destinations,

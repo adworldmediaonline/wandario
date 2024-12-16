@@ -16,6 +16,12 @@ const destinationSchema = new mongoose.Schema({
     maxlength: [200, 'Excerpt must be less than 200 characters'],
     trim: true,
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

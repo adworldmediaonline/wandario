@@ -19,6 +19,7 @@ export interface ICategory {
   description: string;
   excerpt: string;
   status: string;
+  slug: string;
   thumbnail: {
     secure_url: string;
     public_id: string;

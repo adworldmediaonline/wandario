@@ -11,8 +11,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { IDestination } from '@/server/db/destination';
+
 import Link from 'next/link';
+import { IDestination } from '@/types';
 
 export default function Destinations({
   destination,
