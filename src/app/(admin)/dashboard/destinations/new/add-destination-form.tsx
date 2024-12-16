@@ -23,35 +23,31 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
-import { updateDestinationAction } from '@/app/actions/destination-action';
+import { addDestinationAction } from '@/app/actions/destination-action';
 import { destinationSchema } from '@/lib/schema/destination';
 import ImageUploadField from '@/components/cloudinary-upload/ImageUploadField';
 import { useCallback } from 'react';
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
-import type { ICategory, IDestination } from '@/types';
+import type { ICategory } from '@/types';
 
-interface EditDestinationFormProps {
-  destId: string;
-  destination: IDestination | null;
+interface AddDestinationFormProps {
   categories: ICategory[];
 }
 
-export default function EditDestinationForm({
-  destId,
-  destination,
+export default function AddDestinationForm({
   categories,
-}: EditDestinationFormProps) {
+}: AddDestinationFormProps) {
   const router = useRouter();
   const form = useForm<z.infer<typeof destinationSchema>>({
     resolver: zodResolver(destinationSchema),
     mode: 'onBlur',
     defaultValues: {
-      name: destination?.name || '',
-      description: destination?.description || '',
-      categoryId: destination?.categoryId || '',
-      thumbnail: destination?.thumbnail || {
+      name: '',
+      description: '',
+      categoryId: '',
+      thumbnail: {
         secure_url: '',
         public_id: '',
         fileName: '',
@@ -59,24 +55,26 @@ export default function EditDestinationForm({
     },
   });
 
-  const { execute, status } = useAction(updateDestinationAction, {
-    onSuccess(args) {
-      if (args.data?.success) {
-        toast('Destination updated successfully', {
-          description: args.data.message,
+  const { execute, status } = useAction(addDestinationAction, {
+    onSuccess(data) {
+      if (data?.data?.success) {
+        toast('Destination add successful', {
+          closeButton: true,
+          description: 'Destination add successful',
         });
         router.push('/dashboard/destinations');
-        router.refresh();
-      } else {
-        toast('Update failed', {
-          description: args.data?.error ?? 'Failed to update destination',
+      }
+      if (!data?.data?.success) {
+        toast('Destination add failed', {
+          description: data?.data?.message ?? 'Destination add failed',
         });
       }
     },
     onError(error) {
       console.error('error', error);
-      toast('Update failed', {
-        description: 'An error occurred while updating the destination',
+      toast('Destination add failed', {
+        closeButton: true,
+        description: 'Destination add failed',
       });
     },
   });
@@ -89,7 +87,8 @@ export default function EditDestinationForm({
   );
 
   function onSubmit(values: z.infer<typeof destinationSchema>) {
-    execute({ ...values, id: destId });
+    execute(values);
+    form.reset();
   }
 
   return (
@@ -152,6 +151,7 @@ export default function EditDestinationForm({
                     editorContentClassName="p-5"
                     output="html"
                     placeholder="Type your content here..."
+                    autofocus={true}
                     editable={true}
                     editorClassName="focus:outline-none"
                   />
@@ -172,21 +172,12 @@ export default function EditDestinationForm({
             maxFileSize={MAX_FILE_SIZE}
           />
 
-          <div className="flex gap-4">
-            <Button type="submit" disabled={status === 'executing'}>
-              {status === 'executing' ? (
-                <Loader2 className="animate-spin mr-2" />
-              ) : null}
-              Save Changes
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-          </div>
+          <Button type="submit" disabled={status === 'executing'}>
+            {status === 'executing' ? (
+              <Loader2 className="animate-spin mr-2" />
+            ) : null}
+            Add Destination
+          </Button>
         </form>
       </Form>
     </div>

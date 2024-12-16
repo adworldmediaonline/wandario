@@ -1,6 +1,21 @@
 import HeroHeader from '@/components/ui/hero-header';
+import { getCategoryById } from '@/server/db/category';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Globe2 } from 'lucide-react';
+import { notFound } from 'next/navigation';
 
-export default function RegionPage() {
+export default async function RegionPage(props: {
+  params: Promise<{ regionId: string }>;
+}) {
+  const params = await props.params;
+  const category = await getCategoryById(params.regionId);
+
+  if (!category) {
+    notFound();
+  }
+
+  const hasDestinations = category.destinations?.length > 0;
+
   return (
     <>
       <HeroHeader
@@ -11,26 +26,45 @@ export default function RegionPage() {
               href: '/regions',
             },
             {
-              title: 'North America',
-              href: '/regions/north-america',
+              title: category.name,
+              href: `/regions/${params.regionId}`,
             },
           ],
         }}
-        title="Lorem Ipsum is simply dummy text of the printing"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-        backgroundImageId="testing/hero-banner"
+        title={category.name}
+        description={category.description}
+        backgroundImageId={
+          category.thumbnail?.public_id || 'testing/hero-banner'
+        }
         actions={{
           primary: {
-            label: 'Contact Us',
-            href: '/contact',
+            label: 'Explore Destinations',
+            href: '#destinations',
           },
           secondary: {
-            label: 'Learn More',
-            href: '#',
+            label: 'View Map',
+            href: '#map',
           },
         }}
       />
-      {/* Rest of your page content */}
+
+      <section id="destinations" className="py-20">
+        <div className="container">
+          {hasDestinations ? (
+            <div>{/* Your destinations grid/list component here */}</div>
+          ) : (
+            <EmptyState
+              icon={Globe2}
+              title="No Destinations Available"
+              description={`We're currently adding exciting destinations to ${category.name}. Check back soon for updates!`}
+              action={{
+                label: 'Explore Other Regions',
+                href: '/regions',
+              }}
+            />
+          )}
+        </div>
+      </section>
     </>
   );
 }

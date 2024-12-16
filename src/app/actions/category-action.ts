@@ -38,7 +38,11 @@ export const addCategoryAction = actionClient
       };
     }
 
-    const category = new Category(parsedInput);
+    const category = new Category({
+      ...parsedInput,
+      name: parsedInput.name.toLowerCase(),
+    });
+
     const categoryData = JSON.parse(JSON.stringify(await category.save()));
 
     revalidatePath('/dashboard/categories');
@@ -81,9 +85,14 @@ export const updateCategoryAction = actionClient
     }
 
     const { id, ...updateData } = parsedInput;
-    const updatedCategory = await Category.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      {
+        ...updateData,
+        name: updateData.name.toLowerCase(),
+      },
+      { new: true }
+    );
 
     if (!updatedCategory) {
       return {

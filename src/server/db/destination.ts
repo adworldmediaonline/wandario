@@ -1,23 +1,11 @@
 'server-only';
 
-import Destination from '@/server/models/destination-model';
 import type { Document } from 'mongoose';
 import { connectToDatabase } from '../mongoose';
+import Destination from '@/server/models/destination-model';
+import type { IDestination } from '@/types';
 
-export interface IDestination {
-  _id: string;
-  name: string;
-  description: string;
-  status: string;
-  thumbnail: {
-    secure_url: string;
-    public_id: string;
-    fileName: string;
-  };
-  destinations: string[];
-  createdAt: Date;
-}
-
+export type { IDestination };
 export type DestinationType = Document & IDestination;
 
 interface DestinationQuery {

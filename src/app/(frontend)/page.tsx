@@ -3,6 +3,8 @@ import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-s
 import { getCategories } from '@/server/db/category';
 import CategoryShowcase from '@/components/category-showcase';
 import HeroHeader from '@/components/ui/hero-header';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Compass } from 'lucide-react';
 
 export default async function HomePage() {
   const { categories } = await getCategories({ offset: '0', limit: '8' });
@@ -37,7 +39,19 @@ export default async function HomePage() {
         }}
       />
       <Suspense fallback={<CategoryShowcaseSkeleton />}>
-        <CategoryShowcase categories={categories} />
+        {categories.length > 0 ? (
+          <CategoryShowcase categories={categories} />
+        ) : (
+          <EmptyState
+            icon={Compass}
+            title="No Categories Found"
+            description="We're currently working on adding new travel categories. Check back soon for exciting destinations!"
+            action={{
+              label: 'Contact Us',
+              href: '/contact',
+            }}
+          />
+        )}
       </Suspense>
     </>
   );

@@ -6,6 +6,7 @@ import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import Destination from '@/server/models/destination-model';
+import Category from '@/server/models/category-model';
 
 export const addDestinationAction = actionClient
   .schema(destinationSchema)
@@ -19,7 +20,6 @@ export const addDestinationAction = actionClient
     }
 
     const connection = await connectToDatabase();
-
     if (!connection) {
       return {
         success: false,
@@ -37,10 +37,16 @@ export const addDestinationAction = actionClient
       };
     }
 
-    const destination = new Destination(parsedInput);
-    const destinationData = JSON.parse(
-      JSON.stringify(await destination.save())
-    );
+    const destination = new Destination({
+      ...parsedInput,
+      name: parsedInput.name.toLowerCase(),
+    });
+
+    const savedDestination = await destination.save();
+
+    await Category.findByIdAndUpdate(parsedInput.categoryId, {
+      $push: { destinations: savedDestination._id },
+    });
 
     revalidatePath('/dashboard/destinations');
 
@@ -48,7 +54,7 @@ export const addDestinationAction = actionClient
       success: true,
       status: 201,
       message: 'Destination created successfully',
-      data: destinationData,
+      data: JSON.parse(JSON.stringify(savedDestination)),
     };
   });
 
@@ -84,10 +90,11 @@ export const updateDestinationAction = actionClient
     const { id, ...updateData } = parsedInput;
     const updatedDestination = await Destination.findByIdAndUpdate(
       id,
-      updateData,
       {
-        new: true,
-      }
+        ...updateData,
+        name: updateData.name.toLowerCase(),
+      },
+      { new: true }
     );
 
     if (!updatedDestination) {

@@ -4,6 +4,8 @@ import CategoryShowcase from '@/components/category-showcase';
 import { Suspense } from 'react';
 import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-skeleton';
 import { DestinationsSlider } from '@/components/destinations-slider';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Globe2 } from 'lucide-react';
 
 export default async function RegionsPage(props: {
   searchParams: Promise<{ category: string; offset: string }>;
@@ -15,7 +17,9 @@ export default async function RegionsPage(props: {
   const { categories } = await getCategories({
     offset: currentOffset.toString(),
   });
-  console.log(category);
+
+  const hasCategories = categories.length > 0;
+  const hasDestinations = categories.some(cat => cat.destinations?.length > 0);
 
   return (
     <>
@@ -46,15 +50,36 @@ export default async function RegionsPage(props: {
       {/* Regions Grid Section */}
       <section id="regions-grid">
         <Suspense fallback={<CategoryShowcaseSkeleton />}>
-          <CategoryShowcase categories={categories} />
+          {hasCategories ? (
+            <CategoryShowcase categories={categories} />
+          ) : (
+            <EmptyState
+              icon={Globe2}
+              title="No Regions Available"
+              description="We're currently expanding our coverage of world regions. Please check back soon for updates!"
+              action={{
+                label: 'Explore Other Options',
+                href: '/',
+              }}
+            />
+          )}
         </Suspense>
       </section>
 
-      {/* CTA Section */}
+      {/* Destinations Section */}
       <section className="py-20">
         <div className="container">
           <Suspense fallback={<CategoryShowcaseSkeleton />}>
-            <DestinationsSlider categories={categories} category={category} />
+            {hasDestinations ? (
+              <DestinationsSlider categories={categories} category={category} />
+            ) : (
+              <EmptyState
+                icon={Globe2}
+                title="No Destinations Yet"
+                description="We're working on adding exciting destinations. Stay tuned for updates!"
+                className="min-h-[300px]"
+              />
+            )}
           </Suspense>
         </div>
       </section>
