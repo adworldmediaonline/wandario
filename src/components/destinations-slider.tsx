@@ -44,17 +44,23 @@ export function DestinationsSlider({
             modules={[Navigation, Pagination, A11y, Autoplay]}
             spaceBetween={16}
             slidesPerView={1.2}
-            centeredSlides={true}
+            initialSlide={0}
+            centeredSlides={false}
+            watchSlidesProgress={true}
+            preventInteractionOnTransition={true}
             navigation
-            pagination={{ clickable: true }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
             autoplay={{
               delay: 5000,
               disableOnInteraction: false,
+              pauseOnMouseEnter: true,
             }}
             breakpoints={{
               480: {
                 slidesPerView: 1.5,
-                centeredSlides: false,
                 spaceBetween: 20,
               },
               640: {
@@ -70,10 +76,13 @@ export function DestinationsSlider({
                 spaceBetween: 24,
               },
             }}
-            className="destinations-swiper !pb-12"
+            className="destinations-swiper !overflow-hidden"
           >
             {destinations.map(destination => (
-              <SwiperSlide key={destination._id}>
+              <SwiperSlide
+                key={destination._id}
+                className="swiper-slide-transform"
+              >
                 <DestinationCard destination={destination} />
               </SwiperSlide>
             ))}

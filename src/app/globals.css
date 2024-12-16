@@ -160,6 +160,14 @@ body {
   --swiper-navigation-size: 1.25rem;
   padding: 1rem !important;
   margin: -1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.destinations-swiper.swiper-initialized {
+  opacity: 1;
+  visibility: visible;
 }
 
 .destinations-swiper .swiper-button-next,
@@ -218,4 +226,14 @@ body {
 
 .destinations-swiper .swiper-slide {
   animation: tabFadeIn 0.4s ease-out;
+}
+
+/* Add these styles for smoother swiper transitions */
+.swiper-slide-transform {
+  transition: transform 0.3s ease-out;
+}
+
+/* Prevent FOUC (Flash of Unstyled Content) */
+.destinations-swiper:not(.swiper-initialized) {
+  display: none;
 }
