@@ -33,8 +33,8 @@ export default async function DestinationsPage(props: {
           ],
         }}
         title="Explore Amazing Destinations"
-        description="Discover breathtaking locations and unforgettable experiences across the globe. Each destination offers unique adventures waiting to be explored."
-        backgroundImageId="testing/hero-banner-destinations"
+        excerpt="Discover breathtaking locations and unforgettable experiences across the globe. Each destination offers unique adventures waiting to be explored."
+        backgroundImageId="testing/destination-hero-banner"
         actions={{
           primary: {
             label: 'Start Exploring',
@@ -47,7 +47,7 @@ export default async function DestinationsPage(props: {
         }}
       />
 
-      <section id="destinations-grid" className="py-20">
+      <section id="destinations-grid" className="py-10">
         <div className="container">
           <Suspense fallback={<DestinationsShowcaseSkeleton />}>
             {hasDestinations ? (

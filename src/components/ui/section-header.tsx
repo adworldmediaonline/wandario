@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 interface SectionHeaderProps {
   title: React.ReactNode;
-  description?: React.ReactNode;
+  excerpt?: React.ReactNode;
   align?: 'left' | 'center';
   highlight?: string;
   className?: string;
@@ -12,7 +12,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({
   title,
-  description,
+  excerpt,
   align = 'left',
   highlight,
   className,
@@ -51,7 +51,7 @@ export function SectionHeader({
           title
         )}
       </h2>
-      {description && (
+      {excerpt && (
         <p
           className={cn(
             'mt-4 text-lg text-muted-foreground/90 leading-relaxed',
@@ -60,7 +60,7 @@ export function SectionHeader({
             descriptionClassName
           )}
         >
-          {description}
+          {excerpt}
         </p>
       )}
     </div>

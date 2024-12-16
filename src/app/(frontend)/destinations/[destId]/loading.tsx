@@ -1,12 +1,12 @@
-import HeroHeader from '@/components/ui/hero-header';
 import DestinationContentSkeleton from '@/components/skeletons/destination-content-skeleton';
+import HeroHeader from '@/components/ui/hero-header';
 
 export default function DestinationLoading() {
   return (
     <>
       <HeroHeader
         title="Loading Destination..."
-        description="Please wait while we fetch the destination details."
+        excerpt="Please wait while we fetch the destination details."
         backgroundImageId="testing/hero-banner"
       />
 

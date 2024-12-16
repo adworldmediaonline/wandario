@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import { RegionDestinationsSlider } from '@/components/region-destinations-slider';
 import { Suspense } from 'react';
 import RegionDestinationsSliderSkeleton from '@/components/skeletons/region-destinations-skeleton';
+import { Section } from '@/components/ui/section';
+import { Prose } from '@/components/ui/prose';
 
 export default async function RegionDetailsPage(props: {
   params: Promise<{ regionId: string }>;
@@ -35,7 +37,7 @@ export default async function RegionDetailsPage(props: {
           ],
         }}
         title={category.name}
-        description={category.excerpt}
+        excerpt={category.excerpt}
         backgroundImageId={
           category.thumbnail?.public_id || 'testing/hero-banner'
         }
@@ -51,28 +53,32 @@ export default async function RegionDetailsPage(props: {
         }}
       />
 
-      <section id="destinations" className="py-20">
-        <div className="container">
-          <Suspense fallback={<RegionDestinationsSliderSkeleton />}>
-            {hasDestinations ? (
-              <RegionDestinationsSlider
-                destinations={category.destinations}
-                title={`Explore ${category.name}`}
-              />
-            ) : (
-              <EmptyState
-                icon={Globe2}
-                title="No Destinations Available"
-                description={`We're currently adding exciting destinations to ${category.name}. Check back soon for updates!`}
-                action={{
-                  label: 'Explore Other Regions',
-                  href: '/regions',
-                }}
-              />
-            )}
-          </Suspense>
-        </div>
-      </section>
+      <Section container>
+        <Prose>
+          <div dangerouslySetInnerHTML={{ __html: category.description }} />
+        </Prose>
+      </Section>
+
+      <Section id="destinations" container>
+        <Suspense fallback={<RegionDestinationsSliderSkeleton />}>
+          {hasDestinations ? (
+            <RegionDestinationsSlider
+              destinations={category.destinations}
+              title={`Explore ${category.name}`}
+            />
+          ) : (
+            <EmptyState
+              icon={Globe2}
+              title="No Destinations Available"
+              description={`We're currently adding exciting destinations to ${category.name}. Check back soon for updates!`}
+              action={{
+                label: 'Explore Other Regions',
+                href: '/regions',
+              }}
+            />
+          )}
+        </Suspense>
+      </Section>
     </>
   );
 }

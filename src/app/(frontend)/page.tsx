@@ -25,7 +25,7 @@ export default async function HomePage() {
           ],
         }}
         title="Explore the world one place at a time"
-        description="Every Tour Is Your Calling! Discover Hidden Beauty, Savor Epic Sunsets, & Etch Lifelong Memories. Trust the Expertise of Our Best Travel Guide Reviews, Endorsed by the Experienced."
+        excerpt="Every Tour Is Your Calling! Discover Hidden Beauty, Savor Epic Sunsets, & Etch Lifelong Memories. Trust the Expertise of Our Best Travel Guide Reviews, Endorsed by the Experienced."
         backgroundImageId="testing/hero-banner"
         actions={{
           primary: {

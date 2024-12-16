@@ -5,6 +5,8 @@ import { SessionProvider } from '@/components/providers/SessionProvider';
 import './globals.css';
 import { auth } from '@/auth';
 
+import { cn } from '@/lib/utils';
+
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -23,8 +25,13 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          'min-h-screen bg-background antialiased',
+          poppins.variable
+        )}
+      >
         <SessionProvider session={session}>
           {children}
           <Toaster />

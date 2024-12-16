@@ -62,9 +62,9 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          {/* Sign Up Button */}
-          <Button size="sm" className="hidden md:flex">
-            Sign up
+          {/* Contact Us Button */}
+          <Button asChild size="sm" className="rounded-full hidden md:flex">
+            <Link href="/contact">Contact Us</Link>
           </Button>
 
           {/* Mobile Menu */}
@@ -81,9 +81,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <SheetHeader>
-                <SheetTitle>
-                  Travel<span className="text-blue-600">low</span>
-                </SheetTitle>
+                <SheetTitle>Wandario</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
                 {menuItems.map(item => (
@@ -96,7 +94,9 @@ export default function Header() {
                     {item.label}
                   </Link>
                 ))}
-                <Button className="mt-4">Sign up</Button>
+                <Button asChild className="mt-4">
+                  <Link href="/contact">Contact Us</Link>
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

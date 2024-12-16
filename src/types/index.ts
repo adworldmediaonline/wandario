@@ -4,7 +4,8 @@ export interface IDestination {
   description: string;
   excerpt: string;
   status: string;
-  categoryId: string;
+  categoryId: ICategory;
+  slug: string;
   thumbnail: {
     secure_url: string;
     public_id: string;

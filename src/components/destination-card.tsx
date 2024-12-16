@@ -17,7 +17,7 @@ export function DestinationCard({
 }: DestinationCardProps) {
   return (
     <Link
-      href={`/destinations/${destination._id}`}
+      href={`/destinations/${destination.slug}`}
       className={cn(
         'group block relative overflow-hidden rounded-xl sm:rounded-[20px]',
         'transition-all duration-300 hover:-translate-y-1',

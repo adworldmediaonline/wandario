@@ -6,7 +6,7 @@ export default function RegionsLoading() {
     <>
       <HeroHeader
         title="Explore World Regions"
-        description="Discover diverse landscapes and rich cultural heritage across different regions of the world. Each destination tells its own unique story through traditions, cuisine, and natural wonders."
+        excerpt="Discover diverse landscapes and rich cultural heritage across different regions of the world. Each destination tells its own unique story through traditions, cuisine, and natural wonders."
         backgroundImageId="testing/hero-banner-regions"
       />
 
