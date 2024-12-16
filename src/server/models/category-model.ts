@@ -1,52 +1,53 @@
-import { Schema, model, models } from 'mongoose';
-import slugify from 'slugify';
+import mongoose from 'mongoose';
 
-const categorySchema = new Schema(
-  {
-    name: { type: String, required: [true, 'Name is required'] },
-    slug: { type: String, unique: true, trim: true },
-    description: {
-      type: String,
-      trim: true,
-    },
-    status: {
-      type: String,
-      enum: ['active', 'inactive'],
-      default: 'active',
-    },
-    thumbnail: {
-      secure_url: String,
-      public_id: String,
-      fileName: String,
-    },
-    destinations: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Destination',
-        },
-      ],
-      required: [true, 'Destinations are required'],
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true,
   },
-  {
-    timestamps: true,
-  }
-);
-
-categorySchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
+  description: {
+    type: String,
+    required: [true, 'Description is required'],
+  },
+  excerpt: {
+    type: String,
+    required: [true, 'Excerpt is required'],
+    maxlength: [200, 'Excerpt must be less than 200 characters'],
+    trim: true,
+  },
+  slug: {
+    type: String,
+    unique: true,
+    trim: true,
+  },
+  status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'active',
+  },
+  thumbnail: {
+    secure_url: String,
+    public_id: String,
+    fileName: String,
+  },
+  destinations: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Destination',
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const Category = models.Category || model('Category', categorySchema);
+const Category =
+  mongoose.models.Category || mongoose.model('Category', categorySchema);
 
 export default Category;

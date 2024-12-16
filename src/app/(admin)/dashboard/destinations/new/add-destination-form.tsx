@@ -11,6 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import {
   Select,
@@ -31,6 +32,7 @@ import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
 import type { ICategory } from '@/types';
+import { Textarea } from '@/components/ui/textarea';
 
 interface AddDestinationFormProps {
   categories: ICategory[];
@@ -47,6 +49,7 @@ export default function AddDestinationForm({
       name: '',
       description: '',
       categoryId: '',
+      excerpt: '',
       thumbnail: {
         secure_url: '',
         public_id: '',
@@ -105,6 +108,26 @@ export default function AddDestinationForm({
                   <Input placeholder="name" {...field} />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="excerpt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Excerpt</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Brief description (max 200 characters)"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+                <FormDescription>
+                  A short summary that appears in cards and previews
+                </FormDescription>
               </FormItem>
             )}
           />
