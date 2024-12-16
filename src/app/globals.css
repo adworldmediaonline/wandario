@@ -153,3 +153,69 @@ body {
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
 }
+
+/* Swiper Styles */
+.destinations-swiper {
+  --swiper-theme-color: #fff;
+  --swiper-navigation-size: 1.25rem;
+  padding: 1rem !important;
+  margin: -1rem;
+}
+
+.destinations-swiper .swiper-button-next,
+.destinations-swiper .swiper-button-prev {
+  @apply bg-white/95 backdrop-blur-sm rounded-full w-10 h-10 shadow-lg;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.destinations-swiper:hover .swiper-button-next,
+.destinations-swiper:hover .swiper-button-prev {
+  opacity: 1;
+}
+
+.destinations-swiper .swiper-button-next:hover,
+.destinations-swiper .swiper-button-prev:hover {
+  @apply bg-white shadow-xl scale-110;
+}
+
+.destinations-swiper .swiper-button-next::after,
+.destinations-swiper .swiper-button-prev::after {
+  @apply text-gray-800;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.destinations-swiper .swiper-pagination {
+  @apply -bottom-2;
+}
+
+.destinations-swiper .swiper-pagination-bullet {
+  @apply bg-white/60 w-2 h-2;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.destinations-swiper .swiper-pagination-bullet-active {
+  @apply bg-white w-6;
+}
+
+.destinations-swiper .swiper-pagination-bullet:hover {
+  @apply bg-white;
+}
+
+/* Add these styles for better tab transitions */
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.destinations-swiper .swiper-slide {
+  animation: tabFadeIn 0.4s ease-out;
+}

@@ -2,18 +2,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { File, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-import { getCategories } from '@/server/db/category';
-import { CategoriesTable } from './categories-table';
+import { getDestinations } from '@/server/db/destination';
+import { DestinationsTable } from './destinations-table';
 import Link from 'next/link';
 
-export default async function CategoriesPage(props: {
+export default async function DestinationsPage(props: {
   searchParams: Promise<{ q: string; offset: string }>;
 }) {
   const searchParams = await props.searchParams;
   const search = searchParams.q ?? '';
   const currentOffset = parseInt(searchParams.offset ?? '0', 10);
 
-  const { categories, totalCategories } = await getCategories({
+  const { destinations, totalDestinations } = await getDestinations({
     search,
     offset: currentOffset.toString(),
   });
@@ -37,20 +37,20 @@ export default async function CategoriesPage(props: {
             </span>
           </Button>
           <Button size="sm" className="h-8 gap-1" asChild>
-            <Link href="/dashboard/categories/new">
+            <Link href="/dashboard/destinations/new">
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Add Category
+                Add Destination
               </span>
             </Link>
           </Button>
         </div>
       </div>
       <TabsContent value="all">
-        <CategoriesTable
-          categories={categories}
+        <DestinationsTable
+          destinations={destinations}
           offset={currentOffset}
-          totalCategories={totalCategories}
+          totalDestinations={totalDestinations}
         />
       </TabsContent>
     </Tabs>

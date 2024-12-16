@@ -1,22 +1,25 @@
-import { Schema, model, models } from 'mongoose';
-import slugify from 'slugify';
+import mongoose from 'mongoose';
 
-const destinationSchema = new Schema({
-  name: { type: String, required: [true, 'Name is required'] },
-  slug: { type: String, unique: true, trim: true },
-  description: {
-    type: String,
-    required: [true, 'Description is required'],
-    trim: true,
+const destinationSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
   },
-});
-
-destinationSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
+  status: { type: String, default: 'active' },
+  thumbnail: {
+    secure_url: String,
+    public_id: String,
+    fileName: String,
+  },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 const Destination =
-  models.Destination || model('Destination', destinationSchema);
+  mongoose.models.Destination ||
+  mongoose.model('Destination', destinationSchema);
 
 export default Destination;

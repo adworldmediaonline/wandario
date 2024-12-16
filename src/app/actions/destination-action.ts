@@ -1,15 +1,15 @@
 'use server';
 import { connectToDatabase } from '@/server/mongoose';
-import Category from '@/server/models/category-model';
 import { actionClient } from '@/lib/safe-action';
-import { categorySchema } from '@/lib/schema/category';
+import { destinationSchema } from '@/lib/schema/destination';
 import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
-// import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import Destination from '@/server/models/destination-model';
+import Category from '@/server/models/category-model';
 
-export const addCategoryAction = actionClient
-  .schema(categorySchema)
+export const addDestinationAction = actionClient
+  .schema(destinationSchema)
   .action(async ({ parsedInput }) => {
     if (!parsedInput) {
       return {
@@ -20,7 +20,6 @@ export const addCategoryAction = actionClient
     }
 
     const connection = await connectToDatabase();
-
     if (!connection) {
       return {
         success: false,
@@ -38,25 +37,29 @@ export const addCategoryAction = actionClient
       };
     }
 
-    const category = new Category({
+    const destination = new Destination({
       ...parsedInput,
       name: parsedInput.name.toLowerCase(),
     });
 
-    const categoryData = JSON.parse(JSON.stringify(await category.save()));
+    const savedDestination = await destination.save();
 
-    revalidatePath('/dashboard/categories');
+    await Category.findByIdAndUpdate(parsedInput.categoryId, {
+      $push: { destinations: savedDestination._id },
+    });
+
+    revalidatePath('/dashboard/destinations');
 
     return {
       success: true,
       status: 201,
-      message: 'Category created successfully',
-      data: categoryData,
+      message: 'Destination created successfully',
+      data: JSON.parse(JSON.stringify(savedDestination)),
     };
   });
 
-export const updateCategoryAction = actionClient
-  .schema(categorySchema.extend({ id: z.string() }))
+export const updateDestinationAction = actionClient
+  .schema(destinationSchema.extend({ id: z.string() }))
   .action(async ({ parsedInput }) => {
     if (!parsedInput) {
       return {
@@ -85,7 +88,7 @@ export const updateCategoryAction = actionClient
     }
 
     const { id, ...updateData } = parsedInput;
-    const updatedCategory = await Category.findByIdAndUpdate(
+    const updatedDestination = await Destination.findByIdAndUpdate(
       id,
       {
         ...updateData,
@@ -94,20 +97,20 @@ export const updateCategoryAction = actionClient
       { new: true }
     );
 
-    if (!updatedCategory) {
+    if (!updatedDestination) {
       return {
         success: false,
         status: 404,
-        error: 'Category not found',
+        error: 'Destination not found',
       };
     }
 
-    revalidatePath('/dashboard/categories');
+    revalidatePath('/dashboard/destinations');
 
     return {
       success: true,
       status: 201,
-      message: 'Category updated successfully',
-      data: JSON.parse(JSON.stringify(updatedCategory)),
+      message: 'Destination updated successfully',
+      data: JSON.parse(JSON.stringify(updatedDestination)),
     };
   });

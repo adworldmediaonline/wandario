@@ -1,12 +1,23 @@
 'server-only';
 
 import Category from '@/server/models/category-model';
-import Destination from '@/server/models/destination-model';
 import type { Document } from 'mongoose';
 import { connectToDatabase } from '../mongoose';
-import type { ICategory } from '@/types';
 
-export type { ICategory };
+export interface ICategory {
+  _id: string;
+  name: string;
+  description: string;
+  status: string;
+  thumbnail: {
+    secure_url: string;
+    public_id: string;
+    fileName: string;
+  };
+  destinations: string[];
+  createdAt: Date;
+}
+
 export type CategoryType = Document & ICategory;
 
 interface CategoryQuery {
@@ -28,7 +39,7 @@ export async function getCategories(categoryQuery: CategoryQuery): Promise<{
 }> {
   try {
     await connectToDatabase();
-    const defaultLimit = parseInt(categoryQuery.limit || '8', 10);
+    const defaultLimit = parseInt(categoryQuery.limit || '5', 10);
     const safeOffset = Math.max(0, parseInt(categoryQuery.offset || '0', 10));
 
     const category = categoryQuery.category;
@@ -51,10 +62,6 @@ export async function getCategories(categoryQuery: CategoryQuery): Promise<{
 
     const totalCategories = await Category.countDocuments(query);
     const categories = await Category.find(query)
-      .populate({
-        path: 'destinations',
-        model: Destination,
-      })
       .sort({ createdAt: -1 })
       .skip(safeOffset)
       .limit(defaultLimit);
@@ -77,18 +84,5 @@ export async function getCategoryById(id: string): Promise<ICategory | null> {
   } catch (error) {
     console.error('Error fetching category:', error);
     return null;
-  }
-}
-
-export async function getAllCategories(): Promise<ICategory[]> {
-  try {
-    await connectToDatabase();
-    const categories = await Category.find({ status: 'active' }).sort({
-      name: 1,
-    });
-    return JSON.parse(JSON.stringify(categories));
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    return [];
   }
 }
