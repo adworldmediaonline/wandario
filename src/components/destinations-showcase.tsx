@@ -24,7 +24,7 @@ export default function DestinationsShowcase({
       <div className="space-y-8">
         <SectionHeader
           title="Featured Destinations"
-          description={`Discover ${totalDestinations} amazing destinations around the world`}
+          excerpt={`Discover ${totalDestinations} amazing destinations around the world`}
         />
 
         <SearchInput

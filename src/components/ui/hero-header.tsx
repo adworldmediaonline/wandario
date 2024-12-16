@@ -21,16 +21,19 @@ import {
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
-import { Breadcrumb, type BreadcrumbSegment } from './breadcrumb';
+import { Breadcrumb } from './breadcrumb';
 
 interface HeroHeaderProps {
-  breadcrumb?: {
-    segments: BreadcrumbSegment[];
-  };
   title: string;
-  description?: string;
-  backgroundImageId?: string;
+  excerpt?: string;
   className?: string;
+  backgroundImageId?: string;
+  breadcrumb?: {
+    segments: {
+      title: string;
+      href: string;
+    }[];
+  };
   actions?: {
     primary?: {
       label: string;
@@ -54,7 +57,7 @@ const menuItems = [
 export default function HeroHeader({
   breadcrumb,
   title,
-  description,
+  excerpt,
   backgroundImageId = '/testing/hero-bg.jpg',
   className,
   actions,
@@ -100,9 +103,9 @@ export default function HeroHeader({
             </h1>
 
             {/* Description */}
-            {description && (
+            {excerpt && (
               <p className="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl leading-relaxed">
-                {description}
+                {excerpt}
               </p>
             )}
 

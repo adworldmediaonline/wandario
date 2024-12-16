@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import Destination from '@/server/models/destination-model';
 import Category from '@/server/models/category-model';
+import slugify from 'slugify';
 
 export const addDestinationAction = actionClient
   .schema(destinationSchema)
@@ -25,6 +26,7 @@ export const addDestinationAction = actionClient
     const destination = new Destination({
       ...input.parsedInput,
       name: input.parsedInput.name.toLowerCase(),
+      slug: slugify(input.parsedInput.name, { lower: true }),
     });
 
     const savedDestination = await destination.save();

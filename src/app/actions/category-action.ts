@@ -5,9 +5,8 @@ import { actionClient } from '@/lib/safe-action';
 import { categorySchema } from '@/lib/schema/category';
 import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
-// import { redirect } from 'next/navigation';
 import { z } from 'zod';
-
+import slugify from 'slugify';
 export const addCategoryAction = actionClient
   .schema(categorySchema)
   .action(async ({ parsedInput }) => {
@@ -41,6 +40,7 @@ export const addCategoryAction = actionClient
     const category = new Category({
       ...parsedInput,
       name: parsedInput.name.toLowerCase(),
+      slug: slugify(parsedInput.name, { lower: true }),
     });
 
     const categoryData = JSON.parse(JSON.stringify(await category.save()));
