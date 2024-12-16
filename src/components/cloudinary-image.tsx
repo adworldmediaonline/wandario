@@ -15,6 +15,7 @@ type CloudinaryImageProps = {
   crop?: 'fill' | 'fit' | 'crop' | 'thumb' | 'scale';
   quality?: number;
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  opacity?: number;
 };
 
 export default function CloudinaryImage({
@@ -29,6 +30,7 @@ export default function CloudinaryImage({
   crop = 'fill',
   quality = 80,
   objectFit = 'cover',
+  opacity = 100,
 }: CloudinaryImageProps) {
   return (
     <CldImage
@@ -43,6 +45,7 @@ export default function CloudinaryImage({
       quality={quality}
       format="webp"
       priority={priority}
+      opacity={opacity}
     />
   );
 }

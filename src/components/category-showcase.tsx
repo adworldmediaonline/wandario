@@ -3,8 +3,21 @@
 import { Section } from '@/components/ui/section';
 import { SectionHeader } from '@/components/ui/section-header';
 import { ICategory } from '@/server/db/category';
-import { Button } from '@/components/ui/button';
 import { CategoryCard } from '@/components/ui/category-card';
+
+const STATS = [
+  { destinations: '500+', area: '44.5M km²' },
+  { destinations: '400+', area: '10.2M km²' },
+  { destinations: '600+', area: '30.4M km²' },
+  { destinations: '300+', area: '8.5M km²' },
+] as const;
+
+const DESCRIPTIONS = [
+  'Discover diverse landscapes and rich cultural heritage in this vibrant region.',
+  'Explore ancient traditions and breathtaking natural wonders of this unique territory.',
+  'Experience the charm of historic cities and stunning countryside vistas.',
+  'Immerse yourself in the authentic culture and natural beauty of this region.',
+];
 
 export default function CategoryShowcase({
   categories,
@@ -14,35 +27,24 @@ export default function CategoryShowcase({
   return (
     <Section className="bg-gradient-to-b from-white to-gray-50/50">
       <SectionHeader
-        title="Journey Through Regions"
-        description="Embark on a journey across the world's most fascinating regions. Whether you seek bustling cities, serene landscapes, or cultural treasures, find your perfect destination here."
+        title="Explore World Regions"
+        description="Embark on a journey through diverse regions across the globe. From bustling cities to serene landscapes, each region offers its own unique cultural heritage and natural wonders."
         align="center"
         highlight="Regions"
       />
 
-      {/* Regions Grid */}
       <div className="mt-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 xl:gap-3">
-          {categories.map(category => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {categories.map((category, index) => (
             <CategoryCard
               key={category._id}
               name={category.name}
               imageId={category.thumbnail.public_id}
-              destinationCount={category.destinations?.length}
               href={`/regions/${category._id}`}
+              description={DESCRIPTIONS[index % DESCRIPTIONS.length]}
+              stats={STATS[index % STATS.length]}
             />
           ))}
-        </div>
-
-        {/* View More Button */}
-        <div className="mt-12 flex justify-center">
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full px-8 font-medium hover:bg-primary hover:text-white transition-all duration-300 border-2"
-          >
-            View All Regions
-          </Button>
         </div>
       </div>
     </Section>

@@ -2,6 +2,7 @@ import { Schema, model, models } from 'mongoose';
 import slugify from 'slugify';
 
 const destinationSchema = new Schema({
+  category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   name: { type: String, required: [true, 'Name is required'] },
   slug: { type: String, unique: true, trim: true },
   description: {

@@ -1,115 +1,68 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { ChevronRight, MoreHorizontal } from "lucide-react"
+import * as React from 'react';
+import { ChevronRight, HomeIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
-import { cn } from "@/lib/utils"
+interface BreadcrumbSegment {
+  title: string;
+  href: string;
+}
 
-const Breadcrumb = React.forwardRef<
-  HTMLElement,
-  React.ComponentPropsWithoutRef<"nav"> & {
-    separator?: React.ReactNode
-  }
->(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />)
-Breadcrumb.displayName = "Breadcrumb"
+interface BreadcrumbProps extends React.ComponentPropsWithoutRef<'nav'> {
+  segments: BreadcrumbSegment[];
+  separator?: React.ReactNode;
+  className?: string;
+}
 
-const BreadcrumbList = React.forwardRef<
-  HTMLOListElement,
-  React.ComponentPropsWithoutRef<"ol">
->(({ className, ...props }, ref) => (
-  <ol
-    ref={ref}
-    className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
-      className
-    )}
-    {...props}
-  />
-))
-BreadcrumbList.displayName = "BreadcrumbList"
+export type { BreadcrumbSegment };
 
-const BreadcrumbItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentPropsWithoutRef<"li">
->(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn("inline-flex items-center gap-1.5", className)}
-    {...props}
-  />
-))
-BreadcrumbItem.displayName = "BreadcrumbItem"
-
-const BreadcrumbLink = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentPropsWithoutRef<"a"> & {
-    asChild?: boolean
-  }
->(({ asChild, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : "a"
-
+export function Breadcrumb({
+  segments,
+  separator = <ChevronRight className="h-4 w-4 text-white/50" />,
+  className,
+  ...props
+}: BreadcrumbProps) {
   return (
-    <Comp
-      ref={ref}
-      className={cn("transition-colors hover:text-foreground", className)}
+    <nav
+      aria-label="Breadcrumb"
+      className={cn(
+        'inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full',
+        className
+      )}
       {...props}
-    />
-  )
-})
-BreadcrumbLink.displayName = "BreadcrumbLink"
-
-const BreadcrumbPage = React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<"span">
->(({ className, ...props }, ref) => (
-  <span
-    ref={ref}
-    role="link"
-    aria-disabled="true"
-    aria-current="page"
-    className={cn("font-normal text-foreground", className)}
-    {...props}
-  />
-))
-BreadcrumbPage.displayName = "BreadcrumbPage"
-
-const BreadcrumbSeparator = ({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"li">) => (
-  <li
-    role="presentation"
-    aria-hidden="true"
-    className={cn("[&>svg]:w-3.5 [&>svg]:h-3.5", className)}
-    {...props}
-  >
-    {children ?? <ChevronRight />}
-  </li>
-)
-BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
-
-const BreadcrumbEllipsis = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => (
-  <span
-    role="presentation"
-    aria-hidden="true"
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
-    {...props}
-  >
-    <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More</span>
-  </span>
-)
-BreadcrumbEllipsis.displayName = "BreadcrumbElipssis"
-
-export {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  BreadcrumbEllipsis,
+    >
+      <ol className="flex items-center gap-2">
+        <li>
+          <Link
+            href="/"
+            className="text-white/80 hover:text-white transition-colors"
+          >
+            <HomeIcon className="h-4 w-4" />
+            <span className="sr-only">Home</span>
+          </Link>
+        </li>
+        {segments.map((segment, index) => (
+          <React.Fragment key={segment.href}>
+            {separator}
+            <li>
+              <Link
+                href={segment.href}
+                className={cn(
+                  'text-sm font-medium transition-colors',
+                  index === segments.length - 1
+                    ? 'text-white pointer-events-none'
+                    : 'text-white/80 hover:text-white'
+                )}
+                aria-current={
+                  index === segments.length - 1 ? 'page' : undefined
+                }
+              >
+                {segment.title}
+              </Link>
+            </li>
+          </React.Fragment>
+        ))}
+      </ol>
+    </nav>
+  );
 }
