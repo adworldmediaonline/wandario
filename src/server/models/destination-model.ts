@@ -6,6 +6,29 @@ const destinationSchema = new mongoose.Schema({
     required: [true, 'Name is required'],
     trim: true,
   },
+
+  // metadata
+  metaTitle: {
+    type: String,
+    required: [true, 'Meta Title is required'],
+    trim: true,
+  },
+  metaDescription: {
+    type: String,
+    required: [true, 'Meta Description is required'],
+    trim: true,
+  },
+
+  metaKeywords: {
+    type: String,
+    trim: true,
+  },
+
+  heading: {
+    type: String,
+    required: [true, 'Heading is required'],
+    trim: true,
+  },
   description: {
     type: String,
     required: [true, 'Description is required'],
@@ -45,6 +68,16 @@ const destinationSchema = new mongoose.Schema({
       },
     ],
   },
+
+  faqs: {
+    type: [
+      {
+        question: String,
+        answer: String,
+      },
+    ],
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,

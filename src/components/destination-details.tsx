@@ -1,7 +1,7 @@
 'use client';
 
 import DestinationContent from '@/components/destination-content';
-import HeroHeader from '@/components/ui/hero-header';
+import HeroHeaderV2 from '@/components/ui/hero-header-v2';
 import type { IDestination } from '@/types';
 import { Section } from './ui/section';
 
@@ -14,7 +14,7 @@ export default function DestinationDetails({
 }: DestinationDetailsProps) {
   return (
     <>
-      <HeroHeader
+      <HeroHeaderV2
         breadcrumb={{
           segments: [
             {
@@ -27,24 +27,14 @@ export default function DestinationDetails({
             },
           ],
         }}
-        title={destination.name}
-        excerpt={destination.excerpt}
+        title={destination?.heading}
+        excerpt={destination?.excerpt}
         backgroundImageId={
           destination.images[0]?.public_id || destination.thumbnail?.public_id
         }
-        actions={{
-          primary: {
-            label: 'View Details',
-            href: '#content',
-          },
-          secondary: {
-            label: 'View Map',
-            href: '#map',
-          },
-        }}
       />
 
-      <Section id="content" container>
+      <Section id="content" container className="pt-2 pb-20">
         <DestinationContent destination={destination} />
       </Section>
     </>

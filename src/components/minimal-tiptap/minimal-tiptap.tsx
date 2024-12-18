@@ -177,7 +177,21 @@ export const MinimalTiptapEditor = React.forwardRef<
     value,
     onUpdate: onChange,
     extensions: [
-      StarterKit.configure({}),
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        listItem: {
+          HTMLAttributes: {
+            class: 'list-item',
+          },
+        },
+      }),
       Document,
       Paragraph,
       Text,
@@ -220,6 +234,23 @@ export const MinimalTiptapEditor = React.forwardRef<
       }),
     ],
     editorProps: {
+      handleKeyDown: (view, event) => {
+        if (event.key === 'Tab') {
+          const { state } = view;
+          const { selection } = state;
+          const { $from } = selection;
+
+          if ($from.parent.type.name === 'listItem') {
+            if (event.shiftKey) {
+              editor?.chain().focus().liftListItem('listItem').run();
+            } else {
+              editor?.chain().focus().sinkListItem('listItem').run();
+            }
+            return true;
+          }
+        }
+        return false;
+      },
       ...props.editorProps,
       handlePaste: (view, event) => {
         if (!event.clipboardData) return false;

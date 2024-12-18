@@ -1,7 +1,6 @@
 'server-only';
 
-import Category from '@/server/models/category-model';
-import Destination from '@/server/models/destination-model';
+import { Category, Destination } from '../models';
 import type { Document } from 'mongoose';
 import { connectToDatabase } from '../mongoose';
 import type { ICategory } from '@/types';

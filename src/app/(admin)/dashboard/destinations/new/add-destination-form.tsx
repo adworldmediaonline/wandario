@@ -31,8 +31,9 @@ import { useCallback } from 'react';
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
-import type { ICategory } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
+import { ICategory } from '@/types';
+import { FAQFormField } from '@/components/ui/faq-form-field';
 
 interface AddDestinationFormProps {
   categories: ICategory[];
@@ -47,6 +48,10 @@ export default function AddDestinationForm({
     mode: 'onBlur',
     defaultValues: {
       name: '',
+      heading: '',
+      metaTitle: '',
+      metaDescription: '',
+      metaKeywords: '',
       description: '',
       categoryId: '',
       excerpt: '',
@@ -56,6 +61,7 @@ export default function AddDestinationForm({
         fileName: '',
       },
       images: [],
+      faqs: [],
     },
   });
 
@@ -107,6 +113,66 @@ export default function AddDestinationForm({
                 <FormLabel>Destination name</FormLabel>
                 <FormControl>
                   <Input placeholder="name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* heading */}
+          <FormField
+            control={form.control}
+            name="heading"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Heading(H1)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Heading" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* meta */}
+          <FormField
+            control={form.control}
+            name="metaTitle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Meta Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Meta Title" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* meta */}
+          <FormField
+            control={form.control}
+            name="metaDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Meta Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Meta Description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* meta keywords */}
+          <FormField
+            control={form.control}
+            name="metaKeywords"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Meta Keywords (comma separated)(optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Meta Keywords" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -206,6 +272,8 @@ export default function AddDestinationForm({
             allowedFileTypes={ALLOWED_FILE_TYPES}
             maxFileSize={MAX_FILE_SIZE}
           />
+
+          <FAQFormField form={form} />
 
           <Button type="submit" disabled={status === 'executing'}>
             {status === 'executing' ? (
