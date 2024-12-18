@@ -28,7 +28,22 @@ const formatActions: ListItem[] = [
       </svg>
     ),
     isActive: editor => editor.isActive('orderedList'),
-    action: editor => editor.chain().focus().toggleOrderedList().run(),
+    action: editor => {
+      const { from, to } = editor.state.selection;
+      const text = editor.state.doc.textBetween(from, to);
+
+      if (text) {
+        // Create a temporary node to wrap the selected content
+        editor
+          .chain()
+          .focus()
+          .wrapIn('orderedList')
+          .splitListItem('listItem')
+          .run();
+      } else {
+        editor.chain().focus().toggleOrderedList().run();
+      }
+    },
     canExecute: editor =>
       editor.can().chain().focus().toggleOrderedList().run(),
     shortcuts: ['mod', 'shift', '7'],
@@ -38,7 +53,22 @@ const formatActions: ListItem[] = [
     label: 'Bullet list',
     icon: <List className="size-5" />,
     isActive: editor => editor.isActive('bulletList'),
-    action: editor => editor.chain().focus().toggleBulletList().run(),
+    action: editor => {
+      const { from, to } = editor.state.selection;
+      const text = editor.state.doc.textBetween(from, to);
+
+      if (text) {
+        // Create a temporary node to wrap the selected content
+        editor
+          .chain()
+          .focus()
+          .wrapIn('bulletList')
+          .splitListItem('listItem')
+          .run();
+      } else {
+        editor.chain().focus().toggleBulletList().run();
+      }
+    },
     canExecute: editor => editor.can().chain().focus().toggleBulletList().run(),
     shortcuts: ['mod', 'shift', '8'],
   },
