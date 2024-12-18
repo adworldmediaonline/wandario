@@ -34,6 +34,7 @@ import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap'
 import { Textarea } from '@/components/ui/textarea';
 import { ICategory } from '@/types';
 import { FAQFormField } from '@/components/ui/faq-form-field';
+import { UnsavedChangesWarning } from '@/components/unsaved-changes-warning';
 
 interface AddDestinationFormProps {
   categories: ICategory[];
@@ -64,6 +65,8 @@ export default function AddDestinationForm({
       faqs: [],
     },
   });
+
+  const isDirty = form.formState.isDirty;
 
   const { execute, status } = useAction(addDestinationAction, {
     onSuccess(data) {
@@ -102,187 +105,191 @@ export default function AddDestinationForm({
   }
 
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Destination name</FormLabel>
-                <FormControl>
-                  <Input placeholder="name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* heading */}
-          <FormField
-            control={form.control}
-            name="heading"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Heading(H1)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Heading" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* meta */}
-          <FormField
-            control={form.control}
-            name="metaTitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meta Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Meta Title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* meta */}
-          <FormField
-            control={form.control}
-            name="metaDescription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meta Description</FormLabel>
-                <FormControl>
-                  <Input placeholder="Meta Description" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* meta keywords */}
-          <FormField
-            control={form.control}
-            name="metaKeywords"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meta Keywords (comma separated)(optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Meta Keywords" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="excerpt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Excerpt</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Brief description (max 200 characters)"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-                <FormDescription>
-                  A short summary that appears in cards and previews
-                </FormDescription>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+    <UnsavedChangesWarning isDirty={isDirty}>
+      <div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Destination name</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
+                    <Input placeholder="name" {...field} />
                   </FormControl>
-                  <SelectContent>
-                    {categories.map(category => (
-                      <SelectItem key={category._id} value={category._id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <MinimalTiptapEditor
-                    value={field.value}
-                    onChange={field.onChange}
-                    className="w-full"
-                    editorContentClassName="p-5"
-                    output="html"
-                    placeholder="Type your content here..."
-                    autofocus={true}
-                    editable={true}
-                    editorClassName="focus:outline-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* heading */}
+            <FormField
+              control={form.control}
+              name="heading"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Heading(H1)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Heading" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <ImageUploadField
-            form={form}
-            name="images"
-            label="Images"
-            description="Upload images (JPEG, PNG, GIF, WebP, max 5MB, optional)."
-            multiple={true}
-            onImageUpload={onImageUpload}
-            allowedFileTypes={ALLOWED_FILE_TYPES}
-            maxFileSize={MAX_FILE_SIZE}
-          />
+            {/* meta */}
+            <FormField
+              control={form.control}
+              name="metaTitle"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Meta Title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <ImageUploadField
-            form={form}
-            name="thumbnail"
-            label="Thumbnail"
-            description="Upload a thumbnail image (JPEG, PNG, GIF, WebP, max 5MB, optional)."
-            multiple={false}
-            onImageUpload={onImageUpload}
-            allowedFileTypes={ALLOWED_FILE_TYPES}
-            maxFileSize={MAX_FILE_SIZE}
-          />
+            {/* meta */}
+            <FormField
+              control={form.control}
+              name="metaDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta Description</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Meta Description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FAQFormField form={form} />
+            {/* meta keywords */}
+            <FormField
+              control={form.control}
+              name="metaKeywords"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Meta Keywords (comma separated)(optional)
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="Meta Keywords" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button type="submit" disabled={status === 'executing'}>
-            {status === 'executing' ? (
-              <Loader2 className="animate-spin mr-2" />
-            ) : null}
-            Add Destination
-          </Button>
-        </form>
-      </Form>
-    </div>
+            <FormField
+              control={form.control}
+              name="excerpt"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Excerpt</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Brief description (max 200 characters)"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <FormDescription>
+                    A short summary that appears in cards and previews
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map(category => (
+                        <SelectItem key={category._id} value={category._id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <MinimalTiptapEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      className="w-full"
+                      editorContentClassName="p-5"
+                      output="html"
+                      placeholder="Type your content here..."
+                      autofocus={true}
+                      editable={true}
+                      editorClassName="focus:outline-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <ImageUploadField
+              form={form}
+              name="images"
+              label="Images"
+              description="Upload images (JPEG, PNG, GIF, WebP, max 5MB, optional)."
+              multiple={true}
+              onImageUpload={onImageUpload}
+              allowedFileTypes={ALLOWED_FILE_TYPES}
+              maxFileSize={MAX_FILE_SIZE}
+            />
+
+            <ImageUploadField
+              form={form}
+              name="thumbnail"
+              label="Thumbnail"
+              description="Upload a thumbnail image (JPEG, PNG, GIF, WebP, max 5MB, optional)."
+              multiple={false}
+              onImageUpload={onImageUpload}
+              allowedFileTypes={ALLOWED_FILE_TYPES}
+              maxFileSize={MAX_FILE_SIZE}
+            />
+
+            <FAQFormField form={form} />
+
+            <Button type="submit" disabled={status === 'executing'}>
+              {status === 'executing' ? (
+                <Loader2 className="animate-spin mr-2" />
+              ) : null}
+              Add Destination
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </UnsavedChangesWarning>
   );
 }
