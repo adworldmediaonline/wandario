@@ -3,6 +3,7 @@
 import DestinationContent from '@/components/destination-content';
 import HeroHeader from '@/components/ui/hero-header';
 import type { IDestination } from '@/types';
+import { Section } from './ui/section';
 
 interface DestinationDetailsProps {
   destination: IDestination;
@@ -43,11 +44,9 @@ export default function DestinationDetails({
         }}
       />
 
-      <section id="content" className="py-20">
-        <div className="container">
-          <DestinationContent destination={destination} />
-        </div>
-      </section>
+      <Section id="content" container>
+        <DestinationContent destination={destination} />
+      </Section>
     </>
   );
 }
