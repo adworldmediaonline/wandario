@@ -7,11 +7,16 @@ const categorySchema = z.object({
     .string()
     .min(1, 'Excerpt is required')
     .max(200, 'Excerpt must be less than 200 characters'),
-  thumbnail: z.object({
-    secure_url: z.string().nonempty(),
-    public_id: z.string().nonempty(),
-    fileName: z.string().nonempty(),
-  }),
+  thumbnail: z
+    .object({
+      secure_url: z.string(),
+      public_id: z.string(),
+      fileName: z.string(),
+    })
+    .refine(
+      data => data.secure_url !== '' && data.public_id !== '',
+      'Please upload a thumbnail image'
+    ),
 });
 
 export { categorySchema };

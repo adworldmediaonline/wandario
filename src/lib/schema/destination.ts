@@ -19,17 +19,22 @@ const destinationSchema = z.object({
   images: z
     .array(
       z.object({
-        secure_url: z.string().nonempty(),
-        public_id: z.string().nonempty(),
-        fileName: z.string().nonempty(),
+        secure_url: z.string(),
+        public_id: z.string(),
+        fileName: z.string(),
       })
     )
-    .min(1, 'At least one image is required'),
-  thumbnail: z.object({
-    secure_url: z.string().nonempty(),
-    public_id: z.string().nonempty(),
-    fileName: z.string().nonempty(),
-  }),
+    .min(1, 'Please upload at least one image'),
+  thumbnail: z
+    .object({
+      secure_url: z.string(),
+      public_id: z.string(),
+      fileName: z.string(),
+    })
+    .refine(
+      data => data.secure_url !== '' && data.public_id !== '',
+      'Please upload a thumbnail image'
+    ),
   faqs: z
     .array(
       z.object({
