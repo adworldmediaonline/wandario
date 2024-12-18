@@ -54,6 +54,7 @@ export default function EditDestinationForm({
       description: destination?.description || '',
       categoryId: destination?.categoryId?._id || '',
       excerpt: destination?.excerpt || '',
+      images: destination?.images || [],
       thumbnail: destination?.thumbnail || {
         secure_url: '',
         public_id: '',
@@ -183,6 +184,17 @@ export default function EditDestinationForm({
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <ImageUploadField
+            form={form}
+            name="images"
+            label="Images"
+            description="Upload images (JPEG, PNG, GIF, WebP, max 5MB, optional)."
+            multiple={true}
+            onImageUpload={onImageUpload}
+            allowedFileTypes={ALLOWED_FILE_TYPES}
+            maxFileSize={MAX_FILE_SIZE}
           />
 
           <ImageUploadField

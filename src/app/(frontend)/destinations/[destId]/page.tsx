@@ -13,7 +13,7 @@ export default async function DestinationDetailsPage(props: {
   if (!destination) {
     notFound();
   }
-
+  console.log(destination);
   return (
     <Suspense fallback={<DestinationContentSkeleton />}>
       <DestinationDetails destination={destination} />

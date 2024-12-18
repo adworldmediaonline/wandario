@@ -2,6 +2,7 @@
 
 import { connectToDatabase } from '../mongoose';
 import Destination from '@/server/models/destination-model';
+import '@/server/models/category-model';
 import type { IDestination } from '@/types';
 import { isValidObjectId } from 'mongoose';
 

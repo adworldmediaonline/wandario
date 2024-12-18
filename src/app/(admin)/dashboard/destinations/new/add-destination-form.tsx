@@ -55,6 +55,7 @@ export default function AddDestinationForm({
         public_id: '',
         fileName: '',
       },
+      images: [],
     },
   });
 
@@ -182,6 +183,17 @@ export default function AddDestinationForm({
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <ImageUploadField
+            form={form}
+            name="images"
+            label="Images"
+            description="Upload images (JPEG, PNG, GIF, WebP, max 5MB, optional)."
+            multiple={true}
+            onImageUpload={onImageUpload}
+            allowedFileTypes={ALLOWED_FILE_TYPES}
+            maxFileSize={MAX_FILE_SIZE}
           />
 
           <ImageUploadField

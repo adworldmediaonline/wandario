@@ -1,5 +1,4 @@
 import { IDestination } from '@/types';
-import { CldImage } from 'next-cloudinary';
 import { Prose } from '@/components/ui/prose';
 
 interface DestinationContentProps {
@@ -11,15 +10,6 @@ export default function DestinationContent({
 }: DestinationContentProps) {
   return (
     <Prose as="article">
-      <div className="relative aspect-video mb-8 rounded-xl overflow-hidden">
-        <CldImage
-          src={destination.thumbnail.public_id}
-          alt={destination.name}
-          fill
-          className="object-cover"
-          sizes="(min-width: 1280px) 1200px, 90vw"
-        />
-      </div>
       <div dangerouslySetInnerHTML={{ __html: destination.description }} />
     </Prose>
   );

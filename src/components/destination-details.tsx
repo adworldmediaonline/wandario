@@ -30,7 +30,7 @@ export default function DestinationDetails({
         title={destination.name}
         excerpt={destination.excerpt}
         backgroundImageId={
-          destination.thumbnail?.public_id || 'testing/hero-banner'
+          destination.images[0]?.public_id || destination.thumbnail?.public_id
         }
         actions={{
           primary: {

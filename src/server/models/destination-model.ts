@@ -36,6 +36,15 @@ const destinationSchema = new mongoose.Schema({
     public_id: String,
     fileName: String,
   },
+  images: {
+    type: [
+      {
+        secure_url: String,
+        public_id: String,
+        fileName: String,
+      },
+    ],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

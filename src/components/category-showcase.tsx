@@ -1,6 +1,5 @@
 'use client';
 
-import { Section } from '@/components/ui/section';
 import { SectionHeader } from '@/components/ui/section-header';
 import { ICategory } from '@/server/db/category';
 import { CategoryCard } from '@/components/ui/category-card';
@@ -25,12 +24,15 @@ export default function CategoryShowcase({
   categories: ICategory[];
 }) {
   return (
-    <Section className="bg-gradient-to-b from-white to-gray-50/50">
+    <div className="bg-gradient-to-b from-white to-gray-50/50">
       <SectionHeader
         title="Explore World Regions"
         excerpt="Embark on a journey through diverse regions across the globe. From bustling cities to serene landscapes, each region offers its own unique cultural heritage and natural wonders."
         align="center"
         highlight="Regions"
+        divider={true}
+        titleClassName="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400"
+        descriptionClassName="max-w-3xl"
       />
 
       <div className="mt-12">
@@ -47,6 +49,6 @@ export default function CategoryShowcase({
           ))}
         </div>
       </div>
-    </Section>
+    </div>
   );
 }

@@ -58,13 +58,16 @@ export const updateDestinationAction = actionClient
     }
 
     await connectToDatabase();
-
+    console.log(input.parsedInput);
     const { id, ...updateData } = input.parsedInput;
     const updatedDestination = await Destination.findByIdAndUpdate(
       id,
       {
-        ...updateData,
-        name: updateData.name.toLowerCase(),
+        $set: {
+          ...updateData,
+          name: updateData.name.toLowerCase(),
+          images: updateData.images,
+        },
       },
       { new: true }
     );

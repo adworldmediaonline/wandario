@@ -6,10 +6,15 @@ export interface IDestination {
   status: string;
   categoryId: ICategory;
   slug: string;
+  images: Array<{
+    secure_url: string;
+    public_id: string;
+    fileName?: string;
+  }>;
   thumbnail: {
     secure_url: string;
     public_id: string;
-    fileName: string;
+    fileName?: string;
   };
   createdAt: Date;
 }

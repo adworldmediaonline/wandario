@@ -163,7 +163,7 @@ export default {
               marginBottom: '2em',
               maxHeight: '32rem',
               height: 'auto',
-              margin: '0 auto',
+              // margin: '0 auto',
               objectFit: 'cover',
               objectPosition: 'center',
             },

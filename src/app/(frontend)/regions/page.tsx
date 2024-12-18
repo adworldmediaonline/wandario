@@ -6,6 +6,7 @@ import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-s
 import { DestinationsSlider } from '@/components/destinations-slider';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Globe2 } from 'lucide-react';
+import { Section } from '@/components/ui/section';
 
 export default async function RegionsPage(props: {
   searchParams: Promise<{ category: string; offset: string }>;
@@ -48,7 +49,7 @@ export default async function RegionsPage(props: {
       />
 
       {/* Regions Grid Section */}
-      <section id="regions-grid">
+      <Section id="regions-grid" container>
         <Suspense fallback={<CategoryShowcaseSkeleton />}>
           {hasCategories ? (
             <CategoryShowcase categories={categories} />
@@ -64,25 +65,23 @@ export default async function RegionsPage(props: {
             />
           )}
         </Suspense>
-      </section>
+      </Section>
 
       {/* Destinations Section */}
-      <section className="py-20">
-        <div className="container">
-          <Suspense fallback={<CategoryShowcaseSkeleton />}>
-            {hasDestinations ? (
-              <DestinationsSlider categories={categories} category={category} />
-            ) : (
-              <EmptyState
-                icon={Globe2}
-                title="No Destinations Yet"
-                description="We're working on adding exciting destinations. Stay tuned for updates!"
-                className="min-h-[300px]"
-              />
-            )}
-          </Suspense>
-        </div>
-      </section>
+      <Section id="destinations" container>
+        <Suspense fallback={<CategoryShowcaseSkeleton />}>
+          {hasDestinations ? (
+            <DestinationsSlider categories={categories} category={category} />
+          ) : (
+            <EmptyState
+              icon={Globe2}
+              title="No Destinations Yet"
+              description="We're working on adding exciting destinations. Stay tuned for updates!"
+              className="min-h-[300px]"
+            />
+          )}
+        </Suspense>
+      </Section>
     </>
   );
 }

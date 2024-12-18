@@ -6,6 +6,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Compass } from 'lucide-react';
 import DestinationsShowcaseSkeleton from '@/components/skeletons/destinations-showcase-skeleton';
 import DestinationsShowcase from '@/components/destinations-showcase';
+import { Section } from '@/components/ui/section';
 
 export default async function DestinationsPage(props: {
   searchParams: Promise<{ search: string; offset: string }>;
@@ -47,32 +48,30 @@ export default async function DestinationsPage(props: {
         }}
       />
 
-      <section id="destinations-grid" className="py-10">
-        <div className="container">
-          <Suspense fallback={<DestinationsShowcaseSkeleton />}>
-            {hasDestinations ? (
-              <DestinationsShowcase
-                destinations={destinations}
-                totalDestinations={totalDestinations}
-              />
-            ) : (
-              <EmptyState
-                icon={Compass}
-                title="No Destinations Found"
-                description={
-                  search
-                    ? `No destinations found for "${search}". Try different search terms.`
-                    : "We're currently adding new destinations. Check back soon!"
-                }
-                action={{
-                  label: 'Clear Search',
-                  href: '/destinations',
-                }}
-              />
-            )}
-          </Suspense>
-        </div>
-      </section>
+      <Section id="destinations-grid" container>
+        <Suspense fallback={<DestinationsShowcaseSkeleton />}>
+          {hasDestinations ? (
+            <DestinationsShowcase
+              destinations={destinations}
+              totalDestinations={totalDestinations}
+            />
+          ) : (
+            <EmptyState
+              icon={Compass}
+              title="No Destinations Found"
+              description={
+                search
+                  ? `No destinations found for "${search}". Try different search terms.`
+                  : "We're currently adding new destinations. Check back soon!"
+              }
+              action={{
+                label: 'Clear Search',
+                href: '/destinations',
+              }}
+            />
+          )}
+        </Suspense>
+      </Section>
     </>
   );
 }

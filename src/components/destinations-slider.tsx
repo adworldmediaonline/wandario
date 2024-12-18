@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import { DestinationCard } from './destination-card';
 import { EmptyState } from './ui/empty-state';
 import { Compass } from 'lucide-react';
+import { Section } from './ui/section';
 
 interface DestinationsSliderProps {
   categories: ICategory[];
@@ -35,11 +36,11 @@ export function DestinationsSlider({
   const hasDestinations = destinations.length > 0;
 
   return (
-    <div className="space-y-8">
+    <Section>
       <SectionWithTabs categories={categories} />
 
       {hasDestinations ? (
-        <div className="relative px-2 sm:px-4">
+        <div className="relative px-2 sm:px-4 mt-8">
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
             spaceBetween={16}
@@ -100,6 +101,6 @@ export function DestinationsSlider({
           className="px-4 sm:px-6"
         />
       )}
-    </div>
+    </Section>
   );
 }

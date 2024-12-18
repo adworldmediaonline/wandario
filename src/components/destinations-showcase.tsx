@@ -25,6 +25,11 @@ export default function DestinationsShowcase({
         <SectionHeader
           title="Featured Destinations"
           excerpt={`Discover ${totalDestinations} amazing destinations around the world`}
+          highlight="Featured"
+          align="center"
+          titleClassName="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400"
+          descriptionClassName="max-w-3xl"
+          divider={true}
         />
 
         <SearchInput

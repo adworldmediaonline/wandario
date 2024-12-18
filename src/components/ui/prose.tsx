@@ -28,7 +28,7 @@ export function Prose({
         // Code block styles
         'prose-pre:rounded-lg prose-pre:border',
         // Image styles
-        '[&_img]:rounded-lg [&_img]:max-h-[32rem] [&_img]:mx-auto [&_img]:object-contain',
+        '[&_img]:rounded-lg [&_img]:max-h-[32rem]  [&_img]:object-contain',
         '[&_figure]:flex [&_figure]:flex-col [&_figure]:items-center',
         // Custom spacing
         '[&>*:first-child]:mt-0 [&>*:last-child]:mb-0',

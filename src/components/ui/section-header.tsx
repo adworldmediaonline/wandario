@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 interface SectionHeaderProps {
   title: React.ReactNode;
@@ -8,6 +9,7 @@ interface SectionHeaderProps {
   className?: string;
   titleClassName?: string;
   descriptionClassName?: string;
+  divider?: boolean;
 }
 
 export function SectionHeader({
@@ -18,6 +20,7 @@ export function SectionHeader({
   className,
   titleClassName,
   descriptionClassName,
+  divider = false,
 }: SectionHeaderProps) {
   const titleText = typeof title === 'string' ? title : '';
   const titleParts = highlight ? titleText.split(highlight) : [titleText];
@@ -32,7 +35,7 @@ export function SectionHeader({
     >
       <h2
         className={cn(
-          'text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-[#2A2D32]',
+          'text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl',
           'relative',
           titleClassName
         )}
@@ -40,10 +43,10 @@ export function SectionHeader({
         {highlight && typeof title === 'string' ? (
           <>
             {titleParts[0]}
-            <span className="relative inline-block">
+            <span className="relative inline-block text-primary">
               {highlight}
-              <span className="absolute left-0 right-0 bottom-2 h-[0.4em] -z-10 bg-gradient-to-r from-blue-500/20 via-blue-500/30 to-blue-500/20 rounded-lg blur-[2px]" />
-              <span className="absolute left-0 right-0 bottom-2 h-[0.25em] bg-blue-500/30 rounded-lg" />
+              <span className="absolute left-0 right-0 bottom-2 h-[0.4em] -z-10 bg-primary/20 rounded-lg" />
+              <span className="absolute left-0 right-0 bottom-2 h-[0.25em] -z-10 bg-primary/40 rounded-lg" />
             </span>
             {titleParts[1]}
           </>
@@ -62,6 +65,15 @@ export function SectionHeader({
         >
           {excerpt}
         </p>
+      )}
+      {/* Decorative Line */}
+      {divider && (
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="w-20 sm:w-24 md:w-28 h-1.5 bg-gradient-to-r from-primary/60 via-primary to-primary/60 mx-auto rounded-full"
+        />
       )}
     </div>
   );
