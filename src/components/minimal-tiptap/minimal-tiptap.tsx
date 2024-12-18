@@ -13,7 +13,6 @@ import { SectionFour } from './components/section/four';
 import { SectionFive } from './components/section/five';
 import { LinkBubbleMenu } from './components/bubble-menu/link-bubble-menu';
 import { useMinimalTiptapEditor } from './hooks/use-minimal-tiptap';
-import { MeasuredContainer } from './components/measured-container';
 import Table from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
@@ -37,6 +36,7 @@ import { useForm } from 'react-hook-form';
 import Link from '@tiptap/extension-link';
 import TextStyle from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
+import type { EditorProps } from '@tiptap/pm/view';
 
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, 'onUpdate'> {
@@ -106,47 +106,64 @@ const ImageToolbar = ({ editor }: { editor: Editor }) => {
 
 const Toolbar = ({ editor }: { editor: Editor }) => (
   <div className="shrink-0 overflow-x-auto border-b border-border p-2">
-    <div className="flex w-max items-center gap-px">
-      <SectionOne editor={editor} activeLevels={[1, 2, 3, 4, 5, 6]} />
+    <div className="flex flex-wrap items-center gap-2 md:flex-nowrap">
+      <div className="flex items-center gap-px">
+        <SectionOne editor={editor} activeLevels={[1, 2, 3, 4, 5, 6]} />
+      </div>
 
-      <Separator orientation="vertical" className="mx-2 h-7" />
+      <Separator orientation="vertical" className="hidden md:block mx-2 h-7" />
+      <Separator orientation="horizontal" className="md:hidden w-full my-2" />
 
-      <SectionTwo
-        editor={editor}
-        activeActions={[
-          'bold',
-          'italic',
-          'underline',
-          'strikethrough',
-          'code',
-          'clearFormatting',
-        ]}
-        mainActionCount={3}
-      />
+      <div className="flex items-center gap-px">
+        <SectionTwo
+          editor={editor}
+          activeActions={[
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            'code',
+            'clearFormatting',
+          ]}
+          mainActionCount={3}
+        />
+      </div>
 
-      <Separator orientation="vertical" className="mx-2 h-7" />
+      <Separator orientation="vertical" className="hidden md:block mx-2 h-7" />
+      <Separator orientation="horizontal" className="md:hidden w-full my-2" />
 
-      <SectionThree editor={editor} />
+      <div className="flex items-center gap-px">
+        <SectionThree editor={editor} />
+      </div>
 
-      <Separator orientation="vertical" className="mx-2 h-7" />
+      <Separator orientation="vertical" className="hidden md:block mx-2 h-7" />
+      <Separator orientation="horizontal" className="md:hidden w-full my-2" />
 
-      <SectionFour
-        editor={editor}
-        activeActions={['orderedList', 'bulletList']}
-        mainActionCount={0}
-      />
+      <div className="flex items-center gap-px">
+        <SectionFour
+          editor={editor}
+          activeActions={['orderedList', 'bulletList']}
+          mainActionCount={0}
+        />
+      </div>
 
-      <Separator orientation="vertical" className="mx-2 h-7" />
+      <Separator orientation="vertical" className="hidden md:block mx-2 h-7" />
+      <Separator orientation="horizontal" className="md:hidden w-full my-2" />
 
-      <SectionFive
-        editor={editor}
-        activeActions={['codeBlock', 'blockquote', 'horizontalRule']}
-        mainActionCount={0}
-      />
+      <div className="flex items-center gap-px">
+        <SectionFive
+          editor={editor}
+          activeActions={['codeBlock', 'blockquote', 'horizontalRule']}
+          mainActionCount={0}
+        />
+      </div>
 
-      <Separator orientation="vertical" className="mx-2 h-7" />
+      <Separator orientation="vertical" className="hidden md:block mx-2 h-7" />
+      <Separator orientation="horizontal" className="md:hidden w-full my-2" />
 
-      <ImageToolbar editor={editor} />
+      <div className="flex items-center gap-px">
+        <ImageToolbar editor={editor} />
+      </div>
     </div>
   </div>
 );
@@ -255,37 +272,37 @@ export const MinimalTiptapEditor = React.forwardRef<
       handlePaste: (view, event) => {
         if (!event.clipboardData) return false;
 
-        const html = event.clipboardData.getData('text/html');
-        if (html && /<table/i.test(html)) {
+        const pastedHtml = event.clipboardData.getData('text/html');
+        if (pastedHtml && /<table/i.test(pastedHtml)) {
           try {
-            editor?.commands.insertContent(html, {
+            editor?.commands.insertContent(pastedHtml, {
               parseOptions: {
                 preserveWhitespace: 'full',
               },
             });
             return true;
-          } catch (error) {
-            console.error('Failed to paste table:', error);
+          } catch (err) {
+            console.error('Failed to paste table:', err);
           }
         }
 
         try {
-          const content = event.clipboardData.getData('text/html');
-          if (content) {
-            editor?.commands.insertContent(content, {
+          const pastedContent = event.clipboardData.getData('text/html');
+          if (pastedContent) {
+            editor?.commands.insertContent(pastedContent, {
               parseOptions: {
                 preserveWhitespace: 'full',
               },
             });
             return true;
           }
-        } catch (error) {
-          console.error('Failed to paste rich content:', error);
+        } catch (err) {
+          console.error('Failed to paste rich content:', err);
         }
 
         return false;
       },
-    },
+    } satisfies Partial<EditorProps>,
     ...props,
   });
 
@@ -294,25 +311,28 @@ export const MinimalTiptapEditor = React.forwardRef<
   }
 
   return (
-    <MeasuredContainer
-      as="div"
-      name="editor"
+    <div
       ref={ref}
       className={cn(
-        'flex h-auto min-h-72 w-full flex-col rounded-md border border-input shadow-sm focus-within:border-primary',
+        'flex h-auto min-h-[300px] w-full flex-col rounded-md border border-input shadow-sm focus-within:border-primary',
+        'overflow-hidden',
         className
       )}
     >
       <Toolbar editor={editor} />
-      <div className="relative">
+      <div className="relative flex-1 overflow-auto">
         <EditorContent
           editor={editor}
-          className={cn('minimal-tiptap-editor', editorContentClassName)}
+          className={cn(
+            'minimal-tiptap-editor',
+            'h-full min-h-[200px]',
+            editorContentClassName
+          )}
         />
         <ImageDeleteButton editor={editor} />
       </div>
       <LinkBubbleMenu editor={editor} />
-    </MeasuredContainer>
+    </div>
   );
 });
 

@@ -125,9 +125,15 @@ export default function ImageUploadField({
 
         if (multiple) {
           const currentValue = form.getValues(name) || [];
-          form.setValue(name, [...currentValue, ...results]);
+          form.setValue(name, [...currentValue, ...results], {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
         } else {
-          form.setValue(name, results[0]);
+          form.setValue(name, results[0], {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
         }
 
         setUploadProgress({});
@@ -159,10 +165,17 @@ export default function ImageUploadField({
             name,
             currentValue.filter(
               (img: UploadResult) => img.public_id !== publicId
-            )
+            ),
+            {
+              shouldValidate: true,
+              shouldDirty: true,
+            }
           );
         } else {
-          form.setValue(name, undefined);
+          form.setValue(name, undefined, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
         }
         toast('Image deleted', {
           description: 'The image has been successfully deleted.',
@@ -195,7 +208,7 @@ export default function ImageUploadField({
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem className="space-y-4">
           <FormLabel className="text-lg font-semibold tracking-tight">
             {label}
@@ -342,7 +355,13 @@ export default function ImageUploadField({
           <FormDescription className="text-sm text-gray-500">
             {description}
           </FormDescription>
-          <FormMessage className="text-sm" />
+          <FormMessage>
+            {fieldState.error && (
+              <span className="text-destructive text-sm">
+                {fieldState.error.message}
+              </span>
+            )}
+          </FormMessage>
         </FormItem>
       )}
     />
