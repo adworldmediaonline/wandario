@@ -16,16 +16,11 @@ interface HeroHeaderV2Props {
       href: string;
     }[];
   };
+  navigationItems?: {
+    id: string;
+    label: string;
+  }[];
 }
-
-const navigationItems = [
-  { id: 'detail', label: 'Detail' },
-  { id: 'booking', label: 'Booking' },
-  { id: 'itinerary', label: 'Itinerary' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'map', label: 'Map' },
-  { id: 'reviews', label: 'Reviews' },
-];
 
 export default function HeroHeaderV2({
   breadcrumb,
@@ -33,6 +28,7 @@ export default function HeroHeaderV2({
   excerpt,
   backgroundImageId = '/testing/hero-bg.jpg',
   className,
+  navigationItems,
 }: HeroHeaderV2Props) {
   return (
     <header className={cn('relative flex flex-col', className)}>
@@ -81,7 +77,7 @@ export default function HeroHeaderV2({
           {/* Navigation */}
           <div className="sticky bottom-0 left-0 right-0 bg-white border-b">
             <div className="container">
-              <Tabs defaultValue="detail" className="w-full">
+              <Tabs defaultValue="content" className="w-full">
                 <div className="overflow-x-auto no-scrollbar">
                   <TabsList
                     className={cn(
@@ -89,7 +85,7 @@ export default function HeroHeaderV2({
                       'md:w-full md:justify-start'
                     )}
                   >
-                    {navigationItems.map(item => (
+                    {navigationItems?.map(item => (
                       <TabsTrigger
                         key={item.id}
                         value={item.id}
@@ -101,6 +97,12 @@ export default function HeroHeaderV2({
                           'focus-visible:ring-0 focus-visible:ring-offset-0',
                           'transition-colors duration-200'
                         )}
+                        onClick={() => {
+                          const element = document.getElementById(item.id);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }}
                       >
                         {item.label}
                       </TabsTrigger>

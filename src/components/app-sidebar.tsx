@@ -55,6 +55,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
         ],
       });
+      items.push({
+        title: 'Blog Management',
+        url: '#',
+        icon: Command,
+        isActive: true,
+        items: [
+          {
+            title: 'Blog Categories',
+            url: '/dashboard/blogs-categories',
+          },
+          {
+            title: 'Add New Blog Category',
+            url: '/dashboard/blogs-categories/new',
+          },
+          {
+            title: 'Blogs',
+            url: '/dashboard/blogs',
+          },
+          {
+            title: 'Add New Blog',
+            url: '/dashboard/blogs/new',
+          },
+        ],
+      });
     }
 
     return items;
