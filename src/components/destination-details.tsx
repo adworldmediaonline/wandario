@@ -1,6 +1,7 @@
 'use client';
 
 import DestinationContent from '@/components/destination-content';
+import DestinationFAQ from '@/components/destination-faq';
 import HeroHeaderV2 from '@/components/ui/hero-header-v2';
 import type { IDestination } from '@/types';
 import { Section } from './ui/section';
@@ -32,11 +33,20 @@ export default function DestinationDetails({
         backgroundImageId={
           destination.images[0]?.public_id || destination.thumbnail?.public_id
         }
+        navigationItems={[
+          { id: 'content', label: 'Overview' },
+          { id: 'faqs', label: 'FAQs' },
+          // Add other navigation items as needed
+        ]}
       />
 
-      <Section id="content" container className="pt-2 pb-20">
+      <Section id="content" container className="pt-2 pb-10 bg-white">
         <DestinationContent destination={destination} />
       </Section>
+
+      {destination.faqs?.length > 0 && (
+        <DestinationFAQ faqs={destination.faqs} />
+      )}
     </>
   );
 }
