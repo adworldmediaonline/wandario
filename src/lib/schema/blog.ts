@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const blogSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
+  name: z.string().min(1, 'Name is required').optional().or(z.literal('')),
   heading: z.string().min(1, 'Heading is required'),
   metaTitle: z.string().min(1, 'Meta Title is required'),
   metaDescription: z.string().min(1, 'Meta Description is required'),

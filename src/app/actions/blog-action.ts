@@ -25,7 +25,9 @@ export const addBlogAction = actionClient
 
     const blog = new Blog({
       ...input.parsedInput,
-      name: slugify(input.parsedInput.name, { lower: true }),
+      name: input.parsedInput.name
+        ? slugify(input.parsedInput.name, { lower: true })
+        : '',
       slug: slugify(input.parsedInput.heading, { lower: true }),
     });
 
@@ -65,7 +67,9 @@ export const updateBlogAction = actionClient
       {
         $set: {
           ...updateData,
-          name: slugify(updateData.name, { lower: true }),
+          name: updateData.name
+            ? slugify(updateData.name, { lower: true })
+            : '',
           images: updateData.images,
         },
       },
