@@ -30,7 +30,7 @@ import { useCallback } from 'react';
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
-import type { ICategory, IBlog } from '@/types';
+import type { IBlog, IBlogCategory } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
 import { FAQFormField } from '@/components/ui/faq-form-field';
 import { UnsavedChangesWarning } from '@/components/unsaved-changes-warning';
@@ -41,7 +41,7 @@ import { Card, CardContent } from '@/components/ui/card';
 interface EditBlogFormProps {
   blogId: string;
   blog: IBlog | null;
-  categories: ICategory[];
+  categories: IBlogCategory[];
 }
 
 export default function EditDestinationForm({

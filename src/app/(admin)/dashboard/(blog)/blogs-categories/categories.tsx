@@ -11,10 +11,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { ICategory } from '@/server/db/category';
+import { IBlogCategory } from '@/server/db/blog-category';
 import Link from 'next/link';
 
-export default function Categories({ category }: { category: ICategory }) {
+export default function Categories({ category }: { category: IBlogCategory }) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">

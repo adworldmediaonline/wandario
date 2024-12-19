@@ -31,7 +31,7 @@ import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '@/lib/constants/upload';
 import { toast } from 'sonner';
 import { MinimalTiptapEditor } from '@/components/minimal-tiptap/minimal-tiptap';
 import { Textarea } from '@/components/ui/textarea';
-import { ICategory } from '@/types';
+import { IBlogCategory } from '@/types';
 import { FAQFormField } from '@/components/ui/faq-form-field';
 import { UnsavedChangesWarning } from '@/components/unsaved-changes-warning';
 import { FormLabelInfo } from '@/components/ui/form-label-info';
@@ -39,7 +39,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface AddBlogFormProps {
-  categories: ICategory[];
+  categories: IBlogCategory[];
 }
 
 export default function AddBlogForm({ categories }: AddBlogFormProps) {

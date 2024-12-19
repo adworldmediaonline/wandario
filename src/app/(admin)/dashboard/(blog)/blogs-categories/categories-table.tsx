@@ -19,14 +19,14 @@ import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Categories from './categories';
-import { ICategory } from '@/server/db/category';
+import { IBlogCategory } from '@/server/db/blog-category';
 
 export function CategoriesTable({
   categories,
   offset,
   totalCategories,
 }: {
-  categories: ICategory[];
+  categories: IBlogCategory[];
   offset: number;
   totalCategories: number;
 }) {
