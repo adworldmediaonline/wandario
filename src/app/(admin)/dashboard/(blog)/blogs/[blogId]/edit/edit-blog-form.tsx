@@ -193,7 +193,7 @@ export default function EditDestinationForm({
                         <FormItem>
                           <FormLabelInfo
                             label="Destination Name"
-                            required
+                            // required
                             tooltip="Enter the full name of the destination"
                           />
                           <FormControl>

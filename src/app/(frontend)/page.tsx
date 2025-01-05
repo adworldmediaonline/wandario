@@ -10,9 +10,15 @@ import AboutUs from '@/components/ui/about-us';
 import { FAQ } from '@/components/ui/faq';
 import { homeFAQs } from '@/lib/app-data';
 import TravelInsights from '@/components/ui/travel-insights';
+import BlogShowcase from '@/components/ui/blog-showcase';
+import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
+import { getBlogs } from '@/server/db/blog';
 
 export default async function HomePage() {
-  const { categories } = await getCategories({ offset: '0', limit: '8' });
+  const [{ categories }, { blogs }] = await Promise.all([
+    getCategories({ offset: '0', limit: '8' }),
+    getBlogs({ limit: '3' }),
+  ]);
 
   return (
     <>
@@ -52,6 +58,10 @@ export default async function HomePage() {
       <TravelInsights variant="alternate" />
 
       <ServiceShowcase />
+
+      <Suspense fallback={<BlogShowcaseSkeleton />}>
+        <BlogShowcase blogs={blogs} className="bg-gray-50/50" />
+      </Suspense>
 
       <FAQ
         title="Common Travel Questions"

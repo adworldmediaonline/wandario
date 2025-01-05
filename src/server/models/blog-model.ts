@@ -3,7 +3,13 @@ import mongoose from 'mongoose';
 const blogSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Name is required'],
+    // required: [true, 'Name is required'],
+    trim: true,
+  },
+
+  heading: {
+    type: String,
+    required: [true, 'Heading is required'],
     trim: true,
   },
 
@@ -24,11 +30,6 @@ const blogSchema = new mongoose.Schema({
     trim: true,
   },
 
-  heading: {
-    type: String,
-    required: [true, 'Heading is required'],
-    trim: true,
-  },
   description: {
     type: String,
     required: [true, 'Description is required'],
