@@ -9,11 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useTransition } from 'react';
 import type { IBlog, IBlogCategory } from '@/types';
-
 import { EmptyState } from '@/components/ui/empty-state';
 import BlogCard from './blog-card';
 import Pagination from '@/components/ui/pagination';
@@ -36,7 +35,7 @@ const container = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.1,
+      delayChildren: 0.2,
     },
   },
 };
@@ -105,34 +104,62 @@ export default function BlogList({
     <section className="py-16 lg:py-20">
       <div className="container">
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <div className="relative flex-1">
-            <Input
-              type="search"
-              placeholder="Search stories..."
-              className="pl-10"
-              defaultValue={searchParams.search}
-              onChange={e => handleSearch(e.target.value)}
-            />
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative mb-12"
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-1">
+                <Input
+                  type="search"
+                  placeholder="Search stories..."
+                  className="pl-10 h-12 rounded-full border-gray-200 focus:border-primary focus:ring-primary"
+                  defaultValue={searchParams.search}
+                  onChange={e => handleSearch(e.target.value)}
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              </div>
+              <div className="relative">
+                <Select
+                  defaultValue={searchParams.category || 'all'}
+                  onValueChange={handleCategoryChange}
+                >
+                  <SelectTrigger className="w-full sm:w-[200px] h-12 rounded-full border-gray-200 [&>span]:flex [&>span]:items-center [&>span]:gap-2">
+                    <Filter className="w-4 h-4" />
+                    <SelectValue placeholder="All Categories" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    {categories.map(category => (
+                      <SelectItem key={category._id} value={category._id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
-          <Select
-            defaultValue={searchParams.category || 'all'}
-            onValueChange={handleCategoryChange}
+        </motion.div>
+
+        {/* Results Summary */}
+        {blogs.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-center mb-8"
           >
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {categories.map(category => (
-                <SelectItem key={category._id} value={category._id}>
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            <p className="text-gray-600">
+              Showing {(currentPage - 1) * itemsPerPage + 1} -{' '}
+              {Math.min(currentPage * itemsPerPage, totalBlogs)} of {totalBlogs}{' '}
+              stories
+            </p>
+          </motion.div>
+        )}
 
         {/* Blog Grid */}
         {blogs.length > 0 ? (
@@ -149,30 +176,40 @@ export default function BlogList({
             ))}
           </motion.div>
         ) : (
-          <EmptyState
-            title="No Stories Found"
-            description={
-              searchParams.search
-                ? `No stories found for "${searchParams.search}". Try different keywords or browse all stories.`
-                : 'No stories found in this category. Check back soon for new content!'
-            }
-            action={{
-              label: 'View All Stories',
-              href: '/blogs',
-            }}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <EmptyState
+              title="No Stories Found"
+              description={
+                searchParams.search
+                  ? `No stories found for "${searchParams.search}". Try different keywords or browse all stories.`
+                  : 'No stories found in this category. Check back soon for new content!'
+              }
+              action={{
+                label: 'View All Stories',
+                href: '/blogs',
+              }}
+            />
+          </motion.div>
         )}
 
         {/* Pagination */}
         {blogs.length > 0 && (
-          <div className="mt-12">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-16"
+          >
             <Pagination
               currentPage={currentPage}
               totalItems={totalBlogs}
               itemsPerPage={itemsPerPage}
               onPageChange={handlePageChange}
             />
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

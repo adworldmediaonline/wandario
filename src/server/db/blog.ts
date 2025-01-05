@@ -4,14 +4,7 @@ import { connectToDatabase } from '../mongoose';
 import type { IBlog } from '@/types';
 import { isValidObjectId } from 'mongoose';
 import { Blog } from '../models';
-
-interface SearchQuery {
-  status: string;
-  $or?: Array<{
-    [key: string]: { $regex: string; $options: string };
-  }>;
-  categoryId?: string;
-}
+import mongoose from 'mongoose';
 
 export async function getBlogById(id: string): Promise<IBlog | null> {
   try {
@@ -40,39 +33,59 @@ export async function getBlogById(id: string): Promise<IBlog | null> {
   }
 }
 
-export async function getBlogs(query: {
-  search?: string;
-  category?: string;
+interface GetBlogsQuery {
   offset?: string;
   limit?: string;
-}): Promise<{
+  category?: string;
+  search?: string;
+}
+
+interface GetBlogsResult {
   blogs: IBlog[];
   totalBlogs: number;
-}> {
+}
+
+interface BlogSearchQuery {
+  categoryId?: string;
+  $or?: Array<{
+    [key: string]: {
+      $regex: string;
+      $options: string;
+    };
+  }>;
+}
+
+export async function getBlogs({
+  offset = '0',
+  limit = '10',
+  category,
+  search,
+}: GetBlogsQuery): Promise<GetBlogsResult> {
   try {
-    await connectToDatabase();
-    const defaultLimit = parseInt(query.limit || '12', 10);
-    const safeOffset = Math.max(0, parseInt(query.offset || '0', 10));
+    const searchQuery: BlogSearchQuery = {};
 
-    const searchQuery: SearchQuery = { status: 'active' };
-
-    if (query.search) {
-      searchQuery.$or = [
-        { name: { $regex: query.search, $options: 'i' } },
-        { description: { $regex: query.search, $options: 'i' } },
-      ];
+    // Add category filter if provided and is a valid ObjectId
+    if (category) {
+      if (mongoose.Types.ObjectId.isValid(category)) {
+        searchQuery.categoryId = category;
+      }
     }
 
-    if (query.category) {
-      searchQuery.categoryId = query.category;
+    // Add search filter if provided
+    if (search) {
+      searchQuery.$or = [
+        { heading: { $regex: search, $options: 'i' } },
+        { excerpt: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ];
     }
 
     const [blogs, totalBlogs] = await Promise.all([
       Blog.find(searchQuery)
         .populate('categoryId')
         .sort({ createdAt: -1 })
-        .skip(safeOffset)
-        .limit(defaultLimit),
+        .skip(parseInt(offset))
+        .limit(parseInt(limit)),
       Blog.countDocuments(searchQuery),
     ]);
 
@@ -82,6 +95,6 @@ export async function getBlogs(query: {
     };
   } catch (error) {
     console.error('Error fetching blogs:', error);
-    return { blogs: [], totalBlogs: 0 };
+    throw error;
   }
 }

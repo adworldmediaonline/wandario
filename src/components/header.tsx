@@ -28,7 +28,7 @@ export default function Header() {
     { href: '/about', label: 'About' },
     { href: '/destinations', label: 'Destinations' },
     { href: '/regions', label: 'Regions' },
-    { href: '/blog', label: 'Blog' },
+    { href: '/blogs', label: 'Blogs' },
   ];
 
   return (
