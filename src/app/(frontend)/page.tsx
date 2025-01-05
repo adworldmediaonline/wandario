@@ -5,6 +5,7 @@ import CategoryShowcase from '@/components/category-showcase';
 import HeroHeader from '@/components/ui/hero-header';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Compass } from 'lucide-react';
+import ServiceShowcase from '@/components/ui/service-showcase';
 
 export default async function HomePage() {
   const { categories } = await getCategories({ offset: '0', limit: '8' });
@@ -26,7 +27,7 @@ export default async function HomePage() {
         }}
         title="Explore the world one place at a time"
         excerpt="Every Tour Is Your Calling! Discover Hidden Beauty, Savor Epic Sunsets, & Etch Lifelong Memories. Trust the Expertise of Our Best Travel Guide Reviews, Endorsed by the Experienced."
-        backgroundImageId="testing/hero-banner"
+        backgroundImageId="hero-banner_imkrwg"
         actions={{
           primary: {
             label: 'Contact Us',
@@ -53,6 +54,7 @@ export default async function HomePage() {
           />
         )}
       </Suspense>
+      <ServiceShowcase />
     </>
   );
 }

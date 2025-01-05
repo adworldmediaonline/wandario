@@ -58,7 +58,7 @@ export default function HeroHeader({
   breadcrumb,
   title,
   excerpt,
-  backgroundImageId = '/testing/hero-bg.jpg',
+  backgroundImageId = 'wandario/hero-bg',
   className,
   actions,
 }: HeroHeaderProps) {
