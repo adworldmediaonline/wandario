@@ -50,8 +50,11 @@ export function FAQ({
   if (!items?.length) return null;
 
   return (
-    <section className={cn('py-16 md:py-24', className)} {...props}>
-      <div className="container max-w-4xl">
+    <section
+      className={cn('pb-16 pt-5 md:pt-5 md:pb-24', className)}
+      {...props}
+    >
+      <div className="flex justify-center max-w-4xl mx-auto">
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -83,7 +86,7 @@ export function FAQ({
             {description && (
               <motion.p
                 variants={item}
-                className="text-lg md:text-xl text-gray-600 max-w-2xl"
+                className="text-lg md:text-xl text-center text-gray-600 max-w-2xl"
               >
                 {description}
               </motion.p>
