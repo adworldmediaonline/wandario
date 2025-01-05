@@ -3,6 +3,7 @@
 import { SectionHeader } from '@/components/ui/section-header';
 import { ICategory } from '@/server/db/category';
 import { CategoryCard } from '@/components/ui/category-card';
+import { Section } from './ui/section';
 
 const STATS = [
   { destinations: '500+', area: '44.5M km²' },
@@ -24,7 +25,7 @@ export default function CategoryShowcase({
   categories: ICategory[];
 }) {
   return (
-    <div className="bg-gradient-to-b from-white to-gray-50/50">
+    <Section className="bg-gradient-to-b from-white to-gray-50/50" container>
       <SectionHeader
         title="Explore World Regions"
         excerpt="Embark on a journey through diverse regions across the globe. From bustling cities to serene landscapes, each region offers its own unique cultural heritage and natural wonders."
@@ -49,6 +50,6 @@ export default function CategoryShowcase({
           ))}
         </div>
       </div>
-    </div>
+    </Section>
   );
 }
