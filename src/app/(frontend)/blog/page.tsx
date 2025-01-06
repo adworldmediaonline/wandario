@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     'Discover inspiring travel stories, expert tips, and hidden gems from around the world. Your source for authentic travel experiences and insights.',
   alternates: {
-    canonical: '/blogs',
+    canonical: '/blog',
   },
 };
 
@@ -43,7 +43,7 @@ export default async function BlogPage(props: {
         breadcrumb={{
           segments: [
             { title: 'Home', href: '/' },
-            { title: 'Blogs', href: '/blogs' },
+            { title: 'Blog', href: '/blog' },
           ],
         }}
         actions={{

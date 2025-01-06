@@ -99,7 +99,7 @@ export default function RegionDestinationsShowcase({
                 variants={item}
                 className="group relative cursor-pointer"
                 onClick={() =>
-                  handleNavigation(`/destinations/${destination.slug}`)
+                  handleNavigation(`/destination/${destination.slug}`)
                 }
               >
                 <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100">
@@ -168,7 +168,7 @@ export default function RegionDestinationsShowcase({
               className="text-center mt-16"
             >
               <button
-                onClick={() => handleNavigation('/destinations')}
+                onClick={() => handleNavigation('/destination')}
                 className="inline-flex items-center px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-300"
               >
                 <span className="font-medium">View All Destinations</span>
@@ -184,7 +184,7 @@ export default function RegionDestinationsShowcase({
           description="We're currently working on adding new destinations to this region. Check back soon for exciting places to explore!"
           action={{
             label: 'Explore Other Regions',
-            href: '/regions',
+            href: '/region',
           }}
         />
       )}

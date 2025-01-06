@@ -1,25 +1,27 @@
 import HeroHeader from '@/components/ui/hero-header';
 import { getCategories } from '@/server/db/category';
+import CategoryShowcase from '@/components/category-showcase';
 import { Suspense } from 'react';
 import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-skeleton';
 import { Section } from '@/components/ui/section';
 import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
 import DestinationsWrapper from '@/components/destinations-wrapper';
+import { TripPlanningSection } from '@/components/ui/trip-planning-section';
 import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
 import BlogShowcase from '@/components/ui/blog-showcase';
 import { getBlogs } from '@/server/db/blog';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Wandario | Destinations',
+  title: 'Wandario | Regions',
   description: '',
   keywords: '',
   alternates: {
-    canonical: '/destinations',
+    canonical: '/region',
   },
 };
 
-export default async function DestinationsPage(props: {
+export default async function RegionsPage(props: {
   searchParams: Promise<{ category: string; offset: string }>;
 }) {
   const searchParams = await props.searchParams;
@@ -39,25 +41,34 @@ export default async function DestinationsPage(props: {
         breadcrumb={{
           segments: [
             {
-              title: 'Destinations',
-              href: '/destinations',
+              title: 'Region',
+              href: '/region',
             },
           ],
         }}
-        title="Explore the World's Most Stunning Destinations"
-        excerpt="Discover the best places to visit, from breathtaking landscapes to vibrant cities."
-        backgroundImageId="pexels-bkd--30102800_w2gvad"
+        title="Wandario—Your Guide to Seamless Adventures: Explore the World with Expert Travel Advice"
+        excerpt="Plan, Prepare, and Perfect Your Travel Experience"
+        backgroundImageId="regions_hd8bhh"
         actions={{
           primary: {
             label: 'Start Exploring',
-            href: '#destinations',
+            href: '#regions-grid',
           },
-          // secondary: {
-          //   label: 'View Map',
-          //   href: '#map',
-          // },
+          secondary: {
+            label: 'View Map',
+            href: '#map',
+          },
         }}
       />
+
+      {/* Regions Grid Section */}
+      <Section id="regions-grid" container>
+        <ErrorBoundaryContainer>
+          <Suspense fallback={<CategoryShowcaseSkeleton />}>
+            <CategoryShowcase promise={categoriesPromise} />
+          </Suspense>
+        </ErrorBoundaryContainer>
+      </Section>
 
       {/* Destinations Section */}
       <Section id="destinations" container>
@@ -66,12 +77,11 @@ export default async function DestinationsPage(props: {
             <DestinationsWrapper
               promise={categoriesPromise}
               category={category}
-              type="destinations"
             />
           </Suspense>
         </ErrorBoundaryContainer>
       </Section>
-
+      <TripPlanningSection />
       <ErrorBoundaryContainer>
         <Suspense fallback={<BlogShowcaseSkeleton />}>
           <BlogShowcase promise={blogsPromise} className="bg-gray-50/50" />

@@ -58,7 +58,7 @@ export default function BlogContent({ blog }: BlogContentProps) {
           size="icon"
           className="h-10 w-10 rounded-full bg-white/80 shadow-lg backdrop-blur-sm hover:bg-white"
         >
-          <Link href="/blogs">
+          <Link href="/blog">
             <ArrowLeft className="h-5 w-5" />
             <span className="sr-only">Back to blogs</span>
           </Link>
@@ -82,7 +82,7 @@ export default function BlogContent({ blog }: BlogContentProps) {
             {/* Mobile Back Button */}
             <motion.div variants={item} className="mb-8 lg:hidden">
               <Button asChild variant="ghost" className="gap-2">
-                <Link href="/blogs">
+                <Link href="/blog">
                   <ArrowLeft className="h-4 w-4" />
                   Back to blogs
                 </Link>

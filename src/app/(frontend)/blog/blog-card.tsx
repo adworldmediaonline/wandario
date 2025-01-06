@@ -14,7 +14,7 @@ interface BlogCardProps {
 export default function BlogCard({ blog, className }: BlogCardProps) {
   return (
     <Link
-      href={`/blogs/${blog.slug}`}
+      href={`/blog/${blog.slug}`}
       className={cn(
         'group flex flex-col overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md',
         className

@@ -119,7 +119,7 @@ export default function CategoryShowcase({
                 variants={item}
                 className="group relative"
               >
-                <Link href={`/regions/${category.slug}`} scroll={true}>
+                <Link href={`/region/${category.slug}`} scroll={true}>
                   <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100">
                     {/* Background Image */}
                     <CloudinaryImage
@@ -194,7 +194,7 @@ export default function CategoryShowcase({
               className="text-center mt-16"
             >
               <Link
-                href="/regions"
+                href="/region"
                 scroll={true}
                 prefetch={true}
                 className="inline-flex items-center px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-300"

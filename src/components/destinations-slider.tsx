@@ -16,7 +16,7 @@ import { Section } from './ui/section';
 interface DestinationsSliderProps {
   categories: ICategory[];
   category: string;
-  type?: 'regions' | 'destinations';
+  type?: 'region' | 'destination';
 }
 
 export function DestinationsSlider({

@@ -28,7 +28,7 @@ export async function generateMetadata(props: {
     description: category.metaDescription ?? '',
     keywords: category.metaKeywords ?? '',
     alternates: {
-      canonical: `/regions/${params.regionId}`,
+      canonical: `/region/${params.regionId}`,
     },
     openGraph: {
       title: category.metaTitle ?? '',
@@ -64,12 +64,12 @@ export default async function RegionDetailsPage(props: {
         breadcrumb={{
           segments: [
             {
-              title: 'Regions',
-              href: '/regions',
+              title: 'Region',
+              href: '/region',
             },
             {
               title: category.name,
-              href: `/regions/${params.regionId}`,
+              href: `/region/${params.regionId}`,
             },
           ],
         }}

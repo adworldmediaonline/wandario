@@ -67,7 +67,7 @@ export default function BlogList({
       }
       params.set('page', '1'); // Reset to first page on new search
       startTransition(() => {
-        router.push(`/blogs?${params.toString()}`);
+        router.push(`/blog?${params.toString()}`);
       });
     },
     [queryParams, router]
@@ -83,7 +83,7 @@ export default function BlogList({
       }
       params.set('page', '1'); // Reset to first page on category change
       startTransition(() => {
-        router.push(`/blogs?${params.toString()}`);
+        router.push(`/blog?${params.toString()}`);
       });
     },
     [queryParams, router]
@@ -94,7 +94,7 @@ export default function BlogList({
       const params = new URLSearchParams(queryParams.toString());
       params.set('page', page.toString());
       startTransition(() => {
-        router.push(`/blogs?${params.toString()}`);
+        router.push(`/blog?${params.toString()}`);
       });
     },
     [queryParams, router]
@@ -189,7 +189,7 @@ export default function BlogList({
               }
               action={{
                 label: 'View All Stories',
-                href: '/blogs',
+                href: '/blog',
               }}
             />
           </motion.div>

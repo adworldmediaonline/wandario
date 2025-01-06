@@ -19,12 +19,12 @@ export default function DestinationDetails({
         breadcrumb={{
           segments: [
             {
-              title: 'Destinations',
-              href: '/destinations',
+              title: 'Destination',
+              href: '/destination',
             },
             {
               title: destination.name,
-              href: `/destinations/${destination.slug}`,
+              href: `/destination/${destination.slug}`,
             },
           ],
         }}

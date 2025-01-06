@@ -10,16 +10,21 @@ import { Loader2, Send } from 'lucide-react';
 
 const footerLinks = {
   company: [
-    { label: 'About', href: '/about' },
+    { label: 'Home', href: '/' },
+    { label: 'About Us', href: '/about-us' },
+    { label: 'Destinations', href: '/destination' },
+    { label: 'Photography', href: '/photography' },
+    { label: 'Accommodations', href: '/accommodations' },
+    { label: 'Resources', href: '/resources' },
     { label: 'Contact', href: '/contact' },
-    { label: 'Careers', href: '/careers' },
     { label: 'Blog', href: '/blog' },
   ],
   support: [
-    { label: 'Help Center', href: '/help' },
     { label: 'Terms of Service', href: '/terms' },
     { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'FAQ', href: '/faq' },
+    { label: 'Legal Information', href: '/legal-information' },
+    { label: 'Disclaimer', href: '/disclaimer' },
+    { label: 'Affiliate disclosure', href: '/affiliate-disclosure' },
   ],
   social: [
     { label: 'Twitter', href: 'https://twitter.com' },

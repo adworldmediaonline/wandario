@@ -93,7 +93,7 @@ export default function BlogShowcase({
                   className="group relative bg-white rounded-3xl overflow-hidden shadow-lg shadow-gray-200/50 hover:shadow-xl transition-all duration-300"
                 >
                   <Link
-                    href={`/blogs/${blog.slug}`}
+                    href={`/blog/${blog.slug}`}
                     className="block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                     scroll={true}
                   >
@@ -173,7 +173,7 @@ export default function BlogShowcase({
             <motion.div variants={item} className="text-center">
               <Button asChild size="lg" className="rounded-full">
                 <Link
-                  href="/blogs"
+                  href="/blog"
                   className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 >
                   <span>View All Stories</span>

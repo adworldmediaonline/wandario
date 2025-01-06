@@ -10,7 +10,7 @@ export default function RegionNotFound() {
         description="The region you're looking for doesn't exist or has been removed."
         action={{
           label: 'View All Regions',
-          href: '/regions',
+          href: '/region',
         }}
       />
     </div>
