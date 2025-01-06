@@ -10,12 +10,12 @@ import { SectionHeader } from '@/components/ui/section-header';
 
 interface SectionWithTabsProps {
   categories: ICategory[];
-  type?: 'regions' | 'destinations';
+  type?: 'region' | 'destination';
 }
 
 export function SectionWithTabs({
   categories,
-  type = 'regions',
+  type = 'region',
 }: SectionWithTabsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();

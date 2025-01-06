@@ -26,7 +26,7 @@ export default function HeroHeaderV2({
   breadcrumb,
   title,
   excerpt,
-  backgroundImageId = '/testing/hero-bg.jpg',
+  backgroundImageId,
   className,
   navigationItems,
 }: HeroHeaderV2Props) {
@@ -37,7 +37,7 @@ export default function HeroHeaderV2({
         {/* Background Image */}
         <div className="absolute inset-0">
           <CloudinaryImage
-            src={backgroundImageId}
+            src={backgroundImageId || 'default-hero_xvxmwp'}
             alt={title}
             fill
             sizes="100vw"

@@ -29,7 +29,7 @@ export const generateMetadata = async (props: {
       ],
     },
     alternates: {
-      canonical: `/destinations/${destination.slug}`,
+      canonical: `/destination/${destination.slug}`,
     },
   };
 };

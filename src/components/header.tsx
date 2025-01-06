@@ -25,10 +25,10 @@ export default function Header() {
 
   const menuItems = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/destinations', label: 'Destinations' },
-    { href: '/regions', label: 'Regions' },
-    { href: '/blogs', label: 'Blogs' },
+    { href: '/about-us', label: 'About Us' },
+    { href: '/destination', label: 'Destination' },
+    { href: '/region', label: 'Region' },
+    { href: '/blog', label: 'Blog' },
   ];
 
   return (
@@ -95,7 +95,7 @@ export default function Header() {
                   </Link>
                 ))}
                 <Button asChild className="mt-4">
-                  <Link href="/contact">Contact Us</Link>
+                  <Link href="#">Contact Us</Link>
                 </Button>
               </div>
             </SheetContent>

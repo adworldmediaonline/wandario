@@ -10,7 +10,7 @@ export default function DestinationNotFound() {
         description="The destination you're looking for doesn't exist or has been removed."
         action={{
           label: 'View All Destinations',
-          href: '/destinations',
+          href: '/destination',
         }}
       />
     </div>

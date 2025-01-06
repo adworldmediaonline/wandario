@@ -22,7 +22,7 @@ export async function generateMetadata(props: {
     description: blog?.metaDescription ?? '',
     keywords: blog?.metaKeywords ?? '',
     alternates: {
-      canonical: `/blogs/${blog.slug}`,
+      canonical: `/blog/${blog.slug}`,
     },
     openGraph: {
       title: blog?.metaTitle ?? '',

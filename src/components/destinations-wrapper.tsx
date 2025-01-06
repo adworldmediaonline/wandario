@@ -9,7 +9,7 @@ import { DestinationsSlider } from '@/components/destinations-slider';
 interface DestinationsWrapperProps {
   promise: Promise<{ categories: ICategory[]; totalCategories: number }>;
   category: string;
-  type?: 'regions' | 'destinations';
+  type?: 'region' | 'destination';
 }
 
 export default function DestinationsWrapper({
