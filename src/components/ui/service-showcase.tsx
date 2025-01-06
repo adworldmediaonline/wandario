@@ -38,7 +38,7 @@ export function ServiceShowcase({
   backgroundImageId = 'sdtomqdwgsxcpeod7sr0_bln7jd',
 }: ServiceShowcaseProps) {
   return (
-    <Section className="relative overflow-hidden py-20 md:py-32" container>
+    <Section className="relative overflow-hidden py-10 md:py-20" container>
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
         <CloudinaryImage
@@ -53,7 +53,7 @@ export function ServiceShowcase({
       </div>
 
       {/* Content */}
-      <div className="container relative z-10">
+      <div className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

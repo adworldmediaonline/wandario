@@ -6,32 +6,30 @@ import HeroHeader from '@/components/ui/hero-header';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Compass } from 'lucide-react';
 import ServiceShowcase from '@/components/ui/service-showcase';
+import AboutUs from '@/components/ui/about-us';
+import { FAQ } from '@/components/ui/faq';
+import { homeFAQs } from '@/lib/app-data';
+import TravelInsights from '@/components/ui/travel-insights';
+import BlogShowcase from '@/components/ui/blog-showcase';
+import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
+import { getBlogs } from '@/server/db/blog';
 
 export default async function HomePage() {
-  const { categories } = await getCategories({ offset: '0', limit: '8' });
+  const [{ categories }, { blogs }] = await Promise.all([
+    getCategories({ offset: '0', limit: '8' }),
+    getBlogs({ limit: '3' }),
+  ]);
 
   return (
     <>
       <HeroHeader
-        breadcrumb={{
-          segments: [
-            {
-              title: 'Regions',
-              href: '/regions',
-            },
-            {
-              title: 'North America',
-              href: '/regions/north-america',
-            },
-          ],
-        }}
-        title="Explore the world one place at a time"
-        excerpt="Every Tour Is Your Calling! Discover Hidden Beauty, Savor Epic Sunsets, & Etch Lifelong Memories. Trust the Expertise of Our Best Travel Guide Reviews, Endorsed by the Experienced."
+        title="Plan Your Next Trip with Expert Travel, Cuisine, and Stays."
+        excerpt="Get expert advice on destinations, local cuisines, accommodations, and more. Your go-to source for insightful travel information and tips."
         backgroundImageId="hero-banner_imkrwg"
         actions={{
           primary: {
-            label: 'Contact Us',
-            href: '/contact',
+            label: 'Explore Our Travel Guides',
+            href: '#',
           },
           secondary: {
             label: 'Learn More',
@@ -48,13 +46,30 @@ export default async function HomePage() {
             title="No Categories Found"
             description="We're currently working on adding new travel categories. Check back soon for exciting destinations!"
             action={{
-              label: 'Contact Us',
-              href: '/contact',
+              label: 'Explore Our Travel Guides',
+              href: '/guides',
             }}
           />
         )}
       </Suspense>
+
+      <AboutUs />
+
+      <TravelInsights variant="alternate" />
+
       <ServiceShowcase />
+
+      <Suspense fallback={<BlogShowcaseSkeleton />}>
+        <BlogShowcase blogs={blogs} className="bg-gray-50/50" />
+      </Suspense>
+
+      <FAQ
+        title="Common Travel Questions"
+        description="Find answers to frequently asked questions about our travel guides and services."
+        items={homeFAQs}
+        className="bg-gray-50/50"
+        variant="centered"
+      />
     </>
   );
 }

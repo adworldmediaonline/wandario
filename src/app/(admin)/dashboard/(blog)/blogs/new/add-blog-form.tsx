@@ -85,7 +85,7 @@ export default function AddBlogForm({ categories }: AddBlogFormProps) {
     },
     onError(error) {
       console.error('error', error);
-      toast('Destination add failed', {
+      toast('blog add failed', {
         closeButton: true,
         description: 'Blog add failed',
       });
@@ -101,7 +101,7 @@ export default function AddBlogForm({ categories }: AddBlogFormProps) {
 
   function onSubmit(values: z.infer<typeof blogSchema>) {
     execute(values);
-    form.reset();
+    // form.reset();
   }
 
   return (
@@ -188,9 +188,9 @@ export default function AddBlogForm({ categories }: AddBlogFormProps) {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabelInfo
-                            label="Blog Name"
-                            required
-                            tooltip="Enter the full name of the blog"
+                            label="Blog Destination Name"
+                            // required
+                            tooltip="Enter the full name of the destination"
                           />
                           <FormControl>
                             <Input

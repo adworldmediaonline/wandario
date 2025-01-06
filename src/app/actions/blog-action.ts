@@ -25,7 +25,7 @@ export const addBlogAction = actionClient
 
     const blog = new Blog({
       ...input.parsedInput,
-      name: input.parsedInput.name
+      name: input?.parsedInput?.name
         ? slugify(input.parsedInput.name, { lower: true })
         : '',
       slug: slugify(input.parsedInput.heading, { lower: true }),
@@ -33,9 +33,12 @@ export const addBlogAction = actionClient
 
     const savedBlog = await blog.save();
 
-    await BlogCategory.findByIdAndUpdate(input.parsedInput.categoryId, {
-      $push: { blogs: savedBlog._id },
-    });
+    await BlogCategory.findByIdAndUpdate(
+      input.parsedInput.categoryId.toString(),
+      {
+        $push: { blogs: savedBlog._id },
+      }
+    );
 
     revalidatePath('/dashboard/blogs');
 
