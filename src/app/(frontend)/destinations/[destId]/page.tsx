@@ -16,7 +16,18 @@ export const generateMetadata = async (props: {
     title: destination?.metaTitle ?? '',
     description: destination?.metaDescription ?? '',
     keywords: destination?.metaKeywords ?? '',
-    metadataBase: new URL('https://www.wandario.com'),
+    openGraph: {
+      title: destination.metaTitle ?? '',
+      description: destination.metaDescription ?? '',
+      images: [
+        {
+          url: destination.thumbnail?.secure_url ?? '',
+          width: 1200,
+          height: 630,
+          alt: destination.name ?? '',
+        },
+      ],
+    },
     alternates: {
       canonical: `/destinations/${destination.slug}`,
     },

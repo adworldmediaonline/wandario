@@ -10,9 +10,13 @@ import { SectionHeader } from '@/components/ui/section-header';
 
 interface SectionWithTabsProps {
   categories: ICategory[];
+  type?: 'regions' | 'destinations';
 }
 
-export function SectionWithTabs({ categories }: SectionWithTabsProps) {
+export function SectionWithTabs({
+  categories,
+  type = 'regions',
+}: SectionWithTabsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get('category') || '';
@@ -26,7 +30,7 @@ export function SectionWithTabs({ categories }: SectionWithTabsProps) {
       } else {
         params.delete('category');
       }
-      router.push(`/regions?${params.toString()}`, { scroll: false });
+      router.push(`/${type}?${params.toString()}`, { scroll: false });
     });
   };
 

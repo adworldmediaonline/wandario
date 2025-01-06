@@ -9,7 +9,7 @@ export default function DestinationContent({
   destination,
 }: DestinationContentProps) {
   return (
-    <Prose as="article">
+    <Prose>
       <div dangerouslySetInnerHTML={{ __html: destination.description }} />
     </Prose>
   );

@@ -40,7 +40,7 @@ export default function DestinationDetails({
         ]}
       />
 
-      <Section id="content" container className="pt-2 pb-10 bg-white">
+      <Section id="content" className="py-3 pb-5" container>
         <DestinationContent destination={destination} />
       </Section>
 

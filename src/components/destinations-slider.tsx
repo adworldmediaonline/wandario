@@ -16,11 +16,13 @@ import { Section } from './ui/section';
 interface DestinationsSliderProps {
   categories: ICategory[];
   category: string;
+  type?: 'regions' | 'destinations';
 }
 
 export function DestinationsSlider({
   categories,
   category,
+  type,
 }: DestinationsSliderProps) {
   const destinations = useMemo(() => {
     if (!category) {
@@ -37,7 +39,7 @@ export function DestinationsSlider({
 
   return (
     <Section>
-      <SectionWithTabs categories={categories} />
+      <SectionWithTabs categories={categories} type={type} />
 
       {hasDestinations ? (
         <div className="relative px-2 sm:px-4 mt-8">
