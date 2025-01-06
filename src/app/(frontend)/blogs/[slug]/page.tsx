@@ -18,18 +18,21 @@ export async function generateMetadata(props: {
   }
 
   return {
-    title: `${blog.metaTitle} | Wandario`,
-    description: blog.metaDescription,
-    keywords: blog.metaKeywords,
+    title: `${blog?.metaTitle ?? ''} | Wandario`,
+    description: blog?.metaDescription ?? '',
+    keywords: blog?.metaKeywords ?? '',
+    alternates: {
+      canonical: `/blogs/${blog.slug}`,
+    },
     openGraph: {
-      title: blog.metaTitle,
-      description: blog.metaDescription,
+      title: blog?.metaTitle ?? '',
+      description: blog?.metaDescription ?? '',
       images: [
         {
-          url: blog.thumbnail.secure_url,
+          url: blog?.thumbnail?.secure_url ?? '',
           width: 1200,
           height: 630,
-          alt: blog.heading,
+          alt: blog?.heading ?? '',
         },
       ],
     },

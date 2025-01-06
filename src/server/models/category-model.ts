@@ -6,6 +6,21 @@ const categorySchema = new mongoose.Schema({
     required: [true, 'Name is required'],
     trim: true,
   },
+  metaTitle: {
+    type: String,
+    required: [true, 'Meta Title is required'],
+    trim: true,
+  },
+  metaDescription: {
+    type: String,
+    required: [true, 'Meta Description is required'],
+    trim: true,
+  },
+
+  metaKeywords: {
+    type: String,
+    trim: true,
+  },
   description: {
     type: String,
     required: [true, 'Description is required'],
@@ -13,9 +28,15 @@ const categorySchema = new mongoose.Schema({
   excerpt: {
     type: String,
     required: [true, 'Excerpt is required'],
-    maxlength: [200, 'Excerpt must be less than 200 characters'],
+    maxlength: [400, 'Excerpt must be less than 400 characters'],
     trim: true,
   },
+  heading: {
+    type: String,
+    required: [true, 'Heading is required'],
+    trim: true,
+  },
+
   slug: {
     type: String,
     required: true,
@@ -31,6 +52,15 @@ const categorySchema = new mongoose.Schema({
     secure_url: String,
     public_id: String,
     fileName: String,
+  },
+  images: {
+    type: [
+      {
+        secure_url: String,
+        public_id: String,
+        fileName: String,
+      },
+    ],
   },
   destinations: [
     {

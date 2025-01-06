@@ -7,7 +7,7 @@ export default function RegionLoading() {
       <HeroHeader
         title="Loading Region..."
         excerpt="Please wait while we fetch the region details."
-        backgroundImageId="testing/hero-banner"
+        backgroundImageId=" "
       />
 
       <section className="py-20">

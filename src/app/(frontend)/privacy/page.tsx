@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: 'Privacy Policy | Wandario',
   description:
     'Learn about how we collect, use, and protect your personal information when using Wandario services.',
+  alternates: {
+    canonical: '/privacy',
+  },
 };
 
 export default function PrivacyPage() {

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: 'Terms and Conditions | Wandario',
   description:
     'Read our terms and conditions to understand the rules and guidelines for using Wandario services.',
+  alternates: {
+    canonical: '/terms',
+  },
 };
 
 export default function TermsPage() {

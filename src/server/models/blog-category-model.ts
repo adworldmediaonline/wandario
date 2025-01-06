@@ -13,7 +13,7 @@ const blogCategorySchema = new mongoose.Schema({
   excerpt: {
     type: String,
     required: [true, 'Excerpt is required'],
-    maxlength: [200, 'Excerpt must be less than 200 characters'],
+    maxlength: [400, 'Excerpt must be less than 400 characters'],
     trim: true,
   },
   slug: {

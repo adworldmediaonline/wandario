@@ -35,7 +35,7 @@ export default async function DestinationsPage(props: {
         }}
         title="Explore Amazing Destinations"
         excerpt="Discover breathtaking locations and unforgettable experiences across the globe. Each destination offers unique adventures waiting to be explored."
-        backgroundImageId="testing/destination-hero-banner"
+        backgroundImageId=""
         actions={{
           primary: {
             label: 'Start Exploring',

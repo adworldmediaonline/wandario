@@ -7,7 +7,7 @@ export default function DestinationLoading() {
       <HeroHeader
         title="Loading Destination..."
         excerpt="Please wait while we fetch the destination details."
-        backgroundImageId="testing/hero-banner"
+        backgroundImageId=" "
       />
 
       <section className="py-20">
