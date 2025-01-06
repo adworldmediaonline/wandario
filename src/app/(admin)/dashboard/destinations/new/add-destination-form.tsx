@@ -103,7 +103,7 @@ export default function AddDestinationForm({
 
   function onSubmit(values: z.infer<typeof destinationSchema>) {
     execute(values);
-    form.reset();
+    // form.reset();
   }
 
   return (

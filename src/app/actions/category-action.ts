@@ -85,6 +85,7 @@ export const updateCategoryAction = actionClient
     }
 
     const { id, ...updateData } = parsedInput;
+    console.log(updateData);
     const updatedCategory = await Category.findByIdAndUpdate(
       id,
       {

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Travel Stories & Insights | Wandario',
   description:
     'Discover inspiring travel stories, expert tips, and hidden gems from around the world. Your source for authentic travel experiences and insights.',
+  alternates: {
+    canonical: '/blogs',
+  },
 };
 
 export default async function BlogPage(props: {

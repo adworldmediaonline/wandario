@@ -44,10 +44,19 @@ export default function EditCategoryForm({
     resolver: zodResolver(categorySchema),
     mode: 'onBlur',
     defaultValues: {
-      name: category?.name,
-      description: category?.description,
-      thumbnail: category?.thumbnail,
-      excerpt: category?.excerpt,
+      name: category?.name ?? '',
+      heading: category?.heading ?? '',
+      metaTitle: category?.metaTitle ?? '',
+      metaDescription: category?.metaDescription ?? '',
+      metaKeywords: category?.metaKeywords ?? '',
+      description: category?.description ?? '',
+      thumbnail: category?.thumbnail || {
+        secure_url: '',
+        public_id: '',
+        fileName: '',
+      },
+      images: category?.images || [],
+      excerpt: category?.excerpt ?? '',
     },
   });
 
@@ -100,6 +109,14 @@ export default function EditCategoryForm({
                   >
                     Basic Information
                   </TabsTrigger>
+
+                  <TabsTrigger
+                    value="meta"
+                    className="flex-1 md:flex-none data-[state=active]:bg-background"
+                  >
+                    SEO & Meta
+                  </TabsTrigger>
+
                   <TabsTrigger
                     value="media"
                     className="flex-1 md:flex-none data-[state=active]:bg-background"
@@ -135,6 +152,27 @@ export default function EditCategoryForm({
 
                     <FormField
                       control={form.control}
+                      name="heading"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabelInfo
+                            label="Heading (H1)"
+                            required
+                            tooltip="Main heading that appears at the top of the destination page"
+                          />
+                          <FormControl>
+                            <Input
+                              placeholder="Enter page heading"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="excerpt"
                       render={({ field }) => (
                         <FormItem>
@@ -153,6 +191,70 @@ export default function EditCategoryForm({
                           <FormDescription>
                             A short summary that appears in cards and previews
                           </FormDescription>
+                        </FormItem>
+                      )}
+                    />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="meta" className="space-y-6">
+                <Card>
+                  <CardContent className="pt-6 space-y-6">
+                    <FormField
+                      control={form.control}
+                      name="metaTitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabelInfo
+                            label="Meta Title"
+                            required
+                            tooltip="Title that appears in search engine results (50-60 characters recommended)"
+                          />
+                          <FormControl>
+                            <Input placeholder="Enter meta title" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="metaDescription"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabelInfo
+                            label="Meta Description"
+                            required
+                            tooltip="Brief description that appears in search results (150-160 characters recommended)"
+                          />
+                          <FormControl>
+                            <Input
+                              placeholder="Enter meta description"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="metaKeywords"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabelInfo
+                            label="Meta Keywords"
+                            optional
+                            tooltip="Add comma-separated keywords to help with SEO"
+                          />
+                          <FormControl>
+                            <Input
+                              placeholder="Enter meta keywords"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -188,6 +290,17 @@ export default function EditCategoryForm({
                           <FormMessage />
                         </FormItem>
                       )}
+                    />
+
+                    <ImageUploadField
+                      form={form}
+                      name="images"
+                      label="Images"
+                      description="Upload images (JPEG, PNG, GIF, WebP, max 5MB). At least one image is required."
+                      multiple={true}
+                      onImageUpload={onImageUpload}
+                      allowedFileTypes={ALLOWED_FILE_TYPES}
+                      maxFileSize={MAX_FILE_SIZE}
                     />
 
                     <ImageUploadField

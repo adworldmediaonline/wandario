@@ -7,6 +7,19 @@ import { Section } from '@/components/ui/section';
 import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
 import DestinationsWrapper from '@/components/destinations-wrapper';
 import { TripPlanningSection } from '@/components/ui/trip-planning-section';
+import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
+import BlogShowcase from '@/components/ui/blog-showcase';
+import { getBlogs } from '@/server/db/blog';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Wandario | Regions',
+  description: '',
+  keywords: '',
+  alternates: {
+    canonical: '/regions',
+  },
+};
 
 export default async function RegionsPage(props: {
   searchParams: Promise<{ category: string; offset: string }>;
@@ -19,6 +32,8 @@ export default async function RegionsPage(props: {
   const categoriesPromise = getCategories({
     offset: currentOffset.toString(),
   });
+
+  const blogsPromise = getBlogs({ limit: '3' });
 
   return (
     <>
@@ -67,6 +82,11 @@ export default async function RegionsPage(props: {
         </ErrorBoundaryContainer>
       </Section>
       <TripPlanningSection />
+      <ErrorBoundaryContainer>
+        <Suspense fallback={<BlogShowcaseSkeleton />}>
+          <BlogShowcase promise={blogsPromise} className="bg-gray-50/50" />
+        </Suspense>
+      </ErrorBoundaryContainer>
     </>
   );
 }

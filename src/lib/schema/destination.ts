@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const destinationSchema = z.object({
+  categoryId: z.string().min(1, 'Category is required'),
   name: z.string().min(1, 'Name is required'),
   heading: z.string().min(1, 'Heading is required'),
   metaTitle: z.string().min(1, 'Meta Title is required'),
@@ -10,12 +11,12 @@ const destinationSchema = z.object({
     .min(1, 'Meta Keywords is required')
     .optional()
     .or(z.literal('')),
-  description: z.string().min(8, 'Description must be at least 8 characters'),
   excerpt: z
     .string()
     .min(1, 'Excerpt is required')
-    .max(200, 'Excerpt must be less than 200 characters'),
-  categoryId: z.string().min(1, 'Category is required'),
+    .max(400, 'Excerpt must be less than 400 characters'),
+  description: z.string().min(8, 'Description must be at least 8 characters'),
+
   images: z
     .array(
       z.object({

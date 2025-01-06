@@ -29,7 +29,7 @@ export function DestinationCard({
         <CldImage
           alt={destination.name}
           className="object-cover transition-transform duration-500 group-hover:scale-110"
-          src={destination.thumbnail?.public_id || 'testing/hero-banner'}
+          src={destination.thumbnail?.public_id || ' '}
           fill
           sizes="(min-width: 1536px) 20vw, (min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 85vw"
         />

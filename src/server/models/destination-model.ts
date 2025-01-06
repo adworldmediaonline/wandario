@@ -1,9 +1,21 @@
 import mongoose from 'mongoose';
 
 const destinationSchema = new mongoose.Schema({
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
+
   name: {
     type: String,
     required: [true, 'Name is required'],
+    trim: true,
+  },
+
+  heading: {
+    type: String,
+    required: [true, 'Heading is required'],
     trim: true,
   },
 
@@ -13,6 +25,7 @@ const destinationSchema = new mongoose.Schema({
     required: [true, 'Meta Title is required'],
     trim: true,
   },
+
   metaDescription: {
     type: String,
     required: [true, 'Meta Description is required'],
@@ -24,36 +37,30 @@ const destinationSchema = new mongoose.Schema({
     trim: true,
   },
 
-  heading: {
+  excerpt: {
     type: String,
-    required: [true, 'Heading is required'],
+    required: [true, 'Excerpt is required'],
+    maxlength: [400, 'Excerpt must be less than 400 characters'],
     trim: true,
   },
+
   description: {
     type: String,
     required: [true, 'Description is required'],
   },
-  excerpt: {
-    type: String,
-    required: [true, 'Excerpt is required'],
-    maxlength: [200, 'Excerpt must be less than 200 characters'],
-    trim: true,
-  },
+
   slug: {
     type: String,
     required: true,
     unique: true,
     trim: true,
   },
-  categoryId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
-    required: true,
-  },
+
   status: {
     type: String,
     default: 'active',
   },
+
   thumbnail: {
     secure_url: String,
     public_id: String,

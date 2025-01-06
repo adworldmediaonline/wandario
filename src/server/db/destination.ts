@@ -89,3 +89,53 @@ export async function getDestinations(query: {
     return { destinations: [], totalDestinations: 0 };
   }
 }
+
+export async function getDestinationsByCategory(categoryId: string) {
+  if (!categoryId) {
+    return { destinations: [], totalDestinations: 0 };
+  }
+
+  try {
+    await connectToDatabase();
+
+    let query = {};
+    if (isValidObjectId(categoryId)) {
+      query = { categoryId };
+    } else {
+      // Case-insensitive slug search with exact match
+      const category = await import('../models').then(m =>
+        m.Category.findOne({
+          slug: { $regex: new RegExp(`^${categoryId}$`, 'i') },
+          status: 'active',
+        }).select('_id')
+      );
+
+      if (!category) {
+        return { destinations: [], totalDestinations: 0 };
+      }
+      query = { categoryId: category._id };
+    }
+
+    // Add status check for active destinations
+    query = { ...query, status: 'active' };
+
+    // Run queries in parallel for better performance
+    const [destinations, totalDestinations] = await Promise.all([
+      Destination.find(query)
+        .select('_id name slug excerpt thumbnail') // Explicit field selection
+        .sort({ createdAt: -1 }) // Sort featured first, then by date
+        .limit(6)
+        .lean()
+        .exec(),
+      Destination.countDocuments(query),
+    ]);
+
+    return {
+      destinations: JSON.parse(JSON.stringify(destinations)),
+      totalDestinations,
+    };
+  } catch (error) {
+    console.error('Error fetching destinations by category:', error);
+    return { destinations: [], totalDestinations: 0 };
+  }
+}

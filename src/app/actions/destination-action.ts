@@ -12,6 +12,7 @@ import slugify from 'slugify';
 export const addDestinationAction = actionClient
   .schema(destinationSchema)
   .action(async input => {
+    console.log('start');
     const session = await auth();
     if (!session?.user || session.user.role !== 'admin') {
       return {
@@ -25,13 +26,13 @@ export const addDestinationAction = actionClient
 
     const destination = new Destination({
       ...input.parsedInput,
-      name: input.parsedInput.name.toLowerCase(),
+      name: input.parsedInput.name,
       slug: slugify(input.parsedInput.name, { lower: true }),
     });
 
     const savedDestination = await destination.save();
 
-    await Category.findByIdAndUpdate(input.parsedInput.categoryId, {
+    await Category.findByIdAndUpdate(input.parsedInput.categoryId.toString(), {
       $push: { destinations: savedDestination._id },
     });
 
@@ -58,7 +59,7 @@ export const updateDestinationAction = actionClient
     }
 
     await connectToDatabase();
-    console.log(input.parsedInput);
+
     const { id, ...updateData } = input.parsedInput;
     const updatedDestination = await Destination.findByIdAndUpdate(
       id,

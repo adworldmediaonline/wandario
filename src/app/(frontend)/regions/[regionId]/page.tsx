@@ -1,13 +1,48 @@
 import HeroHeader from '@/components/ui/hero-header';
 import { getCategoryById } from '@/server/db/category';
-import { EmptyState } from '@/components/ui/empty-state';
-import { Globe2 } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import { RegionDestinationsSlider } from '@/components/region-destinations-slider';
 import { Suspense } from 'react';
-import RegionDestinationsSliderSkeleton from '@/components/skeletons/region-destinations-skeleton';
 import { Section } from '@/components/ui/section';
-import { Prose } from '@/components/ui/prose';
+import { Metadata } from 'next';
+import RegionDestinationsShowcase from '@/components/region-destinations-showcase';
+import RegionDestinationsSkeleton from '@/components/skeletons/region-destinations-skeleton';
+import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
+import { getDestinationsByCategory } from '@/server/db/destination';
+
+export async function generateMetadata(props: {
+  params: Promise<{ regionId: string }>;
+}): Promise<Metadata> {
+  const params = await props.params;
+  const category = await getCategoryById(params.regionId);
+
+  if (!category) {
+    return {
+      title: 'Region Not Found | Wandario',
+      description: 'The requested region could not be found.',
+    };
+  }
+
+  return {
+    title: `${category.metaTitle} | Wandario`,
+    description: category.metaDescription ?? '',
+    keywords: category.metaKeywords ?? '',
+    alternates: {
+      canonical: `/regions/${params.regionId}`,
+    },
+    openGraph: {
+      title: category.metaTitle ?? '',
+      description: category.metaDescription ?? '',
+      images: [
+        {
+          url: category.thumbnail?.secure_url ?? '',
+          width: 1200,
+          height: 630,
+          alt: category.name ?? '',
+        },
+      ],
+    },
+  };
+}
 
 export default async function RegionDetailsPage(props: {
   params: Promise<{ regionId: string }>;
@@ -19,7 +54,8 @@ export default async function RegionDetailsPage(props: {
     notFound();
   }
 
-  const hasDestinations = category.destinations?.length > 0;
+  // Create the promise for destinations
+  const destinationsPromise = getDestinationsByCategory(params.regionId);
 
   return (
     <>
@@ -39,7 +75,7 @@ export default async function RegionDetailsPage(props: {
         title={category.name}
         excerpt={category.excerpt}
         backgroundImageId={
-          category.thumbnail?.public_id || 'testing/hero-banner'
+          category.images[0]?.public_id ?? category.thumbnail?.public_id
         }
         actions={{
           primary: {
@@ -53,31 +89,12 @@ export default async function RegionDetailsPage(props: {
         }}
       />
 
-      <Section container>
-        <Prose>
-          <div dangerouslySetInnerHTML={{ __html: category.description }} />
-        </Prose>
-      </Section>
-
       <Section id="destinations" container>
-        <Suspense fallback={<RegionDestinationsSliderSkeleton />}>
-          {hasDestinations ? (
-            <RegionDestinationsSlider
-              destinations={category.destinations}
-              title={`Explore ${category.name}`}
-            />
-          ) : (
-            <EmptyState
-              icon={Globe2}
-              title="No Destinations Available"
-              description={`We're currently adding exciting destinations to ${category.name}. Check back soon for updates!`}
-              action={{
-                label: 'Explore Other Regions',
-                href: '/regions',
-              }}
-            />
-          )}
-        </Suspense>
+        <ErrorBoundaryContainer>
+          <Suspense fallback={<RegionDestinationsSkeleton />}>
+            <RegionDestinationsShowcase promise={destinationsPromise} />
+          </Suspense>
+        </ErrorBoundaryContainer>
       </Section>
     </>
   );

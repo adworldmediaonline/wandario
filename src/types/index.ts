@@ -31,10 +31,15 @@ export interface IDestination {
 export interface ICategory {
   _id: string;
   name: string;
+  heading: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
   description: string;
   excerpt: string;
   status: string;
   slug: string;
+  images: ICloudinaryImage[];
   thumbnail: ICloudinaryImage;
   destinations: IDestination[];
   createdAt: Date;

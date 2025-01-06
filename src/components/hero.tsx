@@ -35,7 +35,7 @@ export default function Hero() {
                 {/* Main Image */}
                 <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl">
                   <CloudinaryImage
-                    src="testing/hero-banner-1"
+                    src=" -1"
                     alt="Beautiful destination"
                     className="transition-transform duration-700 hover:scale-105"
                     sizes="(max-width: 1280px) 50vw, 600px"
@@ -47,7 +47,7 @@ export default function Hero() {
                 {/* Floating Images */}
                 <div className="absolute -right-4 -top-4 w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-xl">
                   <CloudinaryImage
-                    src="testing/hero-banner-1"
+                    src=" -1"
                     alt="Travel moment"
                     className="transition-transform duration-700 hover:scale-105"
                     sizes="(max-width: 1280px) 160px, 128px"
@@ -58,7 +58,7 @@ export default function Hero() {
 
                 <div className="absolute -left-4 -bottom-4 w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-xl">
                   <CloudinaryImage
-                    src="testing/hero-banner-1"
+                    src=" -1"
                     alt="Scenic view"
                     className="transition-transform duration-700 hover:scale-105"
                     sizes="(max-width: 1280px) 160px, 128px"
