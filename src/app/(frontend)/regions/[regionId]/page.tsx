@@ -8,6 +8,7 @@ import RegionDestinationsShowcase from '@/components/region-destinations-showcas
 import RegionDestinationsSkeleton from '@/components/skeletons/region-destinations-skeleton';
 import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
 import { getDestinationsByCategory } from '@/server/db/destination';
+import { Prose } from '@/components/ui/prose';
 
 export async function generateMetadata(props: {
   params: Promise<{ regionId: string }>;
@@ -95,6 +96,12 @@ export default async function RegionDetailsPage(props: {
             <RegionDestinationsShowcase promise={destinationsPromise} />
           </Suspense>
         </ErrorBoundaryContainer>
+      </Section>
+
+      <Section className="py-0" container>
+        <Prose>
+          <div dangerouslySetInnerHTML={{ __html: category.description }} />
+        </Prose>
       </Section>
     </>
   );

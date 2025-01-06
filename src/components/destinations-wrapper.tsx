@@ -9,11 +9,13 @@ import { DestinationsSlider } from '@/components/destinations-slider';
 interface DestinationsWrapperProps {
   promise: Promise<{ categories: ICategory[]; totalCategories: number }>;
   category: string;
+  type?: 'regions' | 'destinations';
 }
 
 export default function DestinationsWrapper({
   promise,
   category,
+  type,
 }: DestinationsWrapperProps) {
   const { categories } = use(promise);
   const hasDestinations = categories.some(cat => cat.destinations?.length > 0);
@@ -29,5 +31,11 @@ export default function DestinationsWrapper({
     );
   }
 
-  return <DestinationsSlider categories={categories} category={category} />;
+  return (
+    <DestinationsSlider
+      type={type}
+      categories={categories}
+      category={category}
+    />
+  );
 }

@@ -1,26 +1,37 @@
 import HeroHeader from '@/components/ui/hero-header';
-import { getDestinations } from '@/server/db/destination';
+import { getCategories } from '@/server/db/category';
 import { Suspense } from 'react';
-
-import { EmptyState } from '@/components/ui/empty-state';
-import { Compass } from 'lucide-react';
-import DestinationsShowcaseSkeleton from '@/components/skeletons/destinations-showcase-skeleton';
-import DestinationsShowcase from '@/components/destinations-showcase';
+import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-skeleton';
 import { Section } from '@/components/ui/section';
+import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
+import DestinationsWrapper from '@/components/destinations-wrapper';
+import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
+import BlogShowcase from '@/components/ui/blog-showcase';
+import { getBlogs } from '@/server/db/blog';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Wandario | Destinations',
+  description: '',
+  keywords: '',
+  alternates: {
+    canonical: '/destinations',
+  },
+};
 
 export default async function DestinationsPage(props: {
-  searchParams: Promise<{ search: string; offset: string }>;
+  searchParams: Promise<{ category: string; offset: string }>;
 }) {
   const searchParams = await props.searchParams;
-  const search = searchParams.search ?? '';
+  const category = searchParams.category ?? '';
   const currentOffset = parseInt(searchParams.offset ?? '0', 10);
 
-  const { destinations, totalDestinations } = await getDestinations({
-    search,
+  // Create the promise for use with the use() hook
+  const categoriesPromise = getCategories({
     offset: currentOffset.toString(),
   });
 
-  const hasDestinations = destinations.length > 0;
+  const blogsPromise = getBlogs({ limit: '3' });
 
   return (
     <>
@@ -33,45 +44,39 @@ export default async function DestinationsPage(props: {
             },
           ],
         }}
-        title="Explore Amazing Destinations"
-        excerpt="Discover breathtaking locations and unforgettable experiences across the globe. Each destination offers unique adventures waiting to be explored."
-        backgroundImageId=""
+        title="Explore the World's Most Stunning Destinations"
+        excerpt="Discover the best places to visit, from breathtaking landscapes to vibrant cities."
+        backgroundImageId="pexels-bkd--30102800_w2gvad"
         actions={{
           primary: {
             label: 'Start Exploring',
-            href: '#destinations-grid',
+            href: '#destinations',
           },
-          secondary: {
-            label: 'View Map',
-            href: '#map',
-          },
+          // secondary: {
+          //   label: 'View Map',
+          //   href: '#map',
+          // },
         }}
       />
 
-      <Section id="destinations-grid" container>
-        <Suspense fallback={<DestinationsShowcaseSkeleton />}>
-          {hasDestinations ? (
-            <DestinationsShowcase
-              destinations={destinations}
-              totalDestinations={totalDestinations}
+      {/* Destinations Section */}
+      <Section id="destinations" container>
+        <ErrorBoundaryContainer>
+          <Suspense fallback={<CategoryShowcaseSkeleton />}>
+            <DestinationsWrapper
+              promise={categoriesPromise}
+              category={category}
+              type="destinations"
             />
-          ) : (
-            <EmptyState
-              icon={Compass}
-              title="No Destinations Found"
-              description={
-                search
-                  ? `No destinations found for "${search}". Try different search terms.`
-                  : "We're currently adding new destinations. Check back soon!"
-              }
-              action={{
-                label: 'Clear Search',
-                href: '/destinations',
-              }}
-            />
-          )}
-        </Suspense>
+          </Suspense>
+        </ErrorBoundaryContainer>
       </Section>
+
+      <ErrorBoundaryContainer>
+        <Suspense fallback={<BlogShowcaseSkeleton />}>
+          <BlogShowcase promise={blogsPromise} className="bg-gray-50/50" />
+        </Suspense>
+      </ErrorBoundaryContainer>
     </>
   );
 }
