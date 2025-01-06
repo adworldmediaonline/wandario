@@ -6,6 +6,28 @@ import { isValidObjectId } from 'mongoose';
 import { Blog } from '../models';
 import mongoose from 'mongoose';
 
+interface GetBlogsQuery {
+  offset?: string;
+  limit?: string;
+  category?: string;
+  search?: string;
+}
+
+interface GetBlogsResult {
+  blogs: IBlog[];
+  totalBlogs: number;
+}
+
+interface BlogSearchQuery {
+  categoryId?: string;
+  $or?: Array<{
+    [key: string]: {
+      $regex: string;
+      $options: string;
+    };
+  }>;
+}
+
 export async function getBlogById(id: string): Promise<IBlog | null> {
   try {
     await connectToDatabase();
@@ -33,28 +55,6 @@ export async function getBlogById(id: string): Promise<IBlog | null> {
   }
 }
 
-interface GetBlogsQuery {
-  offset?: string;
-  limit?: string;
-  category?: string;
-  search?: string;
-}
-
-interface GetBlogsResult {
-  blogs: IBlog[];
-  totalBlogs: number;
-}
-
-interface BlogSearchQuery {
-  categoryId?: string;
-  $or?: Array<{
-    [key: string]: {
-      $regex: string;
-      $options: string;
-    };
-  }>;
-}
-
 export async function getBlogs({
   offset = '0',
   limit = '10',
@@ -62,6 +62,7 @@ export async function getBlogs({
   search,
 }: GetBlogsQuery): Promise<GetBlogsResult> {
   try {
+    await connectToDatabase();
     const searchQuery: BlogSearchQuery = {};
 
     // Add category filter if provided and is a valid ObjectId
