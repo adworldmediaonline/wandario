@@ -48,14 +48,7 @@ export function Footer() {
   };
 
   return (
-    <footer
-      className={cn(
-        'mt-auto border-t bg-background relative',
-        'before:absolute before:top-0 before:inset-x-0 before:h-16',
-        'before:bg-gradient-to-t before:from-transparent before:to-black/5',
-        'before:-translate-y-full'
-      )}
-    >
+    <footer className="mt-auto border-t bg-background">
       <div className="container py-12 md:py-16 lg:py-20">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Left side - Newsletter */}

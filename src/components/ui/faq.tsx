@@ -51,16 +51,19 @@ export function FAQ({
 
   return (
     <section
-      className={cn('pb-16 pt-5 md:pt-5 md:pb-24', className)}
+      className={cn(
+        'w-full px-4 pb-16 pt-5 md:px-6 md:pt-5 md:pb-24',
+        className
+      )}
       {...props}
     >
-      <div className="flex justify-center max-w-4xl mx-auto">
+      <div className="container">
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
           variants={container}
-          className="space-y-12"
+          className="mx-auto max-w-4xl space-y-12"
         >
           {/* Header */}
           <div
@@ -70,7 +73,7 @@ export function FAQ({
               variants={item}
               className="inline-flex items-center space-x-2 text-primary"
             >
-              <HelpCircle className="w-5 h-5" />
+              <HelpCircle className="h-5 w-5" />
               <span className="text-sm font-medium uppercase tracking-wider">
                 FAQ
               </span>
@@ -78,7 +81,7 @@ export function FAQ({
 
             <motion.h2
               variants={item}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
+              className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 sm:text-4xl md:text-5xl"
             >
               {title}
             </motion.h2>
@@ -86,7 +89,7 @@ export function FAQ({
             {description && (
               <motion.p
                 variants={item}
-                className="text-lg md:text-xl text-center text-gray-600 max-w-2xl"
+                className="mx-auto max-w-2xl text-base text-center text-gray-600 md:text-lg"
               >
                 {description}
               </motion.p>
@@ -95,23 +98,23 @@ export function FAQ({
 
           {/* FAQ Items */}
           <motion.div variants={item}>
-            <Accordion type="single" collapsible className="w-full space-y-6">
+            <Accordion type="single" collapsible className="w-full space-y-4">
               {items.map((item, index) => (
                 <AccordionItem
                   key={index}
                   value={`faq-${index}`}
-                  className="border border-gray-200 rounded-2xl px-6 py-4 data-[state=open]:bg-gray-50/50 transition-colors duration-200"
+                  className="border border-gray-200 rounded-2xl px-4 py-3 data-[state=open]:bg-gray-50/50 transition-colors duration-200 sm:px-6 sm:py-4"
                 >
                   <AccordionTrigger className="hover:no-underline py-2 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 [&>svg]:transition-transform">
                     <div className="flex items-center text-left">
-                      <span className="text-xl font-medium text-gray-900">
+                      <span className="text-lg font-medium text-gray-900 sm:text-xl">
                         {item.question}
                       </span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="pt-4 pb-2">
+                  <AccordionContent className="pt-3 pb-2">
                     <div
-                      className="prose prose-gray prose-sm sm:prose-base max-w-none"
+                      className="prose prose-gray prose-sm max-w-none sm:prose-base"
                       dangerouslySetInnerHTML={{ __html: item.answer }}
                     />
                   </AccordionContent>

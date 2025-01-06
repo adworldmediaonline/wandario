@@ -8,6 +8,7 @@ import { ArrowRight, Calendar, Tag, PenLine } from 'lucide-react';
 import CloudinaryImage from '../cloudinary-image';
 import type { IBlog } from '@/types';
 import { EmptyState } from './empty-state';
+import { use } from 'react';
 
 const container = {
   hidden: { opacity: 0 },
@@ -26,11 +27,15 @@ const item = {
 };
 
 interface BlogShowcaseProps {
-  blogs: IBlog[];
+  promise: Promise<{ blogs: IBlog[]; totalBlogs: number }>;
   className?: string;
 }
 
-export default function BlogShowcase({ blogs, className }: BlogShowcaseProps) {
+export default function BlogShowcase({
+  promise,
+  className,
+}: BlogShowcaseProps) {
+  const { blogs } = use(promise);
   const hasBlogs = blogs && blogs.length > 0;
 
   return (

@@ -3,8 +3,6 @@ import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-s
 import { getCategories } from '@/server/db/category';
 import CategoryShowcase from '@/components/category-showcase';
 import HeroHeader from '@/components/ui/hero-header';
-import { EmptyState } from '@/components/ui/empty-state';
-import { Compass } from 'lucide-react';
 import ServiceShowcase from '@/components/ui/service-showcase';
 import AboutUs from '@/components/ui/about-us';
 import { FAQ } from '@/components/ui/faq';
@@ -13,12 +11,12 @@ import TravelInsights from '@/components/ui/travel-insights';
 import BlogShowcase from '@/components/ui/blog-showcase';
 import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
 import { getBlogs } from '@/server/db/blog';
+import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
 
-export default async function HomePage() {
-  const [{ categories }, { blogs }] = await Promise.all([
-    getCategories({ offset: '0', limit: '8' }),
-    getBlogs({ limit: '3' }),
-  ]);
+export default function HomePage() {
+  // Create promises on the server
+  const categoriesPromise = getCategories({ offset: '0', limit: '8' });
+  const blogsPromise = getBlogs({ limit: '3' });
 
   return (
     <>
@@ -37,21 +35,12 @@ export default async function HomePage() {
           },
         }}
       />
-      <Suspense fallback={<CategoryShowcaseSkeleton />}>
-        {categories.length > 0 ? (
-          <CategoryShowcase categories={categories} />
-        ) : (
-          <EmptyState
-            icon={Compass}
-            title="No Categories Found"
-            description="We're currently working on adding new travel categories. Check back soon for exciting destinations!"
-            action={{
-              label: 'Explore Our Travel Guides',
-              href: '/guides',
-            }}
-          />
-        )}
-      </Suspense>
+
+      <ErrorBoundaryContainer>
+        <Suspense fallback={<CategoryShowcaseSkeleton />}>
+          <CategoryShowcase promise={categoriesPromise} />
+        </Suspense>
+      </ErrorBoundaryContainer>
 
       <AboutUs />
 
@@ -59,9 +48,11 @@ export default async function HomePage() {
 
       <ServiceShowcase />
 
-      <Suspense fallback={<BlogShowcaseSkeleton />}>
-        <BlogShowcase blogs={blogs} className="bg-gray-50/50" />
-      </Suspense>
+      <ErrorBoundaryContainer>
+        <Suspense fallback={<BlogShowcaseSkeleton />}>
+          <BlogShowcase promise={blogsPromise} className="bg-gray-50/50" />
+        </Suspense>
+      </ErrorBoundaryContainer>
 
       <FAQ
         title="Common Travel Questions"
