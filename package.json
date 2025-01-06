@@ -75,6 +75,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.5",
+    "react-error-boundary": "^5.0.0",
     "react-hook-form": "^7.54.0",
     "react-medium-image-zoom": "^5.2.12",
     "resend": "^4.0.1",

@@ -39,10 +39,10 @@ export function SectionWithTabs({ categories }: SectionWithTabsProps) {
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <SectionHeader
-          title="Exceptional Global Tour Package Experience"
-          excerpt="Discover the world's most iconic destinations with our Exceptional Global Tour Package, offering unparalleled experiences, personalized itineraries, and unforgettable memories."
+          title="Popular Destinations Around the World"
+          excerpt="Explore handpicked destinations from pristine beaches to historic cities. Our curated selection features the most sought-after locations, complete with local insights and travel tips for an authentic experience."
           align="center"
-          highlight="Global Tour"
+          highlight="Popular Destinations"
           className="mb-8"
           titleClassName="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400"
           descriptionClassName="max-w-3xl"

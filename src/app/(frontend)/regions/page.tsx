@@ -3,10 +3,10 @@ import { getCategories } from '@/server/db/category';
 import CategoryShowcase from '@/components/category-showcase';
 import { Suspense } from 'react';
 import CategoryShowcaseSkeleton from '@/components/skeletons/category-showcase-skeleton';
-import { DestinationsSlider } from '@/components/destinations-slider';
-import { EmptyState } from '@/components/ui/empty-state';
-import { Globe2 } from 'lucide-react';
 import { Section } from '@/components/ui/section';
+import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
+import DestinationsWrapper from '@/components/destinations-wrapper';
+import { TripPlanningSection } from '@/components/ui/trip-planning-section';
 
 export default async function RegionsPage(props: {
   searchParams: Promise<{ category: string; offset: string }>;
@@ -15,12 +15,10 @@ export default async function RegionsPage(props: {
   const category = searchParams.category ?? '';
   const currentOffset = parseInt(searchParams.offset ?? '0', 10);
 
-  const { categories } = await getCategories({
+  // Create the promise for use with the use() hook
+  const categoriesPromise = getCategories({
     offset: currentOffset.toString(),
   });
-
-  const hasCategories = categories.length > 0;
-  const hasDestinations = categories.some(cat => cat.destinations?.length > 0);
 
   return (
     <>
@@ -33,9 +31,9 @@ export default async function RegionsPage(props: {
             },
           ],
         }}
-        title="Explore World Regions"
-        excerpt="Discover diverse landscapes and rich cultural heritage across different regions of the world. Each destination tells its own unique story through traditions, cuisine, and natural wonders."
-        backgroundImageId="testing/hero-banner-regions"
+        title="Wandario—Your Guide to Seamless Adventures: Explore the World with Expert Travel Advice"
+        excerpt="Plan, Prepare, and Perfect Your Travel Experience"
+        backgroundImageId="regions_hd8bhh"
         actions={{
           primary: {
             label: 'Start Exploring',
@@ -50,38 +48,25 @@ export default async function RegionsPage(props: {
 
       {/* Regions Grid Section */}
       <Section id="regions-grid" container>
-        <Suspense fallback={<CategoryShowcaseSkeleton />}>
-          {hasCategories ? (
-            <CategoryShowcase categories={categories} />
-          ) : (
-            <EmptyState
-              icon={Globe2}
-              title="No Regions Available"
-              description="We're currently expanding our coverage of world regions. Please check back soon for updates!"
-              action={{
-                label: 'Explore Other Options',
-                href: '/',
-              }}
-            />
-          )}
-        </Suspense>
+        <ErrorBoundaryContainer>
+          <Suspense fallback={<CategoryShowcaseSkeleton />}>
+            <CategoryShowcase promise={categoriesPromise} />
+          </Suspense>
+        </ErrorBoundaryContainer>
       </Section>
 
       {/* Destinations Section */}
       <Section id="destinations" container>
-        <Suspense fallback={<CategoryShowcaseSkeleton />}>
-          {hasDestinations ? (
-            <DestinationsSlider categories={categories} category={category} />
-          ) : (
-            <EmptyState
-              icon={Globe2}
-              title="No Destinations Yet"
-              description="We're working on adding exciting destinations. Stay tuned for updates!"
-              className="min-h-[300px]"
+        <ErrorBoundaryContainer>
+          <Suspense fallback={<CategoryShowcaseSkeleton />}>
+            <DestinationsWrapper
+              promise={categoriesPromise}
+              category={category}
             />
-          )}
-        </Suspense>
+          </Suspense>
+        </ErrorBoundaryContainer>
       </Section>
+      <TripPlanningSection />
     </>
   );
 }
