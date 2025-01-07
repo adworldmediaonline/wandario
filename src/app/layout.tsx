@@ -4,7 +4,6 @@ import { Toaster } from '@/components/ui/sonner';
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import './globals.css';
 import { auth } from '@/auth';
-
 import { cn } from '@/lib/utils';
 
 const poppins = Poppins({
@@ -17,7 +16,6 @@ export const metadata: Metadata = {
   title: 'Wandario',
   description: '',
   keywords: '',
-
   metadataBase: new URL('https://www.wandario.com'),
   alternates: {
     canonical: '/',
