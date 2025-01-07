@@ -24,6 +24,19 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  openGraph: {
+    title: 'Explore Destinations, Travel Guides, and Expert Tips | Wandario',
+    description:
+      'Discover expert travel guides, accommodations, local cuisines, and adventure tips with Wandario. Plan your next unforgettable trip with insights and resources curated just for you.',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/datdyxl7o/image/upload/o_100/c_fill,w_640,g_auto/f_webp/q_90/v1/hero-banner_imkrwg?_a=BAVAZGBz0',
+        width: 1200,
+        height: 630,
+        alt: 'Wandario',
+      },
+    ],
+  },
 };
 
 export default function HomePage() {
