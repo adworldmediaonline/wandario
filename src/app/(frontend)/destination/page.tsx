@@ -11,9 +11,12 @@ import { getBlogs } from '@/server/db/blog';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Wandario | Destinations',
-  description: '',
-  keywords: '',
+  title:
+    'Top Travel Destinations | Explore the Best Places to Visit with Wandario',
+  description:
+    'Discover handpicked travel destinations with Wandario. From pristine beaches to vibrant cities, explore curated guides, local insights, and travel tips for an authentic journey.',
+  keywords:
+    'Travel destinations, Popular places to visit, Global travel locations, Explore top destinations, Must-visit places worldwide, Travel tips for popular regions, Handpicked travel destinations with expert tips, Discover breathtaking landscapes and vibrant cities, Explore the world’s best destinations with Wandario',
   alternates: {
     canonical: '/destination',
   },
