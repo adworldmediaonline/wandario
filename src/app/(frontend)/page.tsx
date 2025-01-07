@@ -12,6 +12,19 @@ import BlogShowcase from '@/components/ui/blog-showcase';
 import BlogShowcaseSkeleton from '@/components/skeletons/blog-showcase-skeleton';
 import { getBlogs } from '@/server/db/blog';
 import ErrorBoundaryContainer from '@/components/ui/error-boundary-container';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Explore Destinations, Travel Guides, and Expert Tips | Wandario',
+  description:
+    'Discover expert travel guides, accommodations, local cuisines, and adventure tips with Wandario. Plan your next unforgettable trip with insights and resources curated just for you.',
+  keywords:
+    'Travel planning, Expert travel guides, Best travel destinations, Travel inspiration, Wanderlust journeys, Personalized travel experiences, Plan your next adventure with expert tips, Discover hidden gems for your travels, Comprehensive travel planning resources',
+
+  alternates: {
+    canonical: '/',
+  },
+};
 
 export default function HomePage() {
   // Create promises on the server
