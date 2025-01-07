@@ -31,7 +31,7 @@ export default async function Image() {
         >
           {/* Background Image */}
           <img
-            src="https://res.cloudinary.com/datdyxl7o/image/upload/o_100/c_fill,w_1200,h_630,g_auto/f_webp/q_90/v1/hero-banner_imkrwg"
+            src="https://res.cloudinary.com/datdyxl7o/image/upload/o_100/c_fill,w_1200,h_630,g_auto/f_png/q_90/v1/hero-banner_imkrwg"
             alt="Background"
             style={{
               position: 'absolute',
