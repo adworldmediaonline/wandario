@@ -13,9 +13,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Wandario',
-  description: '',
-  keywords: '',
+  title: 'Explore Destinations, Travel Guides, and Expert Tips | Wandario',
+  description:
+    'Discover expert travel guides, accommodations, local cuisines, and adventure tips with Wandario. Plan your next unforgettable trip with insights and resources curated just for you.',
+  keywords:
+    'Travel planning, Expert travel guides, Best travel destinations, Travel inspiration, Wanderlust journeys, Personalized travel experiences, Plan your next adventure with expert tips, Discover hidden gems for your travels, Comprehensive travel planning resources',
   metadataBase: new URL('https://www.wandario.com'),
   alternates: {
     canonical: '/',

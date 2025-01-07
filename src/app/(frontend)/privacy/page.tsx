@@ -5,9 +5,10 @@ import { Shield, Mail, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Wandario',
-  description:
-    'Learn about how we collect, use, and protect your personal information when using Wandario services.',
+  title: 'Wandario Privacy Policy | Your Data, Our Responsibility',
+  description: `Wandario's Privacy Policy outlining how we manage, secure, and use your data. Your trust and privacy are our commitment as we ensure a secure experience.`,
+  keywords:
+    'Privacy policy, Data protection, User privacy rights, How we use personal data, Information security measures, Cookies and privacy policy, Wandario’s approach to protecting user data, Learn how we manage and secure your information, Comprehensive privacy policy for travelers',
   alternates: {
     canonical: '/privacy',
   },

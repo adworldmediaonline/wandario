@@ -13,9 +13,11 @@ import { getBlogs } from '@/server/db/blog';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Wandario | Regions',
-  description: '',
-  keywords: '',
+  title: 'Explore Regions Worldwide | Plan Seamless Adventures with Wandario',
+  description:
+    'Plan your next adventure with Wandario. Explore diverse regions, from vibrant cities to serene landscapes, with curated guides, trip planning tips, and local insights for a seamless experience.',
+  keywords:
+    'Travel regions, Explore North America, Regional travel guides, Cultural experiences by region, Seasonal travel insights, Regional travel itineraries, Discover North America’s top travel spots, Seasonal travel tips for each region, Uncover unique regional travel experiences',
   alternates: {
     canonical: '/region',
   },

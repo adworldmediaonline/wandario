@@ -6,9 +6,11 @@ import GuidelineShowcase from '@/components/ui/guideline-showcase';
 import { Heart, Globe2, Compass } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About Us | Wandario',
+  title: 'About Wandario: Transforming Journeys with Expert Travel Insights',
   description:
-    'Explore the World with Expert Travel Guides. Your journey begins here.',
+    'Learn about Wandario, your dedicated travel partner. Discover our mission to empower meaningful journeys and our vision of connecting the world through enriching travel experiences.',
+  keywords:
+    'About Wandario, Travel expertise, Trusted travel guide, Passion for travel, Travel company values, Innovative travel experiences, How Wandario transforms your travel dreams, Meet your ultimate travel companion, Discover the mission of Wandario',
   alternates: {
     canonical: '/about-us',
   },

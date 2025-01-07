@@ -5,9 +5,10 @@ import { FileText, Mail, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
-  title: 'Terms and Conditions | Wandario',
-  description:
-    'Read our terms and conditions to understand the rules and guidelines for using Wandario services.',
+  title: 'Wandario Terms and Conditions | User Rights and Service Policies',
+  description: `Review Wandario's Terms and Conditions to understand the policies governing the use of our services, user rights, and obligations. Stay informed about our terms.`,
+  keywords:
+    'Terms and conditions, Wandario service agreement, User agreement, Website terms of use, Service terms and policies, User rights and obligations, Wandario terms of service and user rights, Detailed service agreement for travelers, Policies governing the use of Wandario services',
   alternates: {
     canonical: '/terms',
   },

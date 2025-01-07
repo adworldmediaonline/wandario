@@ -7,9 +7,11 @@ import { Metadata } from 'next';
 import HeroHeader from '@/components/ui/hero-header';
 
 export const metadata: Metadata = {
-  title: 'Travel Stories & Insights | Wandario',
+  title: 'Inspiring Travel Stories, Tips, and Adventures | Wandario',
   description:
-    'Discover inspiring travel stories, expert tips, and hidden gems from around the world. Your source for authentic travel experiences and insights.',
+    'Explore captivating travel tales, solo travel guides, and expert advice. Uncover hidden gems, cultural experiences, and tips for unforgettable adventures worldwide.',
+  keywords:
+    'Travel stories, Expert travel insights, Hidden travel gems, Inspiring travel experiences, Solo travel tips, Travel adventures worldwide, Curated travel stories to inspire your journeys, Expert travel tips for unique adventures, Hidden gems from around the world',
   alternates: {
     canonical: '/blog',
   },

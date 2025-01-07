@@ -19,6 +19,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
+import { Logo } from '@/components/ui/logo';
 
 export default function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -35,9 +36,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="font-bold text-primary text-xl">Wandario</span>
-        </Link>
+        <Logo />
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex">
@@ -81,7 +80,9 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <SheetHeader>
-                <SheetTitle>Wandario</SheetTitle>
+                <SheetTitle>
+                  <Logo size="sm" />
+                </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
                 {menuItems.map(item => (
@@ -95,7 +96,7 @@ export default function Header() {
                   </Link>
                 ))}
                 <Button asChild className="mt-4">
-                  <Link href="#">Contact Us</Link>
+                  <Link href="/contact">Contact Us</Link>
                 </Button>
               </div>
             </SheetContent>
