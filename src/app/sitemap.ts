@@ -131,7 +131,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...categories.map(category => ({
         url: `${baseUrl}/region/${category.slug}`,
         lastModified: new Date(category.createdAt),
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.8,
       })),
 
@@ -139,7 +139,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...destinations.map(destination => ({
         url: `${baseUrl}/destination/${destination.slug}`,
         lastModified: new Date(destination.updatedAt),
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.8,
       })),
 
@@ -147,7 +147,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...blogs.map(blog => ({
         url: `${baseUrl}/blog/${blog.slug}`,
         lastModified: new Date(blog.updatedAt),
-        changeFrequency: 'monthly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.7,
       })),
     ];
