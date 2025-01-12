@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { ICategory } from '@/server/db/category';
 import { Section } from './ui/section';
 import CloudinaryImage from './cloudinary-image';
@@ -9,6 +6,11 @@ import { ArrowRight, MapPin, Navigation } from 'lucide-react';
 import { use } from 'react';
 import { EmptyState } from './ui/empty-state';
 import { Compass } from 'lucide-react';
+import {
+  MotionDiv,
+  MotionH2,
+  MotionP,
+} from '@/components/framer-motion-div/motion-div';
 
 const container = {
   hidden: { opacity: 0 },
@@ -67,7 +69,7 @@ export default function CategoryShowcase({
 
       {/* Header */}
       <div className="relative text-center max-w-3xl mx-auto mb-20">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -78,9 +80,9 @@ export default function CategoryShowcase({
             <Navigation className="w-4 h-4 mr-2" />
             Explore Destinations
           </span>
-        </motion.div>
+        </MotionDiv>
 
-        <motion.h2
+        <MotionH2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -88,9 +90,9 @@ export default function CategoryShowcase({
           className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
         >
           Discover Your Next Adventure
-        </motion.h2>
+        </MotionH2>
 
-        <motion.p
+        <MotionP
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -106,7 +108,7 @@ export default function CategoryShowcase({
       {hasCategories ? (
         <>
           {/* Categories Grid */}
-          <motion.div
+          <MotionDiv
             variants={container}
             initial="hidden"
             whileInView="show"
@@ -114,7 +116,7 @@ export default function CategoryShowcase({
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10"
           >
             {categories.map(category => (
-              <motion.div
+              <MotionDiv
                 key={category._id}
                 variants={item}
                 className="group relative"
@@ -180,13 +182,13 @@ export default function CategoryShowcase({
                 {/* Card Decorative Elements */}
                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
                 <div className="absolute -top-4 -left-4 w-32 h-32 bg-orange-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-              </motion.div>
+              </MotionDiv>
             ))}
-          </motion.div>
+          </MotionDiv>
 
           {/* View All Link */}
           {totalCategories > 6 && (
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -202,7 +204,7 @@ export default function CategoryShowcase({
                 <span className="font-medium">View All Regions</span>
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
-            </motion.div>
+            </MotionDiv>
           )}
         </>
       ) : (
@@ -212,7 +214,7 @@ export default function CategoryShowcase({
           description="We're currently working on adding new travel categories. Check back soon for exciting destinations!"
           action={{
             label: 'Explore Our Travel Guides',
-            href: '/guides',
+            href: '#',
           }}
         />
       )}

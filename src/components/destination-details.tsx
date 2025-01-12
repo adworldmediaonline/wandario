@@ -1,5 +1,3 @@
-'use client';
-
 import DestinationContent from '@/components/destination-content';
 import DestinationFAQ from '@/components/destination-faq';
 import HeroHeaderV2 from '@/components/ui/hero-header-v2';

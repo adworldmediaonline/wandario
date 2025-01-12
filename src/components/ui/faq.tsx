@@ -1,14 +1,12 @@
-'use client';
-
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { HelpCircle } from 'lucide-react';
+import { MotionDiv, MotionH2, MotionP } from '../framer-motion-div/motion-div';
 
 export interface FAQItem {
   question: string;
@@ -52,13 +50,13 @@ export function FAQ({
   return (
     <section
       className={cn(
-        'w-full px-4 pb-16 pt-5 md:px-6 md:pt-5 md:pb-24',
+        'w-full px-4 pb-16 pt-16 md:px-6 md:pt-16 md:pb-24',
         className
       )}
       {...props}
     >
       <div className="container">
-        <motion.div
+        <MotionDiv
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
@@ -69,7 +67,7 @@ export function FAQ({
           <div
             className={cn('space-y-4', variant === 'centered' && 'text-center')}
           >
-            <motion.div
+            <MotionDiv
               variants={item}
               className="inline-flex items-center space-x-2 text-primary"
             >
@@ -77,27 +75,27 @@ export function FAQ({
               <span className="text-sm font-medium uppercase tracking-wider">
                 FAQ
               </span>
-            </motion.div>
+            </MotionDiv>
 
-            <motion.h2
+            <MotionH2
               variants={item}
               className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 sm:text-4xl md:text-5xl"
             >
               {title}
-            </motion.h2>
+            </MotionH2>
 
             {description && (
-              <motion.p
+              <MotionP
                 variants={item}
                 className="mx-auto max-w-2xl text-base text-center text-gray-600 md:text-lg"
               >
                 {description}
-              </motion.p>
+              </MotionP>
             )}
           </div>
 
           {/* FAQ Items */}
-          <motion.div variants={item}>
+          <MotionDiv variants={item}>
             <Accordion type="single" collapsible className="w-full space-y-4">
               {items.map((item, index) => (
                 <AccordionItem
@@ -121,8 +119,8 @@ export function FAQ({
                 </AccordionItem>
               ))}
             </Accordion>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </div>
     </section>
   );

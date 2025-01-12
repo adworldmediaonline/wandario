@@ -56,10 +56,6 @@ export default async function RegionsPage(props: {
             label: 'Start Exploring',
             href: '#regions-grid',
           },
-          secondary: {
-            label: 'View Map',
-            href: '#map',
-          },
         }}
       />
 

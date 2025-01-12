@@ -55,10 +55,6 @@ export default async function DestinationsPage(props: {
             label: 'Start Exploring',
             href: '#destinations',
           },
-          // secondary: {
-          //   label: 'View Map',
-          //   href: '#map',
-          // },
         }}
       />
 

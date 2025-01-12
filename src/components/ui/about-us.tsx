@@ -1,9 +1,7 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Section } from './section';
 import CloudinaryImage from '../cloudinary-image';
 import { Heart } from 'lucide-react';
+import { MotionDiv } from '@/components/framer-motion-div/motion-div';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 20 },
@@ -29,24 +27,24 @@ export default function AboutUs() {
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           {/* Content Side */}
-          <motion.div
+          <MotionDiv
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
             className="lg:col-span-7 relative z-10"
           >
             {/* Badge */}
-            <motion.div
+            <MotionDiv
               variants={fadeUpVariant}
               className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8"
             >
               <Heart className="w-4 h-4 mr-2" />
               About Wandario
-            </motion.div>
+            </MotionDiv>
 
             {/* Main Content */}
             <div className="relative">
-              <motion.div variants={fadeUpVariant} className="space-y-8">
+              <MotionDiv variants={fadeUpVariant} className="space-y-8">
                 {/* Opening Statement */}
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight">
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900">
@@ -82,12 +80,12 @@ export default function AboutUs() {
                     extraordinary.
                   </p>
                 </div>
-              </motion.div>
+              </MotionDiv>
             </div>
-          </motion.div>
+          </MotionDiv>
 
           {/* Image Side */}
-          <motion.div
+          <MotionDiv
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
@@ -109,7 +107,7 @@ export default function AboutUs() {
               </div>
 
               {/* Floating Card */}
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -131,13 +129,13 @@ export default function AboutUs() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </MotionDiv>
 
               {/* Decorative Elements */}
               <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-orange-50 rounded-full blur-3xl" />
             </div>
-          </motion.div>
+          </MotionDiv>
         </div>
       </div>
     </Section>

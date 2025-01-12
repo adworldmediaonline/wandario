@@ -1,5 +1,3 @@
-'use client';
-
 import { use } from 'react';
 import { ICategory } from '@/server/db/category';
 import { EmptyState } from '@/components/ui/empty-state';

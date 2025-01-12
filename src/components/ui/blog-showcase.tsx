@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Section } from './section';
 import { Button } from './button';
 import Link from 'next/link';
@@ -9,6 +6,7 @@ import CloudinaryImage from '../cloudinary-image';
 import type { IBlog } from '@/types';
 import { EmptyState } from './empty-state';
 import { use } from 'react';
+import { MotionDiv, MotionH2, MotionP } from '../framer-motion-div/motion-div';
 
 const container = {
   hidden: { opacity: 0 },
@@ -47,7 +45,7 @@ export default function BlogShowcase({
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-50 rounded-full blur-[100px]" />
         </div>
 
-        <motion.div
+        <MotionDiv
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
@@ -56,37 +54,37 @@ export default function BlogShowcase({
         >
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto space-y-6">
-            <motion.div variants={item}>
+            <MotionDiv variants={item}>
               <span className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
                 <Tag className="w-4 h-4 mr-2" />
                 Latest Travel Stories
               </span>
-            </motion.div>
+            </MotionDiv>
 
-            <motion.h2
+            <MotionH2
               variants={item}
               className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
             >
               Explore Travel Insights & Adventures
-            </motion.h2>
+            </MotionH2>
 
-            <motion.p
+            <MotionP
               variants={item}
               className="text-lg md:text-xl text-gray-600"
             >
               Discover inspiring stories, expert tips, and hidden gems from
               around the world
-            </motion.p>
+            </MotionP>
           </div>
 
           {/* Blog Grid or Empty State */}
           {hasBlogs ? (
-            <motion.div
+            <MotionDiv
               variants={item}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
               {blogs.map(blog => (
-                <motion.div
+                <MotionDiv
                   key={blog._id}
                   variants={item}
                   whileHover={{ y: -5 }}
@@ -151,11 +149,11 @@ export default function BlogShowcase({
                       </div>
                     </div>
                   </Link>
-                </motion.div>
+                </MotionDiv>
               ))}
-            </motion.div>
+            </MotionDiv>
           ) : (
-            <motion.div variants={item}>
+            <MotionDiv variants={item}>
               <EmptyState
                 icon={PenLine}
                 title="No Stories Yet"
@@ -165,12 +163,12 @@ export default function BlogShowcase({
                   href: '/guides',
                 }}
               />
-            </motion.div>
+            </MotionDiv>
           )}
 
           {/* CTA */}
           {hasBlogs && (
-            <motion.div variants={item} className="text-center">
+            <MotionDiv variants={item} className="text-center">
               <Button asChild size="lg" className="rounded-full">
                 <Link
                   href="/blog"
@@ -180,9 +178,9 @@ export default function BlogShowcase({
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
-            </motion.div>
+            </MotionDiv>
           )}
-        </motion.div>
+        </MotionDiv>
       </div>
     </Section>
   );

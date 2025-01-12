@@ -1,14 +1,17 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { Calendar, Share2, Tag, ArrowLeft } from 'lucide-react';
+import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import CloudinaryImage from '@/components/cloudinary-image';
 import type { IBlog } from '@/types';
 import { Button } from '@/components/ui/button';
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import { Prose } from '@/components/ui/prose';
 import { FAQ } from '@/components/ui/faq';
 import Link from 'next/link';
+import {
+  MotionDiv,
+  MotionH1,
+  MotionP,
+  MotionSection,
+} from '@/components/framer-motion-div/motion-div';
 
 interface BlogContentProps {
   blog: IBlog;
@@ -31,22 +34,22 @@ const item = {
 };
 
 export default function BlogContent({ blog }: BlogContentProps) {
-  const handleShare = useCallback(async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: blog.heading,
-          text: blog.excerpt,
-          url: window.location.href,
-        });
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        // You might want to show a toast notification here
-      }
-    } catch (error) {
-      console.error('Error sharing:', error);
-    }
-  }, [blog.heading, blog.excerpt]);
+  // const handleShare = useCallback(async () => {
+  //   try {
+  //     if (navigator.share) {
+  //       await navigator.share({
+  //         title: blog.heading,
+  //         text: blog.excerpt,
+  //         url: window.location.href,
+  //       });
+  //     } else {
+  //       await navigator.clipboard.writeText(window.location.href);
+  //       // You might want to show a toast notification here
+  //     }
+  //   } catch (error) {
+  //     console.error('Error sharing:', error);
+  //   }
+  // }, [blog.heading, blog.excerpt]);
 
   return (
     <article className="relative">
@@ -56,7 +59,7 @@ export default function BlogContent({ blog }: BlogContentProps) {
           asChild
           variant="ghost"
           size="icon"
-          className="h-10 w-10 rounded-full bg-white/80 shadow-lg backdrop-blur-sm hover:bg-white"
+          className="h-10 w-10 rounded-full bg-white/80 shadow-lg backdrop-blur-sm hover:bg-white hover:text-primary"
         >
           <Link href="/blog">
             <ArrowLeft className="h-5 w-5" />
@@ -73,24 +76,24 @@ export default function BlogContent({ blog }: BlogContentProps) {
         </div>
 
         <div className="container">
-          <motion.div
+          <MotionDiv
             variants={container}
             initial="hidden"
             animate="show"
-            className="max-w-4xl mx-auto"
+            className="max-w-5xl mx-auto"
           >
             {/* Mobile Back Button */}
-            <motion.div variants={item} className="mb-8 lg:hidden">
+            <MotionDiv variants={item} className="mb-8 lg:hidden">
               <Button asChild variant="ghost" className="gap-2">
                 <Link href="/blog">
                   <ArrowLeft className="h-4 w-4" />
                   Back to blogs
                 </Link>
               </Button>
-            </motion.div>
+            </MotionDiv>
 
             {/* Category and Metadata */}
-            <motion.div
+            <MotionDiv
               variants={item}
               className="flex flex-wrap items-center justify-center gap-4 mb-8"
             >
@@ -109,39 +112,39 @@ export default function BlogContent({ blog }: BlogContentProps) {
                   year: 'numeric',
                 })}
               </time>
-            </motion.div>
+            </MotionDiv>
 
             {/* Title */}
-            <motion.h1
+            <MotionH1
               variants={item}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 mb-8"
             >
               {blog.heading}
-            </motion.h1>
+            </MotionH1>
 
             {/* Excerpt */}
-            <motion.p
+            <MotionP
               variants={item}
               className="text-xl text-gray-600 text-center mb-12"
             >
               {blog.excerpt}
-            </motion.p>
+            </MotionP>
 
             {/* Share Button */}
-            <motion.div variants={item} className="flex justify-center mb-12">
+            {/* <MotionDiv variants={item} className="flex justify-center mb-12">
               <Button
                 variant="outline"
                 size="lg"
                 className="rounded-full"
-                onClick={handleShare}
+                // onClick={handleShare}
               >
                 <Share2 className="h-4 w-4 mr-2" />
                 Share Story
               </Button>
-            </motion.div>
+            </MotionDiv> */}
 
             {/* Featured Image */}
-            <motion.div
+            <MotionDiv
               variants={item}
               className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl"
             >
@@ -154,13 +157,13 @@ export default function BlogContent({ blog }: BlogContentProps) {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-            </motion.div>
-          </motion.div>
+            </MotionDiv>
+          </MotionDiv>
         </div>
       </div>
 
       {/* Content Section */}
-      <motion.section
+      <MotionSection
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
@@ -173,11 +176,11 @@ export default function BlogContent({ blog }: BlogContentProps) {
             </Prose>
           </div>
         </div>
-      </motion.section>
+      </MotionSection>
 
       {/* FAQs Section */}
       {blog.faqs && blog.faqs.length > 0 && (
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -189,7 +192,7 @@ export default function BlogContent({ blog }: BlogContentProps) {
             className="bg-gray-50/50"
             variant="centered"
           />
-        </motion.div>
+        </MotionDiv>
       )}
     </article>
   );
