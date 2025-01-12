@@ -1,13 +1,16 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Section } from './ui/section';
 import { Navigation, MapPin, ArrowRight, Compass } from 'lucide-react';
 import { use } from 'react';
 import type { IDestination } from '@/types';
 import CloudinaryImage from './cloudinary-image';
 import { EmptyState } from './ui/empty-state';
-import { useRouter } from 'next/navigation';
+import {
+  MotionDiv,
+  MotionH2,
+  MotionLink,
+  MotionP,
+} from './framer-motion-div/motion-div';
+import Link from 'next/link';
 
 const container = {
   hidden: { opacity: 0 },
@@ -31,12 +34,6 @@ export default function RegionDestinationsShowcase({
 }) {
   const { destinations, totalDestinations } = use(promise);
   const hasDestinations = destinations && destinations.length > 0;
-  const router = useRouter();
-
-  const handleNavigation = (href: string) => {
-    router.push(href);
-    window.scrollTo(0, 0);
-  };
 
   return (
     <Section className="relative overflow-hidden" container>
@@ -49,7 +46,7 @@ export default function RegionDestinationsShowcase({
 
       {/* Header */}
       <div className="relative text-center max-w-3xl mx-auto mb-20">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -60,9 +57,9 @@ export default function RegionDestinationsShowcase({
             <Navigation className="w-4 h-4 mr-2" />
             Popular Destinations
           </span>
-        </motion.div>
+        </MotionDiv>
 
-        <motion.h2
+        <MotionH2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -70,9 +67,9 @@ export default function RegionDestinationsShowcase({
           className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
         >
           Must-Visit Places
-        </motion.h2>
+        </MotionH2>
 
-        <motion.p
+        <MotionP
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -81,12 +78,12 @@ export default function RegionDestinationsShowcase({
         >
           Explore the most captivating destinations in this region, each
           offering unique experiences and unforgettable memories.
-        </motion.p>
+        </MotionP>
       </div>
 
       {hasDestinations ? (
         <>
-          <motion.div
+          <MotionDiv
             variants={container}
             initial="hidden"
             whileInView="show"
@@ -94,13 +91,11 @@ export default function RegionDestinationsShowcase({
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10"
           >
             {destinations.map(destination => (
-              <motion.div
+              <MotionLink
                 key={destination._id}
                 variants={item}
                 className="group relative cursor-pointer"
-                onClick={() =>
-                  handleNavigation(`/destination/${destination.slug}`)
-                }
+                href={`/destination/${destination.slug}`}
               >
                 <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100">
                   {/* Background Image */}
@@ -155,26 +150,26 @@ export default function RegionDestinationsShowcase({
                 {/* Card Decorative Elements */}
                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
                 <div className="absolute -top-4 -left-4 w-32 h-32 bg-orange-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
-              </motion.div>
+              </MotionLink>
             ))}
-          </motion.div>
+          </MotionDiv>
 
           {totalDestinations > 6 && (
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-center mt-16"
             >
-              <button
-                onClick={() => handleNavigation('/destination')}
+              <Link
+                href="/destination"
                 className="inline-flex items-center px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-colors duration-300"
               >
                 <span className="font-medium">View All Destinations</span>
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-            </motion.div>
+              </Link>
+            </MotionDiv>
           )}
         </>
       ) : (

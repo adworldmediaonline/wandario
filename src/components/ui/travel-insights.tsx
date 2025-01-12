@@ -1,11 +1,9 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Section } from './section';
 import { Button } from './button';
 import Link from 'next/link';
 import { ArrowRight, Map, Building2, Bus, Globe2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { MotionDiv, MotionH2, MotionP } from '../framer-motion-div/motion-div';
 
 interface InsightItem {
   icon: React.ElementType;
@@ -78,7 +76,7 @@ export default function TravelInsights({
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-50 rounded-full blur-3xl" />
         </div>
 
-        <motion.div
+        <MotionDiv
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
@@ -87,35 +85,35 @@ export default function TravelInsights({
         >
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto space-y-6">
-            <motion.div variants={item}>
+            <MotionDiv variants={item}>
               <span className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
                 <Globe2 className="w-4 h-4 mr-2" />
                 Travel Expertise
               </span>
-            </motion.div>
+            </MotionDiv>
 
-            <motion.h2
+            <MotionH2
               variants={item}
               className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
             >
               Travel Insights & Recommendations
-            </motion.h2>
+            </MotionH2>
 
-            <motion.p
+            <MotionP
               variants={item}
               className="text-lg md:text-xl text-gray-600"
             >
               Expert Advice for Your Next Adventure
-            </motion.p>
+            </MotionP>
           </div>
 
           {/* Insights Grid */}
-          <motion.div
+          <MotionDiv
             variants={item}
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {insights.map(insight => (
-              <motion.div
+              <MotionDiv
                 key={insight.title}
                 variants={item}
                 whileHover={{ y: -5 }}
@@ -137,12 +135,12 @@ export default function TravelInsights({
 
                   <p className="text-gray-600">{insight.description}</p>
                 </div>
-              </motion.div>
+              </MotionDiv>
             ))}
-          </motion.div>
+          </MotionDiv>
 
           {/* CTA */}
-          <motion.div variants={item} className="text-center">
+          <MotionDiv variants={item} className="text-center">
             <Button
               asChild
               size="lg"
@@ -156,8 +154,8 @@ export default function TravelInsights({
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       </div>
     </Section>
   );

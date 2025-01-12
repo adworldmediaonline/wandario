@@ -1,7 +1,5 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Calendar, Globe, Leaf, Shield } from 'lucide-react';
+import { MotionDiv, MotionH2, MotionP } from '../framer-motion-div/motion-div';
 
 const container = {
   hidden: { opacity: 0 },
@@ -38,8 +36,8 @@ export default function GuidelineShowcase({
   guidelines,
 }: GuidelineShowcaseProps) {
   return (
-    <div className="container py-16 md:py-24">
-      <motion.div
+    <div>
+      <MotionDiv
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
@@ -48,30 +46,27 @@ export default function GuidelineShowcase({
       >
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-6">
-          <motion.h2
+          <MotionH2
             variants={item}
             className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
           >
             Our Guidelines
-          </motion.h2>
+          </MotionH2>
 
-          <motion.p
-            variants={item}
-            className="text-lg md:text-xl text-gray-600"
-          >
+          <MotionP variants={item} className="text-lg md:text-xl text-gray-600">
             Follow these principles to make the most of your travel experience
-          </motion.p>
+          </MotionP>
         </div>
 
         {/* Guidelines Grid */}
-        <motion.div
+        <MotionDiv
           variants={item}
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
         >
           {guidelines.map(guideline => {
             const Icon = iconMap[guideline.icon as keyof typeof iconMap];
             return (
-              <motion.div
+              <MotionDiv
                 key={guideline.title}
                 variants={item}
                 whileHover={{ y: -5 }}
@@ -88,11 +83,11 @@ export default function GuidelineShowcase({
 
                   <p className="text-gray-600">{guideline.description}</p>
                 </div>
-              </motion.div>
+              </MotionDiv>
             );
           })}
-        </motion.div>
-      </motion.div>
+        </MotionDiv>
+      </MotionDiv>
     </div>
   );
 }

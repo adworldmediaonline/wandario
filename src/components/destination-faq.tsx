@@ -1,5 +1,3 @@
-'use client';
-
 import { FAQ } from '@/components/ui/faq';
 import type { IFAQ } from '@/types';
 

@@ -4,9 +4,9 @@ import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 import type { ICategory } from '@/types';
-import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/section-header';
+import { MotionButton, MotionDiv } from '../framer-motion-div/motion-div';
 
 interface SectionWithTabsProps {
   categories: ICategory[];
@@ -37,7 +37,7 @@ export function SectionWithTabs({
   return (
     <div className="space-y-8">
       {/* Section Header */}
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -52,10 +52,10 @@ export function SectionWithTabs({
           descriptionClassName="max-w-3xl"
           divider={true}
         />
-      </motion.div>
+      </MotionDiv>
 
       {/* Tabs Navigation */}
-      <motion.div
+      <MotionDiv
         className="flex justify-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ export function SectionWithTabs({
       >
         <div className="relative overflow-x-auto mask-fade-edges">
           <div className="inline-flex items-center gap-2 p-2 bg-muted/40 backdrop-blur-sm rounded-2xl min-w-full sm:min-w-0 border border-muted-foreground/10">
-            <motion.button
+            <MotionButton
               onClick={() => handleCategoryChange('')}
               className={cn(
                 'relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300',
@@ -81,7 +81,7 @@ export function SectionWithTabs({
               aria-controls="destination-panel"
             >
               {!currentCategory && (
-                <motion.div
+                <MotionDiv
                   className="absolute inset-0 bg-white dark:bg-gray-800 rounded-xl shadow-sm"
                   layoutId="activeTab"
                   transition={{
@@ -95,10 +95,10 @@ export function SectionWithTabs({
                 {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                 All
               </span>
-            </motion.button>
+            </MotionButton>
 
             {categories.map(category => (
-              <motion.button
+              <MotionButton
                 key={category._id}
                 onClick={() => handleCategoryChange(category.name)}
                 className={cn(
@@ -120,7 +120,7 @@ export function SectionWithTabs({
               >
                 {currentCategory.toLowerCase() ===
                   category.name.toLowerCase() && (
-                  <motion.div
+                  <MotionDiv
                     className="absolute inset-0 bg-white dark:bg-gray-800 rounded-xl shadow-sm"
                     layoutId="activeTab"
                     transition={{
@@ -134,11 +134,11 @@ export function SectionWithTabs({
                   {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                   {category.name}
                 </span>
-              </motion.button>
+              </MotionButton>
             ))}
           </div>
         </div>
-      </motion.div>
+      </MotionDiv>
 
       <style jsx>{`
         .mask-fade-edges {

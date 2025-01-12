@@ -69,9 +69,7 @@ export default function HomePage() {
       </ErrorBoundaryContainer>
 
       <AboutUs />
-
       <TravelInsights variant="alternate" />
-
       <ServiceShowcase />
 
       <ErrorBoundaryContainer>

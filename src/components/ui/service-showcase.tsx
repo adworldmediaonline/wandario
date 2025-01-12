@@ -1,11 +1,9 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { LucideIcon } from 'lucide-react';
 import CloudinaryImage from '@/components/cloudinary-image';
 import { showcaseData } from '@/lib/app-data';
 import { Section } from './section';
+import { MotionDiv } from '../framer-motion-div/motion-div';
 
 export interface Service {
   icon: LucideIcon;
@@ -54,7 +52,7 @@ export function ServiceShowcase({
 
       {/* Content */}
       <div className="relative z-10">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -73,12 +71,12 @@ export function ServiceShowcase({
               {ctaText}
             </Button>
           )}
-        </motion.div>
+        </MotionDiv>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <motion.div
+            <MotionDiv
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +95,7 @@ export function ServiceShowcase({
                   {service.description}
                 </p>
               </div>
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
       </div>

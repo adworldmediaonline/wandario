@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -16,6 +15,7 @@ import type { IBlog, IBlogCategory } from '@/types';
 import { EmptyState } from '@/components/ui/empty-state';
 import BlogCard from './blog-card';
 import Pagination from '@/components/ui/pagination';
+import { MotionDiv } from '@/components/framer-motion-div/motion-div';
 
 interface BlogListProps {
   blogs: IBlog[];
@@ -104,7 +104,7 @@ export default function BlogList({
     <section className="py-16 lg:py-20">
       <div className="container">
         {/* Filters */}
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -143,11 +143,11 @@ export default function BlogList({
               </div>
             </div>
           </div>
-        </motion.div>
+        </MotionDiv>
 
         {/* Results Summary */}
         {blogs.length > 0 && (
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -158,25 +158,25 @@ export default function BlogList({
               {Math.min(currentPage * itemsPerPage, totalBlogs)} of {totalBlogs}{' '}
               stories
             </p>
-          </motion.div>
+          </MotionDiv>
         )}
 
         {/* Blog Grid */}
         {blogs.length > 0 ? (
-          <motion.div
+          <MotionDiv
             variants={container}
             initial="hidden"
             animate="show"
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {blogs.map(blog => (
-              <motion.div key={blog._id} variants={item}>
+              <MotionDiv key={blog._id} variants={item}>
                 <BlogCard blog={blog} />
-              </motion.div>
+              </MotionDiv>
             ))}
-          </motion.div>
+          </MotionDiv>
         ) : (
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -192,12 +192,12 @@ export default function BlogList({
                 href: '/blog',
               }}
             />
-          </motion.div>
+          </MotionDiv>
         )}
 
         {/* Pagination */}
         {blogs.length > 0 && (
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -209,7 +209,7 @@ export default function BlogList({
               itemsPerPage={itemsPerPage}
               onPageChange={handlePageChange}
             />
-          </motion.div>
+          </MotionDiv>
         )}
       </div>
     </section>

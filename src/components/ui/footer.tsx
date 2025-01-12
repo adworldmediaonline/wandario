@@ -1,21 +1,12 @@
-'use client';
-
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { Button } from './button';
-import { Input } from './input';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { Loader2, Send } from 'lucide-react';
+import { Logo } from './logo';
 
 const footerLinks = {
   company: [
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about-us' },
     { label: 'Destinations', href: '/destination' },
-    // { label: 'Photography', href: '/photography' },
-    // { label: 'Accommodations', href: '/accommodations' },
-    // { label: 'Resources', href: '/resources' },
     { label: 'Contact', href: '/contact' },
     { label: 'Blog', href: '/blog' },
   ],
@@ -35,54 +26,19 @@ const footerLinks = {
 };
 
 export function Footer() {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    toast.success('Thank you for subscribing!', {
-      description: "We'll keep you updated with the latest news.",
-    });
-    setEmail('');
-    setIsLoading(false);
-  };
-
   return (
     <footer className="mt-auto border-t bg-background">
       <div className="container py-12 md:py-16 lg:py-20">
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Left side - Newsletter */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">
-              Subscribe to our newsletter
-            </h3>
-            <p className="text-sm text-muted-foreground max-w-md">
-              Stay updated with travel tips, destination guides, and exclusive
-              offers delivered straight to your inbox.
+          {/* Left side - About Us */}
+          <div className="space-y-6">
+            <Logo size="lg" />
+            <p className="text-muted-foreground max-w-md">
+              Wandario is your trusted companion in exploring the world's most
+              captivating destinations. We curate authentic travel experiences,
+              connecting adventurers with unforgettable journeys and local
+              cultures.
             </p>
-            <form onSubmit={handleSubscribe} className="flex gap-2 max-w-md">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="max-w-sm"
-              />
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
-                <span className="ml-2 hidden sm:inline">Subscribe</span>
-              </Button>
-            </form>
           </div>
 
           {/* Right side - Links */}
@@ -135,7 +91,7 @@ export function Footer() {
                         'hover:text-foreground'
                       )}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      // rel="noopener noreferrer"
                     >
                       {link.label}
                     </Link>

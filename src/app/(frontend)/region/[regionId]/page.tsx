@@ -83,10 +83,6 @@ export default async function RegionDetailsPage(props: {
             label: 'Explore Destinations',
             href: '#destinations',
           },
-          secondary: {
-            label: 'View Map',
-            href: '#map',
-          },
         }}
       />
 

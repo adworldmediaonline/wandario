@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -22,8 +20,6 @@ import { Menu } from 'lucide-react';
 import { Logo } from '@/components/ui/logo';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   const menuItems = [
     { href: '/', label: 'Home' },
     { href: '/about-us', label: 'About Us' },
@@ -67,7 +63,7 @@ export default function Header() {
           </Button>
 
           {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <Sheet>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
@@ -86,18 +82,21 @@ export default function Header() {
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
                 {menuItems.map(item => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="text-lg font-medium transition-colors hover:text-blue-600"
-                  >
-                    {item.label}
-                  </Link>
+                  <SheetTrigger asChild key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-lg font-medium transition-colors hover:text-blue-600"
+                    >
+                      {item.label}
+                    </Link>
+                  </SheetTrigger>
                 ))}
-                <Button asChild className="mt-4">
-                  <Link href="/contact">Contact Us</Link>
-                </Button>
+
+                <SheetTrigger asChild>
+                  <Button asChild className="mt-4">
+                    <Link href="/contact">Contact Us</Link>
+                  </Button>
+                </SheetTrigger>
               </div>
             </SheetContent>
           </Sheet>

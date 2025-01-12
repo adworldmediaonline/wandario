@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from './button';
@@ -20,7 +18,6 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { useState } from 'react';
 import { Breadcrumb } from './breadcrumb';
 
 interface HeroHeaderProps {
@@ -62,8 +59,6 @@ export default function HeroHeader({
   className,
   actions,
 }: HeroHeaderProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <section className={cn('relative min-h-[85vh] flex flex-col', className)}>
       {/* Background Image with Overlay */}
@@ -169,7 +164,7 @@ export default function HeroHeader({
 
           {/* Mobile Navigation */}
           <div className="md:hidden py-4 px-4">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
@@ -186,14 +181,14 @@ export default function HeroHeader({
                 </SheetHeader>
                 <div className="flex flex-col gap-4 mt-8">
                   {menuItems.map(item => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className="text-lg font-medium transition-colors hover:text-primary"
-                    >
-                      {item.label}
-                    </Link>
+                    <SheetTrigger asChild key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="text-lg font-medium transition-colors hover:text-primary"
+                      >
+                        {item.label}
+                      </Link>
+                    </SheetTrigger>
                   ))}
                 </div>
               </SheetContent>

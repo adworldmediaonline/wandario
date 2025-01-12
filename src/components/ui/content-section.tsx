@@ -1,9 +1,11 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import CloudinaryImage from '../cloudinary-image';
 import { Section } from './section';
+import {
+  MotionDiv,
+  MotionH2,
+  MotionSpan,
+} from '../framer-motion-div/motion-div';
 
 interface ContentSectionProps {
   title: string;
@@ -101,7 +103,7 @@ export function ContentSection({
       </div>
 
       <div>
-        <motion.div
+        <MotionDiv
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-100px' }}
@@ -115,7 +117,7 @@ export function ContentSection({
           )}
         >
           {/* Content Side */}
-          <motion.div
+          <MotionDiv
             variants={item}
             className={cn(
               'space-y-8',
@@ -125,7 +127,7 @@ export function ContentSection({
             {/* Header */}
             <div className="space-y-4">
               {icon && (
-                <motion.div
+                <MotionDiv
                   variants={item}
                   initial={{ scale: 0, rotate: -180 }}
                   whileInView={{ scale: 1, rotate: 0 }}
@@ -134,11 +136,11 @@ export function ContentSection({
                   className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20"
                 >
                   {icon}
-                </motion.div>
+                </MotionDiv>
               )}
 
               <div className="relative">
-                <motion.h2
+                <MotionH2
                   variants={titleVariants}
                   className="relative text-3xl font-bold sm:text-4xl md:text-5xl"
                 >
@@ -147,14 +149,14 @@ export function ContentSection({
                   </span>
                   <span className="relative inline-block text-primary">
                     {highlightedWords}
-                    <motion.span
+                    <MotionSpan
                       variants={decorationVariants}
                       className="absolute left-0 right-0 bottom-2 h-3 bg-primary/20 -z-10 rounded-full"
                     />
                   </span>
-                </motion.h2>
+                </MotionH2>
                 {/* Decorative Elements */}
-                <motion.div
+                <MotionDiv
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
@@ -163,7 +165,7 @@ export function ContentSection({
                 />
               </div>
 
-              <motion.div
+              <MotionDiv
                 variants={item}
                 className="prose prose-gray prose-lg max-w-none"
                 dangerouslySetInnerHTML={{ __html: content }}
@@ -172,15 +174,15 @@ export function ContentSection({
 
             {/* Additional Content */}
             {children && (
-              <motion.div variants={item} className="pt-8">
+              <MotionDiv variants={item} className="pt-8">
                 {children}
-              </motion.div>
+              </MotionDiv>
             )}
-          </motion.div>
+          </MotionDiv>
 
           {/* Image Side */}
           {imageId && (
-            <motion.div
+            <MotionDiv
               variants={imageVariants}
               className={cn(
                 'relative aspect-square lg:aspect-auto',
@@ -200,9 +202,9 @@ export function ContentSection({
                 <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-3xl" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/5 via-black/0 to-black/5" />
               </div>
-            </motion.div>
+            </MotionDiv>
           )}
-        </motion.div>
+        </MotionDiv>
       </div>
     </Section>
   );
