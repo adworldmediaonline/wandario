@@ -101,7 +101,7 @@ export default function AddBlogForm({ categories }: AddBlogFormProps) {
 
   function onSubmit(values: z.infer<typeof blogSchema>) {
     execute(values);
-    // form.reset();
+    form.reset();
   }
 
   return (

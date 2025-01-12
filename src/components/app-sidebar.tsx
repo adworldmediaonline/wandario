@@ -12,16 +12,21 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarMenuSkeleton,
 } from '@/components/ui/sidebar';
 import { useSession } from 'next-auth/react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      window.location.href = '/auth/admin/signin';
+    },
+  });
 
   const navItems = React.useMemo(() => {
     const items = [];
 
-    // Add role-specific items
     if (session?.user?.role === 'admin') {
       items.push({
         title: 'Categories Management',
@@ -92,7 +97,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navItems} />
+        {status === 'loading' ? (
+          <div className="space-y-2 p-2">
+            <SidebarMenuSkeleton showIcon />
+            <SidebarMenuSkeleton showIcon />
+            <SidebarMenuSkeleton showIcon />
+          </div>
+        ) : (
+          <NavMain items={navItems} />
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

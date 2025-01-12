@@ -39,8 +39,9 @@ export const authConfig = {
     }),
   ],
   pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
+    signIn: '/auth/admin/signin',
+    signOut: '/auth/admin/signout',
+    error: '/auth/admin/error',
   },
   callbacks: {
     jwt({ token, trigger, session }) {

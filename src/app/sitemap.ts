@@ -77,7 +77,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.includes('server-sitemap.xml') &&
       !route.includes('not-found') &&
       !route.includes('loading') &&
-      !route.includes('error')
+      !route.includes('error') &&
+      !route.includes('thank-you')
   );
 
   // Create sitemap entries for static pages

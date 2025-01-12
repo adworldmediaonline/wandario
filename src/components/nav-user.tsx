@@ -30,9 +30,12 @@ interface ExtendedUser {
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
-  if (!session?.user) return null;
+  // Return null during loading or if no session
+  if (status === 'loading' || !session?.user) {
+    return null;
+  }
 
   const user = session.user as ExtendedUser;
   const userInitials =
