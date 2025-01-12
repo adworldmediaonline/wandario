@@ -4,7 +4,7 @@ import * as React from 'react';
 import { VerifyEmail } from './templates/verify-email';
 
 const FROM_EMAIL = process.env.HOSTINGER_EMAIL;
-const APP_NAME = 'JobPortal';
+const APP_NAME = 'Wandario';
 //
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,

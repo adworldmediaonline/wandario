@@ -17,7 +17,7 @@ export async function GET() {
     }
 
     const data = await resend.emails.send({
-      from: 'JobPortal <onboarding@resend.dev>',
+      from: 'Wandario <onboarding@resend.dev>',
       to: 'delivered@resend.dev', // This is a test email address provided by Resend
       subject: 'Test Email',
       html: '<p>This is a test email to verify the configuration.</p>',
