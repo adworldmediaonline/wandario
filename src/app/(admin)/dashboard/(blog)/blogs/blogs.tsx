@@ -29,7 +29,7 @@ export default function Blogs({ blog }: { blog: IBlog }) {
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{blog?.name}</TableCell>
+      <TableCell className="font-medium">{blog?.heading}</TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
           {blog?.status}
