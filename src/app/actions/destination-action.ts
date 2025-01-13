@@ -27,7 +27,11 @@ export const addDestinationAction = actionClient
     const destination = new Destination({
       ...input.parsedInput,
       name: input.parsedInput.name,
-      slug: slugify(input.parsedInput.name, { lower: true }),
+      slug: slugify(input.parsedInput.name, {
+        lower: true,
+        remove: /[*+~.()'"!:@]/g,
+        trim: true,
+      }),
     });
 
     const savedDestination = await destination.save();

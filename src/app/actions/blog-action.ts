@@ -26,9 +26,17 @@ export const addBlogAction = actionClient
     const blog = new Blog({
       ...input.parsedInput,
       name: input?.parsedInput?.name
-        ? slugify(input.parsedInput.name, { lower: true })
+        ? slugify(input.parsedInput.name, {
+            lower: true,
+            remove: /[*+~.()'"!:@]/g,
+            trim: true,
+          })
         : '',
-      slug: slugify(input.parsedInput.heading, { lower: true }),
+      slug: slugify(input.parsedInput.heading, {
+        lower: true,
+        remove: /[*+~.()'"!:@]/g,
+        trim: true,
+      }),
     });
 
     const savedBlog = await blog.save();
@@ -71,7 +79,11 @@ export const updateBlogAction = actionClient
         $set: {
           ...updateData,
           name: updateData.name
-            ? slugify(updateData.name, { lower: true })
+            ? slugify(updateData.name, {
+                lower: true,
+                remove: /[*+~.()'"!:@]/g,
+                trim: true,
+              })
             : '',
           images: updateData.images,
         },
