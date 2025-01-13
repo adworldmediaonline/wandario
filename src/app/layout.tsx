@@ -26,10 +26,10 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-screen bg-background antialiased',
+          'min-h-screen scroll-smooth bg-background antialiased',
           poppins.variable
         )}
       >

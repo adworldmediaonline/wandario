@@ -68,94 +68,98 @@ export default function TravelInsights({
   const isAlternate = variant === 'alternate';
 
   return (
-    <Section className={className} container>
-      <div className="relative py-16 md:py-24">
+    <Section className={className}>
+      <div className="relative px-4 py-12 md:py-20 overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-50 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-orange-50 rounded-full blur-3xl" />
         </div>
 
-        <MotionDiv
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          variants={container}
-          className="space-y-16"
-        >
-          {/* Header */}
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <MotionDiv variants={item}>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                <Globe2 className="w-4 h-4 mr-2" />
-                Travel Expertise
-              </span>
+        <div className="max-w-7xl mx-auto">
+          <MotionDiv
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={container}
+            className="space-y-12"
+          >
+            {/* Header */}
+            <div className="text-center max-w-3xl mx-auto space-y-4 px-4">
+              <MotionDiv variants={item}>
+                <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                  <Globe2 className="w-4 h-4 mr-2" />
+                  Travel Expertise
+                </span>
+              </MotionDiv>
+
+              <MotionH2
+                variants={item}
+                className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
+              >
+                Travel Insights & Recommendations
+              </MotionH2>
+
+              <MotionP
+                variants={item}
+                className="text-base sm:text-lg text-gray-600"
+              >
+                Expert Advice for Your Next Adventure
+              </MotionP>
+            </div>
+
+            {/* Insights Grid */}
+            <MotionDiv
+              variants={item}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4"
+            >
+              {insights.map(insight => (
+                <MotionDiv
+                  key={insight.title}
+                  variants={item}
+                  whileHover={{ y: -5 }}
+                  className={cn(
+                    'group p-6 sm:p-8 rounded-2xl transition-all duration-300',
+                    isAlternate
+                      ? 'bg-white shadow-lg shadow-gray-200/50 hover:shadow-xl'
+                      : 'bg-gray-50/50 hover:bg-white hover:shadow-lg'
+                  )}
+                >
+                  <div className="space-y-3">
+                    <div className="inline-flex p-2.5 rounded-xl bg-primary/10 text-primary">
+                      <insight.icon className="w-5 h-5" />
+                    </div>
+
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {insight.title}
+                    </h3>
+
+                    <p className="text-sm text-gray-600">
+                      {insight.description}
+                    </p>
+                  </div>
+                </MotionDiv>
+              ))}
             </MotionDiv>
 
-            <MotionH2
-              variants={item}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
-            >
-              Travel Insights & Recommendations
-            </MotionH2>
-
-            <MotionP
-              variants={item}
-              className="text-lg md:text-xl text-gray-600"
-            >
-              Expert Advice for Your Next Adventure
-            </MotionP>
-          </div>
-
-          {/* Insights Grid */}
-          <MotionDiv
-            variants={item}
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
-            {insights.map(insight => (
-              <MotionDiv
-                key={insight.title}
-                variants={item}
-                whileHover={{ y: -5 }}
+            {/* CTA */}
+            <MotionDiv variants={item} className="text-center">
+              <Button
+                asChild
+                size="lg"
                 className={cn(
-                  'group p-8 rounded-3xl transition-all duration-300',
-                  isAlternate
-                    ? 'bg-white shadow-lg shadow-gray-200/50 hover:shadow-xl'
-                    : 'bg-gray-50/50 hover:bg-white hover:shadow-lg'
+                  'rounded-full',
+                  isAlternate && 'bg-primary hover:bg-primary/90'
                 )}
               >
-                <div className="space-y-4">
-                  <div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary">
-                    <insight.icon className="w-6 h-6" />
-                  </div>
-
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    {insight.title}
-                  </h3>
-
-                  <p className="text-gray-600">{insight.description}</p>
-                </div>
-              </MotionDiv>
-            ))}
+                <Link href={ctaLink}>
+                  <span>Explore Travel Guides</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </MotionDiv>
           </MotionDiv>
-
-          {/* CTA */}
-          <MotionDiv variants={item} className="text-center">
-            <Button
-              asChild
-              size="lg"
-              className={cn(
-                'rounded-full',
-                isAlternate && 'bg-primary hover:bg-primary/90'
-              )}
-            >
-              <Link href={ctaLink}>
-                <span>Explore Travel Guides</span>
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </MotionDiv>
-        </MotionDiv>
+        </div>
       </div>
     </Section>
   );
