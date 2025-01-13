@@ -2,7 +2,7 @@ import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import CloudinaryImage from '@/components/cloudinary-image';
 import type { IBlog } from '@/types';
 import { Button } from '@/components/ui/button';
-// import { useCallback } from 'react';
+
 import { Prose } from '@/components/ui/prose';
 import { FAQ } from '@/components/ui/faq';
 import Link from 'next/link';
@@ -12,6 +12,7 @@ import {
   MotionP,
   MotionSection,
 } from '@/components/framer-motion-div/motion-div';
+import ShareStory from '@/components/share/share';
 
 interface BlogContentProps {
   blog: IBlog;
@@ -34,23 +35,6 @@ const item = {
 };
 
 export default function BlogContent({ blog }: BlogContentProps) {
-  // const handleShare = useCallback(async () => {
-  //   try {
-  //     if (navigator.share) {
-  //       await navigator.share({
-  //         title: blog.heading,
-  //         text: blog.excerpt,
-  //         url: window.location.href,
-  //       });
-  //     } else {
-  //       await navigator.clipboard.writeText(window.location.href);
-  //       // You might want to show a toast notification here
-  //     }
-  //   } catch (error) {
-  //     console.error('Error sharing:', error);
-  //   }
-  // }, [blog.heading, blog.excerpt]);
-
   return (
     <article className="relative">
       {/* Back Button - Fixed Position */}
@@ -131,17 +115,7 @@ export default function BlogContent({ blog }: BlogContentProps) {
             </MotionP>
 
             {/* Share Button */}
-            {/* <MotionDiv variants={item} className="flex justify-center mb-12">
-              <Button
-                variant="outline"
-                size="lg"
-                className="rounded-full"
-                // onClick={handleShare}
-              >
-                <Share2 className="h-4 w-4 mr-2" />
-                Share Story
-              </Button>
-            </MotionDiv> */}
+            <ShareStory blog={blog} />
 
             {/* Featured Image */}
             <MotionDiv
