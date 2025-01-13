@@ -2,7 +2,6 @@ import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import CloudinaryImage from '@/components/cloudinary-image';
 import type { IBlog } from '@/types';
 import { Button } from '@/components/ui/button';
-
 import { Prose } from '@/components/ui/prose';
 import { FAQ } from '@/components/ui/faq';
 import Link from 'next/link';
@@ -53,87 +52,80 @@ export default function BlogContent({ blog }: BlogContentProps) {
       </div>
 
       {/* Hero Section */}
-      <div className="relative pb-10 pt-14 bg-gradient-to-b from-gray-50/50 to-white">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-50 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="container">
-          <MotionDiv
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="max-w-5xl mx-auto"
-          >
-            {/* Mobile Back Button */}
-            <MotionDiv variants={item} className="mb-8 lg:hidden">
-              <Button asChild variant="ghost" className="gap-2">
-                <Link href="/blog">
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to blogs
-                </Link>
-              </Button>
-            </MotionDiv>
-
-            {/* Category and Metadata */}
-            <MotionDiv
-              variants={item}
-              className="flex flex-wrap items-center justify-center gap-4 mb-8"
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                <Tag className="h-4 w-4" />
-                {blog.categoryId.name}
-              </span>
-              <time
-                className="flex items-center text-sm text-gray-500"
-                dateTime={blog.createdAt}
-              >
-                <Calendar className="h-4 w-4 mr-1" />
-                {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}
-              </time>
-            </MotionDiv>
-
-            {/* Title */}
-            <MotionH1
-              variants={item}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 mb-8"
-            >
-              {blog.heading}
-            </MotionH1>
-
-            {/* Excerpt */}
-            <MotionP
-              variants={item}
-              className="text-xl text-gray-600 text-center mb-12"
-            >
-              {blog.excerpt}
-            </MotionP>
-
-            {/* Share Button */}
-            <ShareStory blog={blog} />
-
-            {/* Featured Image */}
-            <MotionDiv
-              variants={item}
-              className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl"
-            >
-              <CloudinaryImage
-                src={blog.images[0].public_id}
-                alt={blog.heading}
-                fill
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-            </MotionDiv>
+      <div className="relative pb-8 pt-0">
+        <MotionDiv
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="space-y-6"
+        >
+          {/* Mobile Back Button */}
+          <MotionDiv variants={item} className="mb-4 lg:hidden">
+            <Button asChild variant="ghost" className="gap-2">
+              <Link href="/blog">
+                <ArrowLeft className="h-4 w-4" />
+                Back to blogs
+              </Link>
+            </Button>
           </MotionDiv>
-        </div>
+
+          {/* Category and Metadata */}
+          <MotionDiv
+            variants={item}
+            className="flex flex-wrap justify-center items-center gap-4"
+          >
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
+              <Tag className="h-4 w-4" />
+              {blog.categoryId.name}
+            </span>
+            <time
+              className="flex items-center text-sm text-muted-foreground"
+              dateTime={blog.createdAt}
+            >
+              <Calendar className="h-4 w-4 mr-1" />
+              {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </time>
+          </MotionDiv>
+
+          {/* Title */}
+          <MotionH1
+            variants={item}
+            className="text-2xl text-center sm:text-3xl lg:text-4xl font-bold text-gray-900"
+          >
+            {blog.heading}
+          </MotionH1>
+
+          {/* Excerpt */}
+          <MotionP
+            variants={item}
+            className="text-base text-center sm:text-lg text-muted-foreground"
+          >
+            {blog.excerpt}
+          </MotionP>
+
+          {/* Share Button */}
+          <ShareStory blog={blog} />
+
+          {/* Featured Image */}
+          <MotionDiv
+            variants={item}
+            className="relative aspect-[1280/853] rounded-xl overflow-hidden"
+          >
+            <CloudinaryImage
+              src={blog.images[0].public_id}
+              alt={blog.heading}
+              fill
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              className="object-cover"
+              crop="fill"
+              priority
+            />
+          </MotionDiv>
+        </MotionDiv>
       </div>
 
       {/* Content Section */}
@@ -141,15 +133,11 @@ export default function BlogContent({ blog }: BlogContentProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="pt-5 pb-16 lg:pt-5 lg:pb-20"
+        className="pt-1"
       >
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <Prose>
-              <div dangerouslySetInnerHTML={{ __html: blog.description }} />
-            </Prose>
-          </div>
-        </div>
+        <Prose>
+          <div dangerouslySetInnerHTML={{ __html: blog.description }} />
+        </Prose>
       </MotionSection>
 
       {/* FAQs Section */}
@@ -158,6 +146,7 @@ export default function BlogContent({ blog }: BlogContentProps) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          className="mt-12"
         >
           <FAQ
             title="Common Questions About This Destination"

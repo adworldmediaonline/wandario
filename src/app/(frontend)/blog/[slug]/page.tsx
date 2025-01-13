@@ -3,6 +3,7 @@ import { getBlogById, getBlogs } from '@/server/db/blog';
 import BlogContent from './blog-content';
 import RelatedBlogs from './related-blogs';
 import { Metadata } from 'next';
+import { Section } from '@/components/ui/section';
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -58,12 +59,29 @@ export default async function BlogPage(props: {
   );
 
   return (
-    <main className="min-h-[calc(100vh-4rem)]">
-      {/* Blog Content */}
-      <BlogContent blog={blog} />
+    <Section className="py-6 lg:py-10" container>
+      <div className="max-w-6xl mx-auto">
+        <div className="relative flex flex-col lg:flex-row gap-10">
+          {/* Main Content */}
+          <main className="flex-1 w-full max-w-3xl mx-auto lg:mx-0">
+            <BlogContent blog={blog} />
+          </main>
 
-      {/* Related Posts */}
-      {relatedBlogs.length > 0 && <RelatedBlogs blogs={relatedBlogs} />}
-    </main>
+          {/* Sidebar */}
+          {relatedBlogs.length > 0 && (
+            <aside className="w-full lg:w-[220px] mt-10 lg:mt-0">
+              <div className="lg:sticky lg:top-[88px]">
+                <div className="pb-3 mb-4 border-b">
+                  <h2 className="text-sm font-medium text-muted-foreground">
+                    Related Posts
+                  </h2>
+                </div>
+                <RelatedBlogs blogs={relatedBlogs} />
+              </div>
+            </aside>
+          )}
+        </div>
+      </div>
+    </Section>
   );
 }

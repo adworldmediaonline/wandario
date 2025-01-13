@@ -1,61 +1,46 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import type { IBlog } from '@/types';
-import BlogCard from '../blog-card';
+import { IBlog } from '@/types';
+import Link from 'next/link';
+import { formatDate } from '@/lib/utils';
+import CloudinaryImage from '@/components/cloudinary-image';
 
 interface RelatedBlogsProps {
   blogs: IBlog[];
 }
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
-
 export default function RelatedBlogs({ blogs }: RelatedBlogsProps) {
   return (
-    <section className="py-16 lg:py-20 bg-gray-50/50">
-      <div className="container">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="space-y-12"
+    <div className="space-y-4">
+      {blogs.map(blog => (
+        <Link
+          key={blog._id}
+          href={`/blog/${blog.slug}`}
+          className="group block"
         >
-          {/* Header */}
-          <motion.div variants={item} className="text-center">
-            <h2 className="text-3xl font-bold">Related Stories</h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Discover more travel stories and insights
-            </p>
-          </motion.div>
+          <article className="flex gap-3 items-start">
+            {/* Thumbnail */}
+            <div className="relative w-20 aspect-[4/3] shrink-0 overflow-hidden rounded-md">
+              <CloudinaryImage
+                src={blog.thumbnail.public_id}
+                alt={blog.heading}
+                fill
+                sizes="80px"
+              />
+            </div>
 
-          {/* Blog Grid */}
-          <motion.div
-            variants={item}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {blogs.map(blog => (
-              <motion.div key={blog._id} variants={item}>
-                <BlogCard blog={blog} />
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
+            {/* Content */}
+            <div className="min-w-0">
+              <h3 className="text-sm font-medium leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                {blog.heading}
+              </h3>
+              <time className="mt-1 block text-xs text-muted-foreground">
+                {formatDate(blog.createdAt)}
+              </time>
+            </div>
+          </article>
+        </Link>
+      ))}
+    </div>
   );
 }
