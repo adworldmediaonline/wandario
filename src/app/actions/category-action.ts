@@ -40,7 +40,10 @@ export const addCategoryAction = actionClient
     const category = new Category({
       ...parsedInput,
       name: parsedInput.name.toLowerCase(),
-      slug: slugify(parsedInput.name, { lower: true }),
+      slug: slugify(parsedInput.name, {
+        lower: true,
+        remove: /[*+~.()'"!:@]/g,
+      }),
     });
 
     const categoryData = JSON.parse(JSON.stringify(await category.save()));

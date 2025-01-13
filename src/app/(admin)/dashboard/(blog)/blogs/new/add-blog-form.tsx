@@ -37,7 +37,7 @@ import { UnsavedChangesWarning } from '@/components/unsaved-changes-warning';
 import { FormLabelInfo } from '@/components/ui/form-label-info';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
-
+import slugify from 'slugify';
 interface AddBlogFormProps {
   categories: IBlogCategory[];
 }
@@ -219,6 +219,14 @@ export default function AddBlogForm({ categories }: AddBlogFormProps) {
                             />
                           </FormControl>
                           <FormMessage />
+                          <FormDescription>
+                            slug:{' '}
+                            {slugify(field.value, {
+                              lower: true,
+                              remove: /[*+~.()'"!:@]/g,
+                              trim: true,
+                            })}
+                          </FormDescription>
                         </FormItem>
                       )}
                     />

@@ -40,7 +40,11 @@ export const addBlogCategoryAction = actionClient
     const blogCategory = new BlogCategory({
       ...parsedInput,
       name: parsedInput.name.toLowerCase(),
-      slug: slugify(parsedInput.name, { lower: true }),
+      slug: slugify(parsedInput.name, {
+        lower: true,
+        remove: /[*+~.()'"!:@]/g,
+        trim: true,
+      }),
     });
 
     const blogCategoryData = JSON.parse(
