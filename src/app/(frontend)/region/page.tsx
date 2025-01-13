@@ -50,7 +50,7 @@ export default async function RegionsPage(props: {
         }}
         title="Wandario—Your Guide to Seamless Adventures: Explore the World with Expert Travel Advice"
         excerpt="Plan, Prepare, and Perfect Your Travel Experience"
-        backgroundImageId="regions_hd8bhh"
+        backgroundImageId="regions_hd8bhh_pf1qen"
         actions={{
           primary: {
             label: 'Start Exploring',
