@@ -61,23 +61,19 @@ export default function HomePage() {
           },
         }}
       />
-
       <ErrorBoundaryContainer>
         <Suspense fallback={<CategoryShowcaseSkeleton />}>
           <CategoryShowcase promise={categoriesPromise} />
         </Suspense>
       </ErrorBoundaryContainer>
-
       <AboutUs />
       <TravelInsights variant="alternate" />
       <ServiceShowcase />
-
       <ErrorBoundaryContainer>
         <Suspense fallback={<BlogShowcaseSkeleton />}>
           <BlogShowcase promise={blogsPromise} className="bg-gray-50/50" />
         </Suspense>
       </ErrorBoundaryContainer>
-
       <FAQ
         title="Common Travel Questions"
         description="Find answers to frequently asked questions about our travel guides and services."

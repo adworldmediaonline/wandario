@@ -37,12 +37,12 @@ export default function BlogShowcase({
   const hasBlogs = blogs && blogs.length > 0;
 
   return (
-    <Section className={className} container>
-      <div className="relative">
+    <Section className={className}>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Background Elements */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-50 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-48 h-48 sm:w-72 sm:h-72 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-48 h-48 sm:w-72 sm:h-72 bg-orange-50 rounded-full blur-3xl" />
         </div>
 
         <MotionDiv
@@ -50,12 +50,12 @@ export default function BlogShowcase({
           whileInView="show"
           viewport={{ once: true }}
           variants={container}
-          className="space-y-16"
+          className="space-y-12 sm:space-y-16"
         >
           {/* Header */}
-          <div className="text-center max-w-3xl mx-auto space-y-6">
+          <div className="text-center max-w-3xl mx-auto space-y-4 sm:space-y-6">
             <MotionDiv variants={item}>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+              <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
                 <Tag className="w-4 h-4 mr-2" />
                 Latest Travel Stories
               </span>
@@ -63,14 +63,14 @@ export default function BlogShowcase({
 
             <MotionH2
               variants={item}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
             >
               Explore Travel Insights & Adventures
             </MotionH2>
 
             <MotionP
               variants={item}
-              className="text-lg md:text-xl text-gray-600"
+              className="text-base sm:text-lg text-gray-600"
             >
               Discover inspiring stories, expert tips, and hidden gems from
               around the world
@@ -81,14 +81,14 @@ export default function BlogShowcase({
           {hasBlogs ? (
             <MotionDiv
               variants={item}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
               {blogs.map(blog => (
                 <MotionDiv
                   key={blog._id}
                   variants={item}
                   whileHover={{ y: -5 }}
-                  className="group relative bg-white rounded-3xl overflow-hidden shadow-lg shadow-gray-200/50 hover:shadow-xl transition-all duration-300"
+                  className="group relative bg-white rounded-2xl overflow-hidden shadow-lg shadow-gray-200/50 hover:shadow-xl transition-all duration-300"
                 >
                   <Link
                     href={`/blog/${blog.slug}`}
@@ -101,17 +101,17 @@ export default function BlogShowcase({
                         src={blog.thumbnail.public_id}
                         alt={blog.heading}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 space-y-4">
+                    <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                       {/* Category Badge and Date */}
-                      <div className="flex items-center gap-4">
-                        <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <span className="px-2.5 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">
                           {blog.categoryId.name}
                         </span>
                         <time
@@ -131,17 +131,17 @@ export default function BlogShowcase({
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-xl font-semibold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
                         {blog.heading}
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-gray-600 line-clamp-2">
+                      <p className="text-sm sm:text-base text-gray-600 line-clamp-2">
                         {blog.excerpt}
                       </p>
 
                       {/* Read More */}
-                      <div className="pt-2">
+                      <div className="pt-1 sm:pt-2">
                         <span className="inline-flex items-center text-primary font-medium group-hover:underline">
                           Read More
                           <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
@@ -170,10 +170,7 @@ export default function BlogShowcase({
           {hasBlogs && (
             <MotionDiv variants={item} className="text-center">
               <Button asChild size="lg" className="rounded-full">
-                <Link
-                  href="/blog"
-                  className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                >
+                <Link href="/blog">
                   <span>View All Stories</span>
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
