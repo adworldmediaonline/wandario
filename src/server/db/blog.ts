@@ -11,6 +11,7 @@ interface GetBlogsQuery {
   limit?: string;
   category?: string;
   search?: string;
+  featured?: string;
 }
 
 interface GetBlogsResult {
@@ -20,6 +21,7 @@ interface GetBlogsResult {
 
 interface BlogSearchQuery {
   categoryId?: string;
+  featured?: boolean;
   $or?: Array<{
     [key: string]: {
       $regex: string;
@@ -60,6 +62,7 @@ export async function getBlogs({
   limit = '10',
   category,
   search,
+  featured,
 }: GetBlogsQuery): Promise<GetBlogsResult> {
   try {
     await connectToDatabase();
@@ -79,6 +82,11 @@ export async function getBlogs({
         { excerpt: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } },
       ];
+    }
+
+    // Add featured filter if provided
+    if (featured === 'true') {
+      searchQuery.featured = true;
     }
 
     const [blogs, totalBlogs] = await Promise.all([

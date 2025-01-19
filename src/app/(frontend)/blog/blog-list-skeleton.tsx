@@ -1,51 +1,61 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Section } from '@/components/ui/section';
 
 export default function BlogListSkeleton() {
   return (
-    <section className="py-16 lg:py-20">
+    <Section className="py-16 lg:py-20">
       <div className="container">
         {/* Filters Skeleton */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <Skeleton className="h-10 flex-1" />
-          <Skeleton className="h-10 w-full sm:w-[180px]" />
+        <div className="relative mb-12">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="h-12 flex-1 animate-pulse rounded-full bg-gray-200" />
+              <div className="h-12 w-full sm:w-[200px] animate-pulse rounded-full bg-gray-200" />
+            </div>
+          </div>
+        </div>
+
+        {/* Results Summary Skeleton */}
+        <div className="mb-8 text-center">
+          <div className="mx-auto h-6 w-48 animate-pulse rounded-full bg-gray-200" />
         </div>
 
         {/* Blog Grid Skeleton */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(9)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg"
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
             >
               {/* Image Skeleton */}
-              <Skeleton className="w-full aspect-[16/10]" />
+              <div className="relative aspect-[16/10] animate-pulse bg-gray-200">
+                {/* Category Badge Skeleton */}
+                <div className="absolute left-4 top-4 h-6 w-24 animate-pulse rounded-full bg-white/90" />
+              </div>
 
               {/* Content Skeleton */}
-              <div className="p-6 space-y-4">
-                <div className="flex items-center gap-4">
-                  <Skeleton className="h-6 w-20 rounded-full" />
-                  <Skeleton className="h-5 w-32 rounded-lg" />
+              <div className="flex flex-1 flex-col p-6 space-y-4">
+                {/* Title Skeleton */}
+                <div className="space-y-2">
+                  <div className="h-6 w-3/4 animate-pulse rounded bg-gray-200" />
+                  <div className="h-6 w-1/2 animate-pulse rounded bg-gray-200" />
                 </div>
-                <Skeleton className="h-7 w-full rounded-lg" />
-                <Skeleton className="h-4 w-full rounded-lg" />
-                <Skeleton className="h-4 w-3/4 rounded-lg" />
-                <Skeleton className="h-5 w-24 rounded-lg" />
+
+                {/* Excerpt Skeleton */}
+                <div className="space-y-2">
+                  <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
+                  <div className="h-4 w-2/3 animate-pulse rounded bg-gray-200" />
+                </div>
+
+                {/* Metadata Skeleton */}
+                <div className="mt-auto flex items-center gap-4">
+                  <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+                  <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+                </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-
-        {/* Pagination Skeleton */}
-        <div className="mt-12 flex justify-center">
-          <Skeleton className="h-10 w-72 rounded-lg" />
-        </div>
       </div>
-    </section>
+    </Section>
   );
 }
