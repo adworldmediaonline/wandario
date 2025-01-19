@@ -30,6 +30,11 @@ export default function Blogs({ blog }: { blog: IBlog }) {
         />
       </TableCell>
       <TableCell className="font-medium">{blog?.heading}</TableCell>
+      <TableCell className="font-medium">
+        <Badge variant="secondary" className="capitalize text-sm text-center">
+          {blog?.categoryId?.name}
+        </Badge>
+      </TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
           {blog?.status}
