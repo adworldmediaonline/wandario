@@ -55,6 +55,10 @@ const blogSchema = new mongoose.Schema({
     type: String,
     default: 'active',
   },
+  featured: {
+    type: Boolean,
+    default: false,
+  },
   thumbnail: {
     secure_url: String,
     public_id: String,
