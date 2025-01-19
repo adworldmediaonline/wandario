@@ -67,6 +67,7 @@ export function BlogsTable({
                 <span className="sr-only">Image</span>
               </TableHead>
               <TableHead>Name</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead>Status</TableHead>
 
               <TableHead className="hidden md:table-cell">Created at</TableHead>

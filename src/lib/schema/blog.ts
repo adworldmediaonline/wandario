@@ -14,7 +14,7 @@ const blogSchema = z.object({
   excerpt: z
     .string()
     .min(1, 'Excerpt is required')
-    .max(200, 'Excerpt must be less than 200 characters'),
+    .max(400, 'Excerpt must be less than 400 characters'),
   categoryId: z.string().min(1, 'Category is required'),
   images: z
     .array(
