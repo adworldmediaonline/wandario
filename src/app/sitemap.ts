@@ -5,7 +5,7 @@ import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 
 // export const dynamic = 'force-dynamic';
-export const revalidate = 60;
+// export const revalidate = 0;
 
 function getPages(dir: string, basePath = ''): string[] {
   const pages: string[] = [];
