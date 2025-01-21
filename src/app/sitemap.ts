@@ -3,6 +3,7 @@ import { readdirSync, statSync } from 'fs';
 import { join } from 'path';
 import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
+import mongoose from 'mongoose';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -119,18 +120,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // Get dynamic pages from database
+  let dynamicPages: MetadataRoute.Sitemap = [];
+
   try {
+    // Connect to database with default settings
     await connectToDatabase();
 
-    // Fetch all dynamic data
+    // Fetch all dynamic data with minimal fields
     const [categories, destinations, blogs] = await Promise.all([
-      Category.find({}, 'slug createdAt'),
-      Destination.find({}, 'slug updatedAt'),
-      Blog.find({}, 'slug updatedAt'),
+      Category.find({}, 'slug createdAt').lean(),
+      Destination.find({}, 'slug updatedAt').lean(),
+      Blog.find({}, 'slug updatedAt').lean(),
     ]);
 
     // Create sitemap entries for dynamic pages
-    const dynamicPages = [
+    dynamicPages = [
       // Category entries (regions)
       ...categories.map(category => ({
         url: `${baseUrl}/region/${category.slug}`,
@@ -156,11 +160,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
     ];
 
-    // Combine static and dynamic pages
-    return [...staticPages, ...dynamicPages];
+    // Close the database connection
+    await mongoose.connection.close();
   } catch (error) {
     console.error('Error generating sitemap:', error);
-    // Return only static pages if database connection fails
-    return staticPages;
+    // If there's a connection, close it even if there was an error
+    if (mongoose.connection.readyState === 1) {
+      await mongoose.connection.close();
+    }
   }
+
+  // Combine static and dynamic pages
+  return [...staticPages, ...dynamicPages];
 }
