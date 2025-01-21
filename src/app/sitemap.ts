@@ -4,9 +4,8 @@ import { join } from 'path';
 import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 
-// export const dynamic = 'force-dynamic';
-// export const revalidate = 0;
-// export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 function getPages(dir: string, basePath = ''): string[] {
   const pages: string[] = [];
@@ -98,17 +97,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       | 'weekly'
       | 'monthly'
       | 'yearly'
-      | 'never' = 'daily';
+      | 'never' = 'weekly';
 
     if (route === '/') {
       priority = 1.0;
-      changeFrequency = 'daily';
+      changeFrequency = 'weekly';
     } else if (route.match(/^\/(about-us|privacy|terms)$/)) {
       priority = 0.6;
       changeFrequency = 'monthly';
     } else if (route.match(/^\/(destination|region|blog)$/)) {
       priority = 0.8;
-      changeFrequency = 'daily';
+      changeFrequency = 'weekly';
     }
 
     return {
@@ -136,7 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...categories.map(category => ({
         url: `${baseUrl}/region/${category.slug}`,
         lastModified: new Date(category.createdAt),
-        changeFrequency: 'daily' as const,
+        changeFrequency: 'weekly' as const,
         priority: 0.8,
       })),
 
@@ -144,7 +143,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...destinations.map(destination => ({
         url: `${baseUrl}/destination/${destination.slug}`,
         lastModified: new Date(destination.updatedAt),
-        changeFrequency: 'daily' as const,
+        changeFrequency: 'weekly' as const,
         priority: 0.8,
       })),
 
@@ -152,7 +151,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...blogs.map(blog => ({
         url: `${baseUrl}/blog/${blog.slug}`,
         lastModified: new Date(blog.updatedAt),
-        changeFrequency: 'daily' as const,
+        changeFrequency: 'weekly' as const,
         priority: 0.7,
       })),
     ];
