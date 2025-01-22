@@ -5,7 +5,8 @@ import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 
 // export const dynamic = 'force-dynamic';
-export const revalidate = 60;
+// export const revalidate = 0;
+// export const dynamicParams = true;
 
 function getPages(dir: string, basePath = ''): string[] {
   const pages: string[] = [];
@@ -97,17 +98,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       | 'weekly'
       | 'monthly'
       | 'yearly'
-      | 'never' = 'weekly';
+      | 'never' = 'daily';
 
     if (route === '/') {
       priority = 1.0;
-      changeFrequency = 'weekly';
+      changeFrequency = 'daily';
     } else if (route.match(/^\/(about-us|privacy|terms)$/)) {
       priority = 0.6;
       changeFrequency = 'monthly';
     } else if (route.match(/^\/(destination|region|blog)$/)) {
       priority = 0.8;
-      changeFrequency = 'weekly';
+      changeFrequency = 'daily';
     }
 
     return {
@@ -135,7 +136,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...categories.map(category => ({
         url: `${baseUrl}/region/${category.slug}`,
         lastModified: new Date(category.createdAt),
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.8,
       })),
 
@@ -143,7 +144,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...destinations.map(destination => ({
         url: `${baseUrl}/destination/${destination.slug}`,
         lastModified: new Date(destination.updatedAt),
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.8,
       })),
 
@@ -151,7 +152,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...blogs.map(blog => ({
         url: `${baseUrl}/blog/${blog.slug}`,
         lastModified: new Date(blog.updatedAt),
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.7,
       })),
     ];
