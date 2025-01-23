@@ -5,7 +5,7 @@ import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 
 // export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+
 // export const dynamicParams = true;
 
 function getPages(dir: string, basePath = ''): string[] {
@@ -62,6 +62,8 @@ function getPages(dir: string, basePath = ''): string[] {
 
   return pages;
 }
+
+export const revalidate = 0;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
