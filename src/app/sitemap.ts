@@ -8,7 +8,7 @@ import getPages from '@/lib/get-pages';
 
 // export const dynamicParams = true;
 //
-export const revalidate = 3600;
+export const revalidate = 40;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
