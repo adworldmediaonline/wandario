@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useBeforeUnload } from '@/hooks/use-before-unload';
 
 interface UnsavedChangesWarningProps {
-  isDirty: boolean;
+  isDirty?: boolean;
   children: React.ReactNode;
 }
 
@@ -14,7 +14,7 @@ export function UnsavedChangesWarning({
   children,
 }: UnsavedChangesWarningProps) {
   const pathname = usePathname();
-  useBeforeUnload(isDirty);
+  useBeforeUnload(isDirty || false);
 
   useEffect(() => {
     const unloadCallback = (e: PopStateEvent) => {

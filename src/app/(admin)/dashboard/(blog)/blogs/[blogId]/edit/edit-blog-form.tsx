@@ -72,7 +72,7 @@ export default function EditDestinationForm({
     },
   });
 
-  const isDirty = form.formState.isDirty;
+  // const isDirty = form.formState.isDirty;
 
   const { execute, status } = useAction(updateBlogAction, {
     onSuccess(args) {
@@ -102,13 +102,13 @@ export default function EditDestinationForm({
     },
     [form]
   );
-
+  //
   function onSubmit(values: z.infer<typeof blogSchema>) {
     execute({ ...values, id: blogId });
   }
 
   return (
-    <UnsavedChangesWarning isDirty={isDirty}>
+    <UnsavedChangesWarning>
       <div className="space-y-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
