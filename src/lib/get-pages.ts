@@ -1,58 +1,67 @@
-import { readdirSync, statSync } from 'fs';
+import { promises as fs } from 'fs';
 import { join } from 'path';
-function getPages(dir: string, basePath = ''): string[] {
+
+async function getPages(dir: string, basePath = ''): Promise<string[]> {
   const pages: string[] = [];
-  const entries = readdirSync(dir);
+  const fullPath = join(process.cwd(), dir);
 
-  for (const entry of entries) {
-    const fullPath = join(dir, entry);
-    const stat = statSync(fullPath);
+  try {
+    const entries = await fs.readdir(fullPath, { withFileTypes: true });
 
-    if (stat.isDirectory()) {
-      // Skip special Next.js directories, components, and dynamic route folders
-      if (
-        entry.startsWith('_') ||
-        entry.startsWith('.') ||
-        entry.startsWith('[') ||
-        entry === 'components' ||
-        entry === 'api'
-      ) {
-        continue;
-      }
+    for (const entry of entries) {
+      const relativePath = join(dir, entry.name);
 
-      // Handle route groups
-      let newBasePath = basePath;
-      if (entry === '(frontend)') {
-        // Keep the basePath as is for frontend group
-        newBasePath = basePath;
-      } else if (entry.startsWith('(') && entry.endsWith(')')) {
-        // Skip other route groups
-        continue;
-      } else {
-        // Regular directory - add to path
-        newBasePath = join(basePath, entry);
-      }
+      if (entry.isDirectory()) {
+        // Skip special Next.js directories, components, and dynamic route folders
+        if (
+          entry.name.startsWith('_') ||
+          entry.name.startsWith('.') ||
+          entry.name.startsWith('[') ||
+          entry.name === 'components' ||
+          entry.name === 'api'
+        ) {
+          continue;
+        }
 
-      pages.push(...getPages(fullPath, newBasePath));
-    } else if (entry === 'page.tsx' || entry === 'page.ts') {
-      // Convert path to route
-      let route = basePath.replace(/\\/g, '/');
+        // Handle route groups
+        let newBasePath = basePath;
+        if (entry.name === '(frontend)') {
+          // Keep the basePath as is for frontend group
+          newBasePath = basePath;
+        } else if (entry.name.startsWith('(') && entry.name.endsWith(')')) {
+          // Skip other route groups
+          continue;
+        } else {
+          // Regular directory - add to path
+          newBasePath = join(basePath, entry.name);
+        }
 
-      // Clean up the route
-      route = route.replace(/^\/+/, ''); // Remove leading slashes
-      route = route || '/'; // Root path for empty string
+        // Recursively get pages from subdirectory
+        const subPages = await getPages(relativePath, newBasePath);
+        pages.push(...subPages);
+      } else if (entry.name === 'page.tsx' || entry.name === 'page.ts') {
+        // Convert path to route
+        let route = basePath.replace(/\\/g, '/');
 
-      // Add leading slash if not root
-      route = route === '/' ? route : `/${route}`;
+        // Clean up the route
+        route = route.replace(/^\/+/, ''); // Remove leading slashes
+        route = route || '/'; // Root path for empty string
 
-      // Skip dynamic routes and don't add duplicate routes
-      if (!route.includes('[') && !pages.includes(route)) {
-        pages.push(route);
+        // Add leading slash if not root
+        route = route === '/' ? route : `/${route}`;
+
+        // Skip dynamic routes and don't add duplicate routes
+        if (!route.includes('[') && !pages.includes(route)) {
+          pages.push(route);
+        }
       }
     }
-  }
 
-  return pages;
+    return pages;
+  } catch (error) {
+    console.error(`Error reading directory ${fullPath}:`, error);
+    return [];
+  }
 }
 
 export default getPages;
