@@ -4,11 +4,7 @@ import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 import getPages from '@/lib/get-pages';
 
-// export const dynamic = 'force-dynamic';
-
-// export const dynamicParams = true;
-//
-export const revalidate = 40;
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
@@ -49,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (route === '/') {
       priority = 1.0;
-      changeFrequency = 'weekly';
+      changeFrequency = 'daily';
     } else if (route.match(/^\/(about-us|privacy|terms)$/)) {
       priority = 0.6;
       changeFrequency = 'weekly';
