@@ -1,38 +1,30 @@
 import { MetadataRoute } from 'next';
-import { join } from 'path';
 import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
-import getPages from '@/lib/get-pages';
 
 export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
 
-  // Get static pages
-  const appDir = 'src/app';
-  const frontendDir = join(appDir, '(frontend)');
-  const pages = await getPages(frontendDir);
-
-  // Filter out unwanted routes
-  const validPages = pages.filter(
-    (route: string) =>
-      !route.includes('admin') &&
-      !route.includes('api') &&
-      !route.includes('auth') &&
-      !route.includes('dashboard') &&
-      !route.includes('server-sitemap.xml') &&
-      !route.includes('not-found') &&
-      !route.includes('loading') &&
-      !route.includes('error') &&
-      !route.includes('thank-you')
-  );
+  // Define static routes
+  const staticRoutes = [
+    '/',
+    '/about-us',
+    '/destination',
+    '/region',
+    '/blog',
+    '/contact',
+    '/privacy',
+    '/terms',
+    '/cookies',
+    '/disclaimer',
+    '/affiliate-disclosure',
+    '/legal-information',
+  ];
 
   // Create sitemap entries for static pages
-  const staticPages = validPages.map(route => {
-    const url = `${baseUrl}${route}`;
-
-    // Set priorities based on route type
+  const staticPages = staticRoutes.map(route => {
     let priority = 0.7;
     let changeFrequency:
       | 'always'
@@ -55,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     return {
-      url,
+      url: `${baseUrl}${route}`,
       lastModified: new Date(),
       changeFrequency,
       priority,
@@ -68,9 +60,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Fetch all dynamic data
     const [categories, destinations, blogs] = await Promise.all([
-      Category.find({}, 'slug createdAt'),
-      Destination.find({}, 'slug updatedAt'),
-      Blog.find({}, 'slug updatedAt'),
+      Category.find({ status: 'active' }, 'slug createdAt'),
+      Destination.find({ status: 'active' }, 'slug updatedAt'),
+      Blog.find({ status: 'active' }, 'slug updatedAt'),
     ]);
 
     // Create sitemap entries for dynamic pages
