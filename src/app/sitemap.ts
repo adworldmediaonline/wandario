@@ -1,10 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import { MetadataRoute } from 'next';
 import { join } from 'path';
 import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 import getPages from '@/lib/get-pages';
-
-export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
