@@ -60,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Fetch all dynamic data
     const [categories, destinations, blogs] = await Promise.all([
-      Category.find({ status: 'active' }, 'slug createdAt'),
+      Category.find({ status: 'active' }, 'slug updatedAt'),
       Destination.find({ status: 'active' }, 'slug updatedAt'),
       Blog.find({ status: 'active' }, 'slug updatedAt'),
     ]);
