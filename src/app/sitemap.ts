@@ -1,10 +1,10 @@
-export const dynamic = 'force-dynamic';
-
 import { MetadataRoute } from 'next';
 import { join } from 'path';
 import { connectToDatabase } from '@/server/mongoose';
 import { Blog, Category, Destination } from '@/server/models';
 import getPages from '@/lib/get-pages';
+
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
@@ -12,11 +12,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get static pages
   const appDir = 'src/app';
   const frontendDir = join(appDir, '(frontend)');
-  const pages = getPages(frontendDir);
+  const pages = await getPages(frontendDir);
 
   // Filter out unwanted routes
   const validPages = pages.filter(
-    route =>
+    (route: string) =>
       !route.includes('admin') &&
       !route.includes('api') &&
       !route.includes('auth') &&
