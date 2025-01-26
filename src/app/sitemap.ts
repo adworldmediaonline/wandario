@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.SITE_URL || 'https://www.wandario.com';
+  const currentDate = new Date().toISOString();
 
   // Define static routes
   const staticRoutes = [
@@ -48,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return {
       url: `${baseUrl}${route}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency,
       priority,
     };
@@ -70,7 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Category entries (regions)
       ...categories.map(category => ({
         url: `${baseUrl}/region/${category.slug}`,
-        lastModified: new Date(category.createdAt),
+        lastModified: category.updatedAt?.toISOString() || currentDate,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
       })),
@@ -78,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Destination entries
       ...destinations.map(destination => ({
         url: `${baseUrl}/destination/${destination.slug}`,
-        lastModified: new Date(destination.updatedAt),
+        lastModified: destination.updatedAt?.toISOString() || currentDate,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
       })),
@@ -86,7 +87,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Blog entries
       ...blogs.map(blog => ({
         url: `${baseUrl}/blog/${blog.slug}`,
-        lastModified: new Date(blog.updatedAt),
+        lastModified: blog.updatedAt?.toISOString() || currentDate,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
       })),
