@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Poppins, Source_Serif_4 } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import './globals.css';
@@ -10,6 +10,12 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-poppins',
+});
+
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-source-serif',
 });
 
 export const metadata: Metadata = {
@@ -30,7 +36,8 @@ export default async function RootLayout({
       <body
         className={cn(
           'min-h-screen scroll-smooth bg-background antialiased',
-          poppins.variable
+          poppins.variable,
+          sourceSerif.variable
         )}
       >
         <SessionProvider session={session}>

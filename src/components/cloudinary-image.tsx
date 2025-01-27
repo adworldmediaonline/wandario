@@ -19,7 +19,7 @@ type CloudinaryImageProps = {
 };
 
 export default function CloudinaryImage({
-  src,
+  src = 'pexels-ninauhlikova-287240_lsi3is',
   alt,
   sizes,
   className,
