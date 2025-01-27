@@ -61,12 +61,12 @@ export default function AboutPage() {
         actions={{
           primary: {
             label: 'Start Exploring',
-            href: '/regions',
+            href: '/region',
           },
-          secondary: {
-            label: 'Our Guidelines',
-            href: '#guidelines',
-          },
+          // secondary: {
+          //   label: 'Our Guidelines',
+          //   href: '#guidelines',
+          // },
         }}
       />
 

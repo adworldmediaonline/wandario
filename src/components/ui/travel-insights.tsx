@@ -62,7 +62,7 @@ const item = {
 
 export default function TravelInsights({
   className,
-  ctaLink = '#',
+  ctaLink = '/blog',
   variant = 'default',
 }: TravelInsightsProps) {
   const isAlternate = variant === 'alternate';

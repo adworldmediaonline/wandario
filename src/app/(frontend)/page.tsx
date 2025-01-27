@@ -52,12 +52,12 @@ export default function HomePage() {
         backgroundImageId="hero-banner_imkrwg"
         actions={{
           primary: {
-            label: 'Explore Our Travel Guides',
-            href: '#',
+            label: 'Explore Our Travel Blogs',
+            href: '/blog',
           },
           secondary: {
             label: 'Learn More',
-            href: '#',
+            href: '/contact',
           },
         }}
       />

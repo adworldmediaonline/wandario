@@ -33,7 +33,7 @@ export default function DestinationDetails({
         }
         navigationItems={[
           { id: 'content', label: 'Overview' },
-          { id: 'faqs', label: 'FAQs' },
+          // { id: 'faqs', label: 'FAQs' },
           // Add other navigation items as needed
         ]}
       />
