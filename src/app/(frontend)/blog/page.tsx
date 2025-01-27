@@ -55,10 +55,7 @@ export default async function BlogPage(props: {
         excerpt="Embark on a journey through our curated collection of travel tales, expert insights, and hidden gems from around the world. Let our stories inspire your next adventure."
         backgroundImageId="pexels-trksami-30043603_ks6pbz"
         breadcrumb={{
-          segments: [
-            { title: 'Home', href: '/' },
-            { title: 'Blog', href: '/blog' },
-          ],
+          segments: [{ title: 'Blog', href: '/blog' }],
         }}
         actions={{
           primary: {

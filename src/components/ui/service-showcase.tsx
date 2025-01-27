@@ -32,7 +32,7 @@ export function ServiceShowcase({
   title,
   description,
   services,
-  ctaText = 'Know More',
+  ctaText = '',
   backgroundImageId = 'sdtomqdwgsxcpeod7sr0_bln7jd',
 }: ServiceShowcaseProps) {
   return (

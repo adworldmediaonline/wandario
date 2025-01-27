@@ -41,6 +41,7 @@ interface HeroHeaderProps {
       href: string;
     };
   };
+  isBottomNavigation?: boolean;
 }
 
 const menuItems = [
@@ -58,6 +59,7 @@ export default function HeroHeader({
   backgroundImageId = 'wandario/hero-bg',
   className,
   actions,
+  isBottomNavigation = false,
 }: HeroHeaderProps) {
   return (
     <section className={cn('relative min-h-[85vh] flex flex-col', className)}>
@@ -138,64 +140,66 @@ export default function HeroHeader({
       </div>
 
       {/* Bottom Navigation */}
-      <div className="relative z-10 border-t border-white/10">
-        <div className="container">
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <NavigationMenu className="py-4">
-              <NavigationMenuList>
-                {menuItems.map(item => (
-                  <NavigationMenuItem key={item.href}>
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          'bg-transparent text-white hover:bg-white/10 hover:text-white'
-                        )}
-                      >
-                        {item.label}
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          {/* Mobile Navigation */}
-          <div className="md:hidden py-4 px-4">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white hover:bg-white/10"
-                >
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <SheetHeader>
-                  <SheetTitle>Navigation</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-4 mt-8">
+      {isBottomNavigation && (
+        <div className="relative z-10 border-t border-white/10">
+          <div className="container">
+            {/* Desktop Navigation */}
+            <div className="hidden md:block">
+              <NavigationMenu className="py-4">
+                <NavigationMenuList>
                   {menuItems.map(item => (
-                    <SheetTrigger asChild key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="text-lg font-medium transition-colors hover:text-primary"
-                      >
-                        {item.label}
+                    <NavigationMenuItem key={item.href}>
+                      <Link href={item.href} legacyBehavior passHref>
+                        <NavigationMenuLink
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            'bg-transparent text-white hover:bg-white/10 hover:text-white'
+                          )}
+                        >
+                          {item.label}
+                        </NavigationMenuLink>
                       </Link>
-                    </SheetTrigger>
+                    </NavigationMenuItem>
                   ))}
-                </div>
-              </SheetContent>
-            </Sheet>
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="md:hidden py-4 px-4">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/10"
+                  >
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Toggle menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <SheetHeader>
+                    <SheetTitle>Navigation</SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-4 mt-8">
+                    {menuItems.map(item => (
+                      <SheetTrigger asChild key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="text-lg font-medium transition-colors hover:text-primary"
+                        >
+                          {item.label}
+                        </Link>
+                      </SheetTrigger>
+                    ))}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
