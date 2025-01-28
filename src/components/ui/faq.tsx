@@ -5,8 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
-import { HelpCircle } from 'lucide-react';
-import { MotionDiv, MotionH2, MotionP } from '../framer-motion-div/motion-div';
+import { MotionDiv, MotionH1, MotionH2 } from '../framer-motion-div/motion-div';
 
 export interface FAQItem {
   question: string;
@@ -19,6 +18,7 @@ interface FAQProps extends React.HTMLAttributes<HTMLElement> {
   items: FAQItem[];
   className?: string;
   variant?: 'default' | 'centered';
+  h1?: string;
 }
 
 const container = {
@@ -42,19 +42,14 @@ export function FAQ({
   description,
   items,
   className,
+  h1 = '',
   variant = 'default',
   ...props
 }: FAQProps) {
   if (!items?.length) return null;
 
   return (
-    <section
-      className={cn(
-        'w-full px-4 pb-16 pt-16 md:px-6 md:pt-16 md:pb-24',
-        className
-      )}
-      {...props}
-    >
+    <section className={cn('w-full  pb-16 md:pb-24', className)} {...props}>
       <div className="container">
         <MotionDiv
           initial="hidden"
@@ -63,7 +58,6 @@ export function FAQ({
           variants={container}
           className="mx-auto max-w-4xl space-y-12"
         >
-          {/* Header */}
           <div
             className={cn('space-y-4', variant === 'centered' && 'text-center')}
           >
@@ -71,26 +65,35 @@ export function FAQ({
               variants={item}
               className="inline-flex items-center space-x-2 text-primary"
             >
-              <HelpCircle className="h-5 w-5" />
               <span className="text-sm font-medium uppercase tracking-wider">
                 FAQ
               </span>
             </MotionDiv>
 
-            <MotionH2
-              variants={item}
-              className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 sm:text-4xl md:text-5xl"
-            >
-              {title}
-            </MotionH2>
+            {h1 && (
+              <MotionH1
+                variants={item}
+                className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 sm:text-4xl md:text-5xl"
+              >
+                {h1}
+              </MotionH1>
+            )}
 
+            {!h1 && (
+              <MotionH2
+                variants={item}
+                className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 sm:text-4xl md:text-5xl"
+              >
+                {title}
+              </MotionH2>
+            )}
             {description && (
-              <MotionP
+              <MotionH2
                 variants={item}
                 className="mx-auto max-w-2xl text-base text-center text-gray-600 md:text-lg"
               >
                 {description}
-              </MotionP>
+              </MotionH2>
             )}
           </div>
 

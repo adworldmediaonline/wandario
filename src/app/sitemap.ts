@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/disclaimer',
     '/affiliate-disclosure',
     '/legal-information',
+    '/faq',
   ];
 
   // Create sitemap entries for static pages
@@ -39,9 +40,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (route === '/') {
       priority = 1.0;
       changeFrequency = 'daily';
-    } else if (route.match(/^\/(about-us|privacy|terms)$/)) {
+    } else if (route.match(/^\/(about-us|privacy|terms|faq)$/)) {
       priority = 0.6;
-      changeFrequency = 'weekly';
+      changeFrequency = 'monthly';
     } else if (route.match(/^\/(destination|region|blog)$/)) {
       priority = 0.8;
       changeFrequency = 'weekly';
