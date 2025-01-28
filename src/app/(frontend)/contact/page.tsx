@@ -96,9 +96,9 @@ export default function ContactPage() {
 
               {/* Additional Info Card */}
               <div className="p-6 rounded-2xl bg-gray-50/50">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                <h2 className="text-lg font-semibold text-gray-900 mb-3">
                   Before You Contact Us
-                </h3>
+                </h2>
                 <ul className="space-y-2 text-gray-600">
                   <li className="flex items-start gap-2 text-sm">
                     • Please provide specific details about your travel plans
