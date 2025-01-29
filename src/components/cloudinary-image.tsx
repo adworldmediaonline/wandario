@@ -2,6 +2,9 @@
 
 import { cn } from '@/lib/utils';
 import { CldImage } from 'next-cloudinary';
+import { useEffect, useState } from 'react';
+import { shimmer, toBase64 } from '@/lib/utils';
+import { useInView } from 'react-intersection-observer';
 
 type CloudinaryImageProps = {
   src: string;
@@ -28,11 +31,39 @@ export default function CloudinaryImage({
   height,
   fill = false,
   crop = 'fill',
-  quality = 80,
+  quality = 75,
   objectFit = 'cover',
   opacity = 100,
 }: CloudinaryImageProps) {
-  return (
+  const [blurDataUrl, setBlurDataUrl] = useState<string>(
+    `data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`
+  );
+
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0,
+    rootMargin: '50px 0px',
+  });
+
+  useEffect(() => {
+    if (!priority && inView) {
+      const generateBlurPlaceholder = async () => {
+        try {
+          const blurUrl = await fetch(
+            `/api/blur-image?src=${encodeURIComponent(src)}`
+          );
+          const data = await blurUrl.json();
+          setBlurDataUrl(data.blurDataUrl);
+        } catch (error) {
+          console.error('Failed to generate blur placeholder:', error);
+        }
+      };
+
+      generateBlurPlaceholder();
+    }
+  }, [src, priority, inView]);
+
+  const imageComponent = (
     <CldImage
       src={src}
       alt={alt}
@@ -45,7 +76,29 @@ export default function CloudinaryImage({
       quality={quality}
       format="webp"
       priority={priority}
-      opacity={opacity}
+      loading={priority ? 'eager' : 'lazy'}
+      placeholder={!priority ? 'blur' : undefined}
+      blurDataURL={!priority ? blurDataUrl : undefined}
+      dpr="2.0"
+      opacity={opacity.toString()}
     />
+  );
+
+  if (priority) {
+    return imageComponent;
+  }
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'relative',
+        fill ? 'h-full w-full' : '',
+        !inView ? 'min-h-[100px]' : ''
+      )}
+      style={width && height ? { aspectRatio: width / height } : undefined}
+    >
+      {inView && imageComponent}
+    </div>
   );
 }

@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import CloudinaryImage from '@/components/cloudinary-image';
 import { Breadcrumb } from './breadcrumb';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useInView } from 'react-intersection-observer';
 
 interface HeroHeaderV2Props {
   title: string;
@@ -30,20 +31,26 @@ export default function HeroHeaderV2({
   className,
   navigationItems,
 }: HeroHeaderV2Props) {
+  const { ref: heroRef, inView: isHeroVisible } = useInView({
+    threshold: 0,
+    rootMargin: '-80px 0px 0px 0px', // Offset for the navigation height
+  });
+
   return (
     <header className={cn('relative flex flex-col', className)}>
       {/* Hero Section */}
-      <div className="relative h-[70vh] w-full">
+      <div ref={heroRef} className="relative h-[70vh] w-full">
         {/* Background Image */}
         <div className="absolute inset-0">
           <CloudinaryImage
             src={backgroundImageId || 'default-hero_xvxmwp'}
             alt={title}
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="object-cover"
-            quality={90}
-            priority
+            quality={75}
+            priority={true}
+            crop="fill"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
         </div>
@@ -75,7 +82,13 @@ export default function HeroHeaderV2({
           </div>
 
           {/* Navigation */}
-          <div className="sticky bottom-0 left-0 right-0 bg-white border-b">
+          <div
+            className={cn(
+              'transition-colors duration-200',
+              !isHeroVisible && 'bg-white/95 backdrop-blur-sm shadow-sm',
+              isHeroVisible && 'bg-white'
+            )}
+          >
             <div className="container">
               <Tabs defaultValue="content" className="w-full">
                 <div className="overflow-x-auto no-scrollbar">
