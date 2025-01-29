@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from './button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Menu } from 'lucide-react';
 import CloudinaryImage from '@/components/cloudinary-image';
 import {
   NavigationMenu,
@@ -17,7 +17,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
 import { Breadcrumb } from './breadcrumb';
 
 interface HeroHeaderProps {
@@ -68,12 +67,13 @@ export default function HeroHeader({
         <div className="relative w-full h-full">
           <CloudinaryImage
             src={backgroundImageId}
-            alt="Background"
+            alt={title || 'Hero background'}
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
             className="object-cover"
-            quality={90}
+            quality={75}
             priority
+            crop="fill"
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
