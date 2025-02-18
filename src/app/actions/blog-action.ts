@@ -8,6 +8,7 @@ import { z } from 'zod';
 import Blog from '@/server/models/blog-model';
 import BlogCategory from '@/server/models/blog-category-model';
 import slugify from 'slugify';
+import { deleteCloudinaryImage } from '@/lib/cloudinary';
 
 export const addBlogAction = actionClient
   .schema(blogSchema)
@@ -71,8 +72,40 @@ export const updateBlogAction = actionClient
     }
 
     await connectToDatabase();
-    console.log(input.parsedInput);
+
     const { id, ...updateData } = input.parsedInput;
+
+    // Get the current blog to compare images
+    const currentBlog = await Blog.findById(id);
+    if (!currentBlog) {
+      return {
+        success: false,
+        status: 404,
+        error: 'Blog not found',
+      };
+    }
+
+    // Find deleted images by comparing current and new images
+    const currentImages = currentBlog.images || [];
+    const newImages = updateData.images || [];
+    const deletedImages = currentImages.filter(
+      (oldImg: { public_id: string }) =>
+        !newImages.some(newImg => newImg.public_id === oldImg.public_id)
+    );
+
+    // Delete removed images from Cloudinary
+    for (const image of deletedImages) {
+      await deleteCloudinaryImage(image.public_id);
+    }
+
+    // Check if thumbnail was changed and delete old one
+    if (
+      currentBlog.thumbnail?.public_id &&
+      currentBlog.thumbnail.public_id !== updateData.thumbnail?.public_id
+    ) {
+      await deleteCloudinaryImage(currentBlog.thumbnail.public_id);
+    }
+
     const updatedBlog = await Blog.findByIdAndUpdate(
       id,
       {
@@ -86,18 +119,11 @@ export const updateBlogAction = actionClient
               })
             : '',
           images: updateData.images,
+          thumbnail: updateData.thumbnail,
         },
       },
       { new: true }
     );
-
-    if (!updatedBlog) {
-      return {
-        success: false,
-        status: 404,
-        error: 'Blog not found',
-      };
-    }
 
     revalidatePath('/dashboard/blogs');
 
@@ -107,4 +133,63 @@ export const updateBlogAction = actionClient
       message: 'Blog updated successfully',
       data: JSON.parse(JSON.stringify(updatedBlog)),
     };
+  });
+
+export const deleteImageFromBlog = actionClient
+  .schema(
+    z.object({
+      blogId: z.string(),
+      publicId: z.string(),
+      fieldName: z.enum(['images', 'thumbnail']),
+    })
+  )
+  .action(async ({ parsedInput: { blogId, publicId, fieldName } }) => {
+    const session = await auth();
+    if (!session?.user || session.user.role !== 'admin') {
+      return {
+        success: false,
+        status: 401,
+        error: 'Unauthorized',
+      };
+    }
+
+    await connectToDatabase();
+
+    try {
+      // Delete from Cloudinary
+      const cloudinaryResult = await deleteCloudinaryImage(publicId);
+      if (!cloudinaryResult) {
+        return {
+          success: false,
+          status: 500,
+          error: 'Failed to delete image from storage',
+        };
+      }
+
+      // Update database based on field type
+      if (fieldName === 'thumbnail') {
+        await Blog.findByIdAndUpdate(blogId, {
+          $unset: { thumbnail: 1 },
+        });
+      } else {
+        await Blog.findByIdAndUpdate(blogId, {
+          $pull: { images: { public_id: publicId } },
+        });
+      }
+
+      revalidatePath('/dashboard/blogs');
+
+      return {
+        success: true,
+        status: 200,
+        message: 'Image deleted successfully',
+      };
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      return {
+        success: false,
+        status: 500,
+        error: 'Failed to delete image',
+      };
+    }
   });

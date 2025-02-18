@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/form';
 import { toast } from 'sonner';
 import { FileRejection } from 'react-dropzone';
+import { deleteImageFromBlog } from '@/app/actions/blog-action';
 
 type UploadResult = {
   secure_url: string;
@@ -89,8 +90,14 @@ export default function ImageUploadField({
         setUploadProgress(initialProgress);
 
         const uploadPromises = filesToUpload.map(async file => {
-          const { signature, timestamp, cloudName, apiKey, folder } =
-            await getCloudinarySignature();
+          const {
+            signature,
+            timestamp,
+            cloudName,
+            apiKey,
+            folder,
+            transformation,
+          } = await getCloudinarySignature();
 
           const formData = new FormData();
           formData.append('file', file);
@@ -98,6 +105,7 @@ export default function ImageUploadField({
           formData.append('timestamp', timestamp?.toString() || '');
           formData.append('signature', signature || '');
           formData.append('folder', folder || '');
+          formData.append('transformation', transformation);
 
           const response = await axios.post(
             `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
@@ -157,8 +165,42 @@ export default function ImageUploadField({
   const handleDelete = async (publicId: string) => {
     setDeletingImages(prev => new Set(prev).add(publicId));
     try {
-      const success = await deleteCloudinaryImage(publicId);
-      if (success) {
+      // Get the blog ID from the form
+      const formValues = form.getValues();
+      const blogId = formValues.id;
+
+      if (!blogId) {
+        // If no blogId, just update the form state (new blog case)
+        if (multiple) {
+          const currentValue = form.getValues(name) || [];
+          form.setValue(
+            name,
+            currentValue.filter(
+              (img: UploadResult) => img.public_id !== publicId
+            ),
+            {
+              shouldValidate: true,
+              shouldDirty: true,
+            }
+          );
+        } else {
+          form.setValue(name, undefined, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
+        return;
+      }
+
+      // Delete from both Cloudinary and database
+      const result = await deleteImageFromBlog({
+        blogId,
+        publicId,
+        fieldName: name as 'images' | 'thumbnail',
+      });
+
+      if (result.success) {
+        // Update form state
         if (multiple) {
           const currentValue = form.getValues(name) || [];
           form.setValue(
@@ -182,9 +224,15 @@ export default function ImageUploadField({
         });
       } else {
         toast('Deletion failed', {
-          description: 'Failed to delete the image. Please try again.',
+          description:
+            result.error || 'Failed to delete the image. Please try again.',
         });
       }
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast('Deletion failed', {
+        description: 'An error occurred while deleting the image.',
+      });
     } finally {
       setDeletingImages(prev => {
         const newSet = new Set(prev);
