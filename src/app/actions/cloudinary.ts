@@ -15,7 +15,7 @@ export async function getCloudinarySignature(folder: string = 'wandario') {
   const params = {
     timestamp,
     folder,
-    transformation: 'f_webp,q_auto:eco,w_1920,c_limit', // eco compression, limit width, maintain aspect ratio
+    transformation: 'f_webp,q_auto,fl_lossy', // eco compression, limit width, maintain aspect ratio
   };
 
   const signature = cloudinary.utils.api_sign_request(

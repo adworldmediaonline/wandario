@@ -29,6 +29,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     if (session?.user?.role === 'admin') {
       items.push({
+        title: 'Site Management',
+        url: '#',
+        icon: Command,
+        isActive: true,
+        items: [
+          {
+            title: 'Header',
+            url: '/dashboard/header',
+          },
+          {
+            title: 'Pages',
+            url: '/dashboard/pages',
+          },
+        ],
+      });
+      items.push({
         title: 'Categories Management',
         url: '#',
         icon: Command,

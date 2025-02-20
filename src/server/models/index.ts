@@ -3,4 +3,7 @@ import Destination from './destination-model';
 import Category from './category-model';
 import Blog from './blog-model';
 import BlogCategory from './blog-category-model';
-export { Contact, Destination, Category, BlogCategory, Blog };
+import Header from './header-model';
+import Page from './page-model';
+
+export { Contact, Destination, Category, BlogCategory, Blog, Header, Page };

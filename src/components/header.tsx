@@ -18,15 +18,11 @@ import {
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import { Logo } from '@/components/ui/logo';
+import { getPrimaryHeader } from '@/server/db/header';
 
-export default function Header() {
-  const menuItems = [
-    { href: '/', label: 'Home' },
-    { href: '/about-us', label: 'About Us' },
-    { href: '/destination', label: 'Destination' },
-    { href: '/region', label: 'Region' },
-    { href: '/blog', label: 'Blog' },
-  ];
+export default async function Header() {
+  const header = await getPrimaryHeader();
+  const menuItems = header?.menuItems ?? [];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -44,7 +40,7 @@ export default function Header() {
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        'bg-transparent hover:bg-accent/50'
+                        'capitalize bg-transparent hover:bg-accent/50'
                       )}
                     >
                       {item.label}
@@ -58,9 +54,13 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           {/* Contact Us Button */}
-          <Button asChild size="sm" className="rounded-full hidden md:flex">
-            <Link href="/contact">Contact Us</Link>
-          </Button>
+          {header?.ctaButton && (
+            <Button asChild size="sm" className="rounded-full hidden md:flex">
+              <Link href={header?.ctaButton?.href ?? '/contact'}>
+                {header?.ctaButton?.label ?? 'Contact Us'}
+              </Link>
+            </Button>
+          )}
 
           {/* Mobile Menu */}
           <Sheet>
@@ -85,18 +85,22 @@ export default function Header() {
                   <SheetTrigger asChild key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-lg font-medium transition-colors hover:text-blue-600"
+                      className="text-lg capitalize font-medium transition-colors hover:text-blue-600"
                     >
                       {item.label}
                     </Link>
                   </SheetTrigger>
                 ))}
 
-                <SheetTrigger asChild>
-                  <Button asChild className="mt-4">
-                    <Link href="/contact">Contact Us</Link>
-                  </Button>
-                </SheetTrigger>
+                {header?.ctaButton && (
+                  <SheetTrigger asChild>
+                    <Button asChild className="mt-4">
+                      <Link href={header?.ctaButton?.href ?? '/contact'}>
+                        {header?.ctaButton?.label ?? 'Contact Us'}
+                      </Link>
+                    </Button>
+                  </SheetTrigger>
+                )}
               </div>
             </SheetContent>
           </Sheet>

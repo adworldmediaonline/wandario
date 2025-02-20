@@ -72,7 +72,7 @@ const decorationVariants = {
   },
 };
 
-export function ContentSection({
+export default function DynamicContentSection({
   title,
   content,
   icon,
@@ -139,31 +139,33 @@ export function ContentSection({
                 </MotionDiv>
               )}
 
-              <div className="relative">
-                <MotionH2
-                  variants={titleVariants}
-                  className="relative text-3xl font-bold sm:text-4xl md:text-5xl"
-                >
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900">
-                    {mainTitle}{' '}
-                  </span>
-                  <span className="relative inline-block text-primary">
-                    {highlightedWords}
-                    <MotionSpan
-                      variants={decorationVariants}
-                      className="absolute left-0 right-0 bottom-2 h-3 bg-primary/20 -z-10 rounded-full"
-                    />
-                  </span>
-                </MotionH2>
-                {/* Decorative Elements */}
-                <MotionDiv
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                  className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-12 bg-gradient-to-b from-primary/60 to-primary/20 rounded-full"
-                />
-              </div>
+              {title && (
+                <div className="relative">
+                  <MotionH2
+                    variants={titleVariants}
+                    className="relative text-3xl font-bold sm:text-4xl md:text-5xl"
+                  >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900">
+                      {mainTitle}{' '}
+                    </span>
+                    <span className="relative inline-block text-primary">
+                      {highlightedWords}
+                      <MotionSpan
+                        variants={decorationVariants}
+                        className="absolute left-0 right-0 bottom-2 h-3 bg-primary/20 -z-10 rounded-full"
+                      />
+                    </span>
+                  </MotionH2>
+                  {/* Decorative Elements */}
+                  <MotionDiv
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                    className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-12 bg-gradient-to-b from-primary/60 to-primary/20 rounded-full"
+                  />
+                </div>
+              )}
 
               <MotionDiv
                 variants={item}

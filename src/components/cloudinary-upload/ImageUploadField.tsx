@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import {
   getCloudinarySignature,
-  deleteCloudinaryImage,
+  // deleteCloudinaryImage,
 } from '@/app/actions/cloudinary';
 import { UseFormReturn } from 'react-hook-form';
 import {
@@ -199,7 +199,7 @@ export default function ImageUploadField({
         fieldName: name as 'images' | 'thumbnail',
       });
 
-      if (result.success) {
+      if (result?.data?.success) {
         // Update form state
         if (multiple) {
           const currentValue = form.getValues(name) || [];
@@ -225,7 +225,8 @@ export default function ImageUploadField({
       } else {
         toast('Deletion failed', {
           description:
-            result.error || 'Failed to delete the image. Please try again.',
+            result?.data?.error ||
+            'Failed to delete the image. Please try again.',
         });
       }
     } catch (error) {

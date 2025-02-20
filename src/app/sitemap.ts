@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { connectToDatabase } from '@/server/mongoose';
-import { Blog, Category, Destination } from '@/server/models';
+import { Blog, Category, Destination, Page } from '@/server/models';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,10 +61,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     await connectToDatabase();
 
     // Fetch all dynamic data
-    const [categories, destinations, blogs] = await Promise.all([
+    const [categories, destinations, blogs, pages] = await Promise.all([
       Category.find({ status: 'active' }, 'slug updatedAt'),
       Destination.find({ status: 'active' }, 'slug updatedAt'),
       Blog.find({ status: 'active' }, 'slug updatedAt'),
+      Page.find({ status: 'published' }, 'slug updatedAt'),
     ]);
 
     // Create sitemap entries for dynamic pages
@@ -91,6 +92,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: blog.updatedAt?.toISOString() || currentDate,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
+      })),
+
+      // Page entries
+      ...pages.map(page => ({
+        url: `${baseUrl}/${page.slug}`,
+        lastModified: page.updatedAt?.toISOString() || currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.9,
       })),
     ];
 
