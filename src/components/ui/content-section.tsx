@@ -193,8 +193,10 @@ export function ContentSection({
                 <CloudinaryImage
                   src={imageId}
                   alt={title ?? ''}
-                  width={800}
-                  height={600}
+                  // width={800}
+                  // height={600}
+                  fill
+                  crop="fill"
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover w-full h-full"
                 />

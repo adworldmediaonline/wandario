@@ -54,7 +54,7 @@ export default function GuidelineShowcase({
           </MotionH2>
 
           <MotionP variants={item} className="text-lg md:text-xl text-gray-600">
-            Follow these principles to make the most of your travel experience
+            To get the most out of your trip, follow these rules.
           </MotionP>
         </div>
 
