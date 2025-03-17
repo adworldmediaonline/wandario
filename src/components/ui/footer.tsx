@@ -108,6 +108,15 @@ export function Footer() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Wandario. All rights reserved.
+              Powered by{' '}
+              <Link
+                href="https://www.globalinnovations.co.in/"
+                className="text-primary hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Global Innovations
+              </Link>
             </p>
             <div className="flex items-center gap-4">
               <Link
